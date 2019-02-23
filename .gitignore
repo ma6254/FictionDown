@@ -1,0 +1,5 @@
+release
+*.epub
+*.FictionDown
+vendor
+.DS_Store
