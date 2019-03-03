@@ -10,8 +10,13 @@ import (
 )
 
 var regMap = map[string]Site{
-	"www.biquge11.com":  &Biquge{},
-	"www.biquge5200.cc": &Biquge{},
+	"www.biqiuge.com":      &Biquge3{},
+	"www.booktxt.net":      &DingDian1{},
+	"www.biquge5200.cc":    &Biquge_1{},
+	"www.bqg5200.com":      &Biquge_2{},
+	"book.qidian.com":      &QiDian{},
+	"read.qidian.com":      &QiDian{},
+	"vipreader.qidian.com": &QiDian{},
 }
 
 type ErrUnsupportSite struct {
@@ -25,7 +30,7 @@ func (e ErrUnsupportSite) Error() string {
 // Site 小说站点
 type Site interface {
 	BookInfo(body io.Reader) (s *store.Store, err error)
-	Chapter(body io.Reader) (chaper *store.Chapter, err error)
+	Chapter(body io.Reader) (content []string, err error)
 }
 
 // BookInfo 获取小说信息
@@ -41,13 +46,13 @@ func BookInfo(BookURL string) (s *store.Store, err error) {
 
 	// Get WebPage
 	client := &http.Client{}
-	req, err := http.NewRequest("GET", u.Host, nil)
+	req, err := http.NewRequest("GET", BookURL, nil)
 	if err != nil {
 		return
 	}
 	req.Header.Add(
 		"user-agent",
-		"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Mobile Safari/537.36",
+		"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36",
 	)
 	resp, err := client.Do(req)
 	if err != nil {
@@ -59,11 +64,25 @@ func BookInfo(BookURL string) (s *store.Store, err error) {
 		return nil, fmt.Errorf("%d %v", resp.StatusCode, resp.Status)
 	}
 
-	return site.BookInfo(resp.Body)
+	chapter, err := site.BookInfo(resp.Body)
+	chapter.BookURL = BookURL
+
+	for v1, k1 := range chapter.Volumes {
+		for v2, k2 := range k1.Chapters {
+			u, _ := url.Parse(k2.URL)
+			if !u.IsAbs() {
+				u.Scheme = resp.Request.URL.Scheme
+				u.Host = resp.Request.URL.Host
+				chapter.Volumes[v1].Chapters[v2].URL = u.String()
+			}
+		}
+	}
+
+	return chapter, err
 }
 
 // Chapter 获取小说章节内容
-func Chapter(BookURL string) (chaper *store.Chapter, err error) {
+func Chapter(BookURL string) (content []string, err error) {
 	u, err := url.Parse(BookURL)
 	if err != nil {
 		return nil, err
@@ -75,13 +94,13 @@ func Chapter(BookURL string) (chaper *store.Chapter, err error) {
 
 	// Get WebPage
 	client := &http.Client{}
-	req, err := http.NewRequest("GET", u.Host, nil)
+	req, err := http.NewRequest("GET", BookURL, nil)
 	if err != nil {
 		return
 	}
 	req.Header.Add(
 		"user-agent",
-		"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Mobile Safari/537.36",
+		"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36",
 	)
 	resp, err := client.Do(req)
 	if err != nil {
@@ -90,7 +109,7 @@ func Chapter(BookURL string) (chaper *store.Chapter, err error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return nil, fmt.Errorf("%d %v", resp.StatusCode, resp.Status)
+		return nil, fmt.Errorf("%s", resp.Status)
 	}
 	return site.Chapter(resp.Body)
 }

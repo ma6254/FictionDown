@@ -12,11 +12,11 @@ import (
 	"golang.org/x/text/transform"
 )
 
-// Biquge_1 笔趣阁标准页面
-type Biquge_1 struct {
+// Biquge3 笔趣阁标准页面
+type Biquge3 struct {
 }
 
-func (b *Biquge_1) BookInfo(body io.Reader) (s *store.Store, err error) {
+func (b *Biquge3) BookInfo(body io.Reader) (s *store.Store, err error) {
 	body = transform.NewReader(body, simplifiedchinese.GBK.NewDecoder())
 	doc, err := htmlquery.Parse(body)
 	if err != nil {
@@ -25,28 +25,14 @@ func (b *Biquge_1) BookInfo(body io.Reader) (s *store.Store, err error) {
 
 	s = &store.Store{}
 
-	node_title := htmlquery.Find(doc, `//*[@id="info"]/h1`)
-	if len(node_title) == 0 {
-		err = fmt.Errorf("No matching title")
-		return
-	}
-	s.BookName = htmlquery.InnerText(node_title[0])
+	s.BookName = htmlquery.InnerText(htmlquery.FindOne(doc, `//div[@class="info"]/h2`))
 
-	node_desc := htmlquery.Find(doc, `//*[@id="intro"]/p`)
-	if len(node_desc) == 0 {
-		err = fmt.Errorf("No matching desc")
-		return
-	}
-	s.Description = strings.Replace(
-		htmlquery.OutputHTML(node_desc[0], false),
-		"<br/>", "\n",
-		-1)
+	// var author = htmlquery.Find(doc, `//*[@id="info"]/p[1]`)
+	raw_author := htmlquery.InnerText(htmlquery.FindOne(doc, `//div[@class="small"]/span[1]`))
+	s.Author = strings.TrimSpace(strings.TrimLeft(raw_author, "作者："))
 
-	var author = htmlquery.Find(doc, `//*[@id="info"]/p[1]`)
-	s.Author = strings.TrimLeft(htmlquery.OutputHTML(author[0], false), "作\u00a0\u00a0\u00a0\u00a0者：")
-
-	node_content := htmlquery.Find(doc, `//*[@id="list"]/dl/dd/a`)
-	if len(node_desc) == 0 {
+	node_content := htmlquery.Find(doc, `//div[@class="listmain"]/dl/dd/a`)
+	if len(node_content) == 0 {
 		err = fmt.Errorf("No matching contents")
 		return
 	}
@@ -56,7 +42,7 @@ func (b *Biquge_1) BookInfo(body io.Reader) (s *store.Store, err error) {
 		Chapters: make([]store.Chapter, 0),
 	}
 
-	for _, v := range node_content[9:] {
+	for _, v := range node_content[6:] {
 		//fmt.Printf("href: %v\n", chapter_u)
 		chapterURL, err := url.Parse(htmlquery.SelectAttr(v, "href"))
 		if err != nil {
@@ -70,12 +56,10 @@ func (b *Biquge_1) BookInfo(body io.Reader) (s *store.Store, err error) {
 	}
 	s.Volumes = append(s.Volumes, vol)
 
-	s.CoverURL = htmlquery.SelectAttr(htmlquery.FindOne(doc, `//*[@id="fmimg"]/img`), "src")
-
 	return
 }
 
-func (b *Biquge_1) Chapter(body io.Reader) ([]string, error) {
+func (b *Biquge3) Chapter(body io.Reader) ([]string, error) {
 	body = transform.NewReader(body, simplifiedchinese.GBK.NewDecoder())
 	doc, err := htmlquery.Parse(body)
 	if err != nil {
@@ -84,8 +68,7 @@ func (b *Biquge_1) Chapter(body io.Reader) ([]string, error) {
 
 	M := []string{}
 	//list
-	// nodeContent := htmlquery.Find(doc, `//div[@id="content"]/text()`)
-	nodeContent := htmlquery.Find(doc, `//div[@id="content"]/p`)
+	nodeContent := htmlquery.Find(doc, `//*[@id="content"]/text()`)
 	if len(nodeContent) == 0 {
 		err = fmt.Errorf("No matching content")
 		return nil, err
@@ -93,8 +76,20 @@ func (b *Biquge_1) Chapter(body io.Reader) ([]string, error) {
 	for _, v := range nodeContent {
 		t := htmlquery.InnerText(v)
 		t = strings.TrimSpace(t)
+
+		if strings.HasPrefix(t, "…") {
+			continue
+		}
+
+		t = strings.Replace(t, "…", "", -1)
+		t = strings.Replace(t, ".......", "", -1)
+		t = strings.Replace(t, "...”", "”", -1)
+
+		if t == "" {
+			continue
+		}
+
 		M = append(M, t)
 	}
-
 	return M, nil
 }

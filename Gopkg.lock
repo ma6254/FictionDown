@@ -18,6 +18,14 @@
   revision = "c8489ed3251e7d55ec2b7f18a2bc3a9a7222f0af"
 
 [[projects]]
+  branch = "master"
+  digest = "1:0a9ed3bf14a3a04dd93e54ed3c1e5ab7220d97d33f47644caaee4dc3936f4758"
+  name = "github.com/benbjohnson/phantomjs"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "6499a20f5cd6e4264994b4d95e49b6f21aafef79"
+
+[[projects]]
   digest = "1:b46f55d2ffcdf21ab724174893701bd60142296837ac60c1f6128b40d7e7b0de"
   name = "github.com/bmaupin/go-epub"
   packages = ["."]
@@ -116,6 +124,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/antchfx/htmlquery",
+    "github.com/benbjohnson/phantomjs",
     "github.com/bmaupin/go-epub",
     "github.com/go-yaml/yaml",
     "github.com/urfave/cli",

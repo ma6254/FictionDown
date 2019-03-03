@@ -12,11 +12,11 @@ import (
 	"golang.org/x/text/transform"
 )
 
-// Biquge_1 笔趣阁标准页面
-type Biquge_1 struct {
+// DingDian1 顶点标准页面
+type DingDian1 struct {
 }
 
-func (b *Biquge_1) BookInfo(body io.Reader) (s *store.Store, err error) {
+func (b *DingDian1) BookInfo(body io.Reader) (s *store.Store, err error) {
 	body = transform.NewReader(body, simplifiedchinese.GBK.NewDecoder())
 	doc, err := htmlquery.Parse(body)
 	if err != nil {
@@ -25,12 +25,8 @@ func (b *Biquge_1) BookInfo(body io.Reader) (s *store.Store, err error) {
 
 	s = &store.Store{}
 
-	node_title := htmlquery.Find(doc, `//*[@id="info"]/h1`)
-	if len(node_title) == 0 {
-		err = fmt.Errorf("No matching title")
-		return
-	}
-	s.BookName = htmlquery.InnerText(node_title[0])
+	node_title := htmlquery.FindOne(doc, `//div[@id="info"]/h1`)
+	s.BookName = htmlquery.InnerText(node_title)
 
 	node_desc := htmlquery.Find(doc, `//*[@id="intro"]/p`)
 	if len(node_desc) == 0 {
@@ -75,7 +71,7 @@ func (b *Biquge_1) BookInfo(body io.Reader) (s *store.Store, err error) {
 	return
 }
 
-func (b *Biquge_1) Chapter(body io.Reader) ([]string, error) {
+func (b *DingDian1) Chapter(body io.Reader) ([]string, error) {
 	body = transform.NewReader(body, simplifiedchinese.GBK.NewDecoder())
 	doc, err := htmlquery.Parse(body)
 	if err != nil {
@@ -84,8 +80,7 @@ func (b *Biquge_1) Chapter(body io.Reader) ([]string, error) {
 
 	M := []string{}
 	//list
-	// nodeContent := htmlquery.Find(doc, `//div[@id="content"]/text()`)
-	nodeContent := htmlquery.Find(doc, `//div[@id="content"]/p`)
+	nodeContent := htmlquery.Find(doc, `//*[@id="content"]/p`)
 	if len(nodeContent) == 0 {
 		err = fmt.Errorf("No matching content")
 		return nil, err
@@ -95,6 +90,5 @@ func (b *Biquge_1) Chapter(body io.Reader) ([]string, error) {
 		t = strings.TrimSpace(t)
 		M = append(M, t)
 	}
-
 	return M, nil
 }
