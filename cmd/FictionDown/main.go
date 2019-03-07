@@ -671,6 +671,7 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 				aaa += v
 			}
 			var ee = strings.Split(aaa, "。")
+			// ee = SplitXX(ee, "，", "：", "“", "”", "？", "…")
 			ee = SplitX(ee, "，")
 			ee = SplitX(ee, "：")
 			ee = SplitX(ee, "“")
@@ -702,8 +703,8 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 					// log.Printf("ok/fail %d/%d", ok, fail)
 					log.Printf("全部校验失败 ok/fail %d/%d Raw: %s", ok, fail, RawURL)
 					log.Printf("BookURL: %#v", BookURL)
-					log.Printf("EEE: %#v", ee)
-					log.Printf("SSS: %s", sss)
+					// log.Printf("EEE: %#v", ee)
+					// log.Printf("SSS: %s", sss)
 
 					break A
 				}
@@ -741,6 +742,15 @@ func SplitX(s []string, q string) []string {
 			eee = append(eee, vv)
 		}
 		e = append(e, eee...)
+	}
+	return e
+}
+
+func SplitXX(s []string, q ...string) []string {
+	e := make([]string, len(s))
+	copy(s, e)
+	for _, v := range q {
+		e = SplitX(e, v)
 	}
 	return e
 }

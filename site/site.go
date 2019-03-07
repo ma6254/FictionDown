@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"path"
 
 	"github.com/ma6254/FictionDown/store"
 )
@@ -14,9 +15,21 @@ var regMap = map[string]Site{
 	"www.booktxt.net":      &DingDian1{},
 	"www.biquge5200.cc":    &Biquge_1{},
 	"www.bqg5200.com":      &Biquge_2{},
+	"www.81new.com":        &Www81newCom{},
 	"book.qidian.com":      &QiDian{},
 	"read.qidian.com":      &QiDian{},
 	"vipreader.qidian.com": &QiDian{},
+}
+
+func MatchSite(m string) (*Site, bool) {
+	for reg, site := range regMap {
+		ok, err := path.Match(reg, m)
+		if err != nil {
+			return nil, false
+		}
+		return &site, ok
+	}
+	return nil, false
 }
 
 type ErrUnsupportSite struct {
@@ -69,12 +82,13 @@ func BookInfo(BookURL string) (s *store.Store, err error) {
 
 	for v1, k1 := range chapter.Volumes {
 		for v2, k2 := range k1.Chapters {
-			u, _ := url.Parse(k2.URL)
-			if !u.IsAbs() {
-				u.Scheme = resp.Request.URL.Scheme
-				u.Host = resp.Request.URL.Host
-				chapter.Volumes[v1].Chapters[v2].URL = u.String()
-			}
+			u1, _ := url.Parse(k2.URL)
+			chapter.Volumes[v1].Chapters[v2].URL = u.ResolveReference(u1).String()
+			// if !u.IsAbs() {
+			// 	u1.Scheme = resp.Request.URL.Scheme
+			// 	u1.Host = resp.Request.URL.Host
+			// 	chapter.Volumes[v1].Chapters[v2].URL = u.String()
+			// }
 		}
 	}
 

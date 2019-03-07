@@ -63,7 +63,9 @@ func (t *Markdown) Conv(src store.Store, outpath string) (err error) {
 	dlist := strings.Split(src.Description, "\n")
 
 	for _, cc := range dlist {
-		o += fmt.Sprintf("<p style=\"text-indent:2em\">%s</p>\n", cc)
+		o += fmt.Sprintf("<p style=\"text-indent:2em\">%s</p>\n",
+			strings.Replace(cc, "*", "□", -1),
+		)
 	}
 	o += "\n"
 
@@ -81,7 +83,9 @@ func (t *Markdown) Conv(src store.Store, outpath string) (err error) {
 			// s += fmt.Sprintf(`<h1><a href=%#v>%s</a></h1>`, v2.URL, v2.Name)
 			o += fmt.Sprintf("## [%s](%s)\n\n", v2.Name, v2.URL)
 			for _, cc := range v2.Text {
-				o += fmt.Sprintf("<p style=\"text-indent:2em\">%s</p>\n", cc)
+				o += fmt.Sprintf("<p style=\"text-indent:2em\">%s</p>\n",
+					strings.Replace(cc, "*", "□", -1),
+				)
 			}
 			bar.Increment()
 			o += "\n"
