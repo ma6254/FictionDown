@@ -21,9 +21,17 @@ import (
 	processbar "gopkg.in/cheggaaa/pb.v1"
 )
 
+var (
+
+	// Software Version
+	Version = "0.1.0"
+)
+
 func main() {
 
 	app := cli.NewApp()
+
+	app.Version = Version
 
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
