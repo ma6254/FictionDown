@@ -2,6 +2,14 @@
 
 用于下载盗版网络小说
 
+[![last-commit](https://img.shields.io/github/last-commit/ma6254/FictionDown.svg)](https://github.com/ma6254/FictionDown/commits)
+[![Download Count](https://img.shields.io/github/downloads/ma6254/FictionDown/total.svg)](https://github.com/ma6254/FictionDown/releases)
+
+[![godoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/ma6254/FictionDown/)
+
+[![travis-ci](https://www.travis-ci.org/ma6254/FictionDown.svg?branch=master)](https://ci.appveyor.com/project/ma6254/FictionDown)
+
+
 ## 特性
 
 1. 以起点为样本，多站点多线程爬取校对
