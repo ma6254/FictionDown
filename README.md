@@ -2,13 +2,14 @@
 
 用于下载盗版网络小说
 
+[![License](https://img.shields.io/github/license/ma6254/FictionDown.svg)](https://raw.githubusercontent.com/ma6254/FictionDown/master/LICENSE)
+[![release_version](https://img.shields.io/github/release/ma6254/FictionDown.svg)](https://github.com/ma6254/FictionDown/releases)
 [![last-commit](https://img.shields.io/github/last-commit/ma6254/FictionDown.svg)](https://github.com/ma6254/FictionDown/commits)
 [![Download Count](https://img.shields.io/github/downloads/ma6254/FictionDown/total.svg)](https://github.com/ma6254/FictionDown/releases)
 
 [![godoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/ma6254/FictionDown/)
 
-[![travis-ci](https://www.travis-ci.org/ma6254/FictionDown.svg?branch=master)](https://ci.appveyor.com/project/ma6254/FictionDown)
-
+[![travis-ci](https://www.travis-ci.org/ma6254/FictionDown.svg?branch=master)](https://travis-ci.org/ma6254/FictionDown)
 
 ## 特性
 
@@ -163,6 +164,9 @@ xxx是当前小说中的某个角色，一般为主角，后跟单独一行一�
 - 更新快无广告。
 - 唉，这真是搞什么搞啊！李琳是完全搞不明白现在的状况，这本来直来直去的事情，非要中途拐弯。*菠⿻萝⿻小*说
 - ±菠∨萝∨小±说
+- “而且像地狱火这样的战争傀儡，我目前可就这一个。无广告的站点。”埃文森一脸肉疼的表情说道“而且他是一次性用品，不能回收。”
+- “一秒★小△说§网..Org】，精彩小说无弹窗免费阅读！”
+- “将毁灭万物当作企业文化的燃烧军团，从来不相信有什么东西是杀不死的，有什么东西是不可以毁灭的。本文由ｗｗｗ。lwχｓ520。ｃｏｍ首发如果有的话，那只是因为你的力量不够大，或者是没有找对方法。”
 ```
 
 ### 空行
@@ -179,6 +183,8 @@ xxx是当前小说中的某个角色，一般为主角，后跟单独一行一�
 - :,,!!
 - ':'
 - '&#&#&#&#&#&#&#&#&#&#&#&#&#&#&#&#&#&#&#&#&#&#&#&#&#&#&#'
+- 8)
+- ♂！
 ```
 
 ### 特殊的结尾
@@ -200,6 +206,7 @@ xxx是当前小说中的某个角色，一般为主角，后跟单独一行一�
 - 砰一声，门板被撞飞，四个人如旋风般冲了进来，站定于剑将军身前。.xs.org看最新最全小说
 - 接下来要出场的是，来自阿斯嘉德的自由体操选手希芙，请大家欣赏她精彩的~щww~~lā
 - 墨菲斯托饶有兴趣地看着，正仔细的审视着契约的埃森“小子，你很专щww”
+- “你看人家托尼的那套3d投影系统多上档次，那左手右手一个慢动作，不光把该办的事情办完了，还能装逼耍帅。㈠你这神盾局局长就不能跟人家好好学学？”
 ```
 
 ![boom_img](https://raw.githubusercontent.com/ma6254/FictionDown/master/doc_img/boom.png)
