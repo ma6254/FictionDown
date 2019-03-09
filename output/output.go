@@ -10,6 +10,7 @@ import (
 func init() {
 	RegOutputFormat("epub", &EPUB{})
 	RegOutputFormat("md", &Markdown{})
+	RegOutputFormat("txt", &TXT{})
 }
 
 type Conversion interface {

@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"os"
 	"os/signal"
+	"regexp"
 	"strings"
 	"sync"
 	"time"
@@ -339,30 +340,46 @@ func main() {
 							}
 							log.Printf("请求盗版源信息: %s 书名:%#v 作者:%#v\n", ts.BookURL, ts.BookName, ts.Author)
 
+							rr, err := regexp.Compile(`（[\S ]*）`)
+							if err != nil {
+								return err
+							}
+
+							cc, err := regexp.Compile(`[•、 ，,!！。\.]+`)
+							if err != nil {
+								return err
+							}
+
 							for k3, vol2 := range Chapter.Volumes {
 								for k4, ch2 := range vol2.Chapters {
 									for _, vol := range ts.Volumes {
 										for _, ch := range vol.Chapters {
 
+											var (
+												Name1 string
+												Name2 string
+											)
+
+											Name1 = ch.Name
+											Name2 = ch2.Name
+
+											// sa := "第一百零七章"
+											// if strings.Contains(ch.Name, sa) && strings.Contains(ch2.Name, sa) {
+											// 	log.Printf("Fuuuuck 1. %#v 2. %#v", Name1, Name2)
+											// }
+
+											Name1 = rr.ReplaceAllString(Name1, "")
+											Name1 = cc.ReplaceAllString(Name1, "")
+
+											Name2 = rr.ReplaceAllString(Name2, "")
+											Name2 = cc.ReplaceAllString(Name2, "")
+
 											var ok = false
-											Name1 := strings.Replace(ch.Name, "•", "?", -1)
-											Name1 = strings.Replace(Name1, "、", "", -1)
-											Name1 = strings.Replace(Name1, "，", "", -1)
-											Name1 = strings.Replace(Name1, " ", "", -1)
-
-											Name2 := strings.Replace(ch2.Name, "•", "?", -1)
-											Name2 = strings.Replace(Name2, "、", "", -1)
-											Name2 = strings.Replace(Name2, "，", "", -1)
-											Name2 = strings.Replace(Name2, " ", "", -1)
-
 											if Name1 == Name2 {
 												ok = true
-											}
-
-											if strings.Contains(Name1, Name2) {
+											} else if strings.Contains(Name1, Name2) {
 												ok = true
-											}
-											if strings.Contains(Name2, Name1) {
+											} else if strings.Contains(Name2, Name1) {
 												ok = true
 											}
 
@@ -608,7 +625,7 @@ func Job(syncStore *SyncStore, jobch chan error) {
 
 func TJob(syncStore *SyncStore, jobch chan error) {
 	defer func(jobch chan error) {
-		log.Printf("Fuck Exit")
+		// log.Printf("Fuck Exit")
 		jobch <- io.EOF
 	}(jobch)
 
@@ -651,8 +668,8 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 			if err != nil {
 				errCount++
 				log.Printf("Error: %s %s %s",
-					syncStore.Store.Volumes[vi].Name,
 					syncStore.Store.Volumes[vi].Chapters[ci].Name,
+					BookURL[P],
 					err,
 				)
 				if errCount < MaxErrCount {
@@ -686,6 +703,10 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 			ee = SplitX(ee, "”")
 			ee = SplitX(ee, "？")
 			ee = SplitX(ee, "…")
+			ee = SplitX(ee, "[")
+			ee = SplitX(ee, "]")
+			ee = SplitX(ee, "!")
+			ee = SplitX(ee, "！")
 
 			for _, v := range ee {
 				if strings.Contains(sss, v) {
