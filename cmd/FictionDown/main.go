@@ -124,15 +124,6 @@ func main() {
 					log.SetOutput(f)
 				}
 
-				if c.String("driver") == "phantomjs" {
-					log.Printf("Init PhantomJS")
-					site.InitPhantomJS()
-					defer func() {
-						log.Printf("Close PhantomJS")
-						site.ClosePhantomJS()
-					}()
-				}
-
 				var (
 					err       error
 					URLString string
@@ -154,6 +145,14 @@ func main() {
 					log.Printf("URL: %#v", bookURL.String())
 					switch c.String("driver") {
 					case "phantomjs":
+						if c.String("driver") == "phantomjs" {
+							log.Printf("Init PhantomJS")
+							site.InitPhantomJS()
+							defer func() {
+								log.Printf("Close PhantomJS")
+								site.ClosePhantomJS()
+							}()
+						}
 						Chapter, err = site.PhBookInfo(bookURL.String())
 					default:
 						Chapter, err = site.BookInfo(bookURL.String())
@@ -663,7 +662,7 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 				content, err = site.PhChapter(BookURL[P])
 			default:
 				jobch <- fmt.Errorf("爬取方式错误: %d", deiver)
-				return
+				break A
 			}
 			if err != nil {
 				errCount++

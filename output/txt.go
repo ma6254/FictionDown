@@ -25,6 +25,7 @@ func (t *TXT) Conv(src store.Store, outpath string) (err error) {
 	for _, d := range strings.Split(src.Description, "\n") {
 		fmt.Fprintf(f, "\t%s\n", d)
 	}
+	fmt.Fprintf(f, "\n\n")
 	for _, v1 := range src.Volumes {
 		var VIP string
 		if v1.IsVIP {
@@ -33,6 +34,7 @@ func (t *TXT) Conv(src store.Store, outpath string) (err error) {
 			VIP = "免费"
 		}
 		fmt.Fprintf(f, "卷: %#v %s\n", v1.Name, VIP)
+		fmt.Fprintf(f, "\n\n")
 		for _, v2 := range v1.Chapters {
 			fmt.Fprintf(f, "%s\n", v2.Name)
 			for _, cc := range v2.Text {
@@ -40,6 +42,7 @@ func (t *TXT) Conv(src store.Store, outpath string) (err error) {
 					strings.Replace(cc, "*", "□", -1),
 				)
 			}
+			fmt.Fprintf(f, "\n\n")
 		}
 	}
 	return nil
