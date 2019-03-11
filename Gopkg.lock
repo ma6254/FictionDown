@@ -66,8 +66,8 @@
   version = "v1.20.0"
 
 [[projects]]
-  branch = "master"
-  digest = "1:03a8ff54c1a62710fe21a08ad9ccd554ac90232c4fd34c2731f65dd47e1f2077"
+  branch = "release-branch.go1.10"
+  digest = "1:0016922c9d04af9df4c4af9ca2b7f3f8abfa85fa510fbc4d1fb09e54cb2e63c3"
   name = "golang.org/x/net"
   packages = [
     "html",
@@ -75,15 +75,15 @@
     "html/charset",
   ]
   pruneopts = "UT"
-  revision = "3a22650c66bd7f4fb6d1e8072ffd7b75c8a27898"
+  revision = "0ed95abb35c445290478a5348a7b38bb154135fd"
 
 [[projects]]
-  branch = "master"
-  digest = "1:8207c052fb873f83c61a5aa16f6add5feb9881eda2112b56f69fd3b9e7f55c3f"
+  branch = "release-branch.go1.11"
+  digest = "1:33a43cb31975899cfcd81600d1390467db1778ae87102f80668a753fed8c663e"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = "UT"
-  revision = "b4e8571b14e03cc164df06f72b640ebce3899579"
+  revision = "98c5dad5d1a0e8a73845ecc8897d0bd56586511d"
 
 [[projects]]
   digest = "1:aa4d6967a3237f8367b6bf91503964a77183ecf696f1273e8ad3551bb4412b5f"
@@ -112,12 +112,12 @@
   version = "v0.3.0"
 
 [[projects]]
-  digest = "1:94cad6e2359d57da6652e689189c5b6ef19f99db6304d2c41de54f6632e15143"
+  digest = "1:d219400f09c151f0ada918bab650ef46f7ebdb1ff4fea923fdcb839481ec7ec1"
   name = "gopkg.in/cheggaaa/pb.v1"
   packages = ["."]
   pruneopts = "UT"
-  revision = "1cc5bbe20449079337944d56292c7383510c534c"
-  version = "v1.0.27"
+  revision = "f907f6f5dd81f77c2bbc1cde92e4c5a04720cb11"
+  version = "v1.0.28"
 
 [solve-meta]
   analyzer-name = "dep"
