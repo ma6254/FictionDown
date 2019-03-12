@@ -5,7 +5,8 @@ go:
   - 1.11.x
   - master
 script:
-  - go build github.com/ma6254/FictionDown/cmd/FictionDown
+  - make build_tool
+  - make build
 notifications:
   email:
     recipients:

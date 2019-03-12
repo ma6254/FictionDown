@@ -68,7 +68,13 @@
 包管理采用godep
 
 1. `dep ensure -v`
-2. `gox github.com/ma6254/FictionDown/cmd/FictionDown`
+2. `make` or `make build` 当前目录下就会产生可执行文件
+
+### 交叉编译
+
+需要安装gox
+
+`make multiple_build`
 
 ## 支持的盗版站点
 

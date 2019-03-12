@@ -24,8 +24,12 @@ import (
 
 var (
 
-	// Software Version
-	Version = "0.1.0"
+	// Version git or release tag
+	Version = ""
+	// CommitID latest commit id
+	CommitID = ""
+	// BuildData build data
+	BuildData = ""
 
 	tSleep   time.Duration
 	errSleep time.Duration
@@ -35,7 +39,10 @@ func main() {
 
 	app := cli.NewApp()
 
+	app.Usage = `https://github.com/ma6254/FictionDown`
 	app.Version = Version
+
+	app.Description = fmt.Sprintf("BuildData: %s\n   CommitID: %s ", BuildData, CommitID)
 
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
@@ -103,7 +110,7 @@ func main() {
 				},
 				cli.StringFlag{
 					Name:  "driver",
-					Usage: "请求方式",
+					Usage: "请求方式,support: none,phantomjs,chromedp",
 				},
 				cli.StringFlag{
 					Name:  "f",
@@ -131,6 +138,10 @@ func main() {
 				},
 			},
 			Action: func(c *cli.Context) error {
+
+				fmt.Printf("Commit ID: %s\n", CommitID)
+				fmt.Printf("Build Data: %s\n", BuildData)
+				fmt.Printf("Build Version: %s\n", Version)
 
 				if logfile := c.GlobalString("log"); logfile != "" {
 					fmt.Printf("Set log file: %s\n", logfile)
@@ -163,14 +174,12 @@ func main() {
 					log.Printf("URL: %#v", bookURL.String())
 					switch c.String("driver") {
 					case "phantomjs":
-						if c.String("driver") == "phantomjs" {
-							log.Printf("Init PhantomJS")
-							site.InitPhantomJS()
-							defer func() {
-								log.Printf("Close PhantomJS")
-								site.ClosePhantomJS()
-							}()
-						}
+						log.Printf("Init PhantomJS")
+						site.InitPhantomJS()
+						defer func() {
+							log.Printf("Close PhantomJS")
+							site.ClosePhantomJS()
+						}()
 						for errCount := 0; errCount < 20; errCount++ {
 							Chapter, err = site.PhBookInfo(bookURL.String())
 							if err == nil {
@@ -181,8 +190,10 @@ func main() {
 							}
 						}
 					case "chromedp":
+						log.Printf("Chromedp Running...")
 						Chapter, err = site.ChromedpBookInfo(bookURL.String(), c.String("chromedp-log"))
 					default:
+						log.Printf("use golang default http")
 						for errCount := 0; errCount < 20; errCount++ {
 							Chapter, err = site.BookInfo(bookURL.String())
 							if err == nil {
