@@ -92,6 +92,10 @@ func BookInfo(BookURL string) (s *store.Store, err error) {
 		}
 	}
 
+	if len(chapter.Volumes) == 0 {
+		return nil, fmt.Errorf("not match volumes")
+	}
+
 	return chapter, err
 }
 

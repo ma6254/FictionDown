@@ -26,6 +26,9 @@ var (
 
 	// Software Version
 	Version = "0.1.0"
+
+	tSleep   time.Duration
+	errSleep time.Duration
 )
 
 func main() {
@@ -100,8 +103,7 @@ func main() {
 				},
 				cli.StringFlag{
 					Name:  "driver",
-					Usage: "",
-					Value: "phantomjs",
+					Usage: "请求方式",
 				},
 				cli.StringFlag{
 					Name:  "f",
@@ -110,6 +112,22 @@ func main() {
 				cli.StringFlag{
 					Name:  "o",
 					Usage: "输出路径",
+				},
+				cli.StringFlag{
+					Name:  "chromedp-log",
+					Usage: "Chromedp log file",
+				},
+				cli.DurationFlag{
+					Name:        "tsleep",
+					Usage:       "章节爬取间隔",
+					Value:       200 * time.Millisecond,
+					Destination: &tSleep,
+				},
+				cli.DurationFlag{
+					Name:        "errsleep",
+					Usage:       "章节爬取错误间隔",
+					Value:       500 * time.Millisecond,
+					Destination: &errSleep,
 				},
 			},
 			Action: func(c *cli.Context) error {
@@ -153,9 +171,27 @@ func main() {
 								site.ClosePhantomJS()
 							}()
 						}
-						Chapter, err = site.PhBookInfo(bookURL.String())
+						for errCount := 0; errCount < 20; errCount++ {
+							Chapter, err = site.PhBookInfo(bookURL.String())
+							if err == nil {
+								break
+							} else {
+								log.Printf("ErrCount: %d Err: %s", errCount, err)
+								time.Sleep(1000 * time.Millisecond)
+							}
+						}
+					case "chromedp":
+						Chapter, err = site.ChromedpBookInfo(bookURL.String(), c.String("chromedp-log"))
 					default:
-						Chapter, err = site.BookInfo(bookURL.String())
+						for errCount := 0; errCount < 20; errCount++ {
+							Chapter, err = site.BookInfo(bookURL.String())
+							if err == nil {
+								break
+							} else {
+								log.Printf("ErrCount: %d Err: %s", errCount, err)
+								time.Sleep(1000 * time.Millisecond)
+							}
+						}
 					}
 					if err != nil {
 						return err
@@ -611,12 +647,12 @@ func Job(syncStore *SyncStore, jobch chan error) {
 			content, err := site.Chapter(BookURL)
 			if err != nil {
 				log.Printf("Error: %s", err)
-				time.Sleep(500 * time.Millisecond)
+				time.Sleep(errSleep)
 				continue A
 			}
 			syncStore.SaveJob(vi, ci, content)
 			jobch <- nil
-			time.Sleep(100 * time.Millisecond)
+			time.Sleep(tSleep)
 			break A
 		}
 	}
@@ -672,7 +708,7 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 					err,
 				)
 				if errCount < MaxErrCount {
-					time.Sleep(500 * time.Millisecond)
+					time.Sleep(errSleep)
 					continue A
 				} else {
 					deiver++
@@ -748,7 +784,7 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 
 			syncStore.SaveJob(vi, ci, content)
 			jobch <- nil
-			time.Sleep(100 * time.Millisecond)
+			time.Sleep(tSleep)
 			break A
 		}
 	}

@@ -34,6 +34,15 @@
 
 ```bash
 > ./FictionDown --url https://book.qidian.com/info/3249362 d # 获取正版信息
+
+# 有时会发生`not match volumes`的错误，请启用Chromedp或者PhantomJS
+
+# Use Chromedp
+> ./FictionDown --url https://book.qidian.com/info/3249362 d --driver chromedp
+
+# Use PhantomJS
+> ./FictionDown --url https://book.qidian.com/info/3249362 d --driver phantomjs
+
 > vim 一世之尊.FictionDown # 加入盗版小说链接
 > ./FictionDown -i 一世之尊.FictionDown d -f md # 获取盗版内容
 > pandoc -o 一世之尊.epub 一世之尊.md
