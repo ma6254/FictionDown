@@ -731,8 +731,8 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 			//开始对比
 			sss := ""
 			aaa := ""
-			var ok = 0
-			var fail = 0
+			var ok float32
+			var fail float32
 
 			for _, v := range content {
 				sss += v
@@ -757,12 +757,14 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 			for _, v := range ee {
 				if strings.Contains(sss, v) {
 					ok++
+				} else if strings.Contains(v, sss) {
+					ok++
 				} else {
 					fail++
 				}
 			}
 
-			if ok < fail {
+			if (ok / (ok + fail)) < 0.4 {
 				RP[P] = true
 
 				isDie := true
@@ -776,7 +778,7 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 
 				if isDie {
 					// log.Printf("ok/fail %d/%d", ok, fail)
-					log.Printf("全部校验失败 ok/fail %d/%d Raw: %s", ok, fail, RawURL)
+					log.Printf("全部校验失败 %f Raw: %s", ok/(ok+fail), RawURL)
 					log.Printf("BookURL: %#v", BookURL)
 					// log.Printf("EEE: %#v", ee)
 					// log.Printf("SSS: %s", sss)
@@ -785,7 +787,7 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 				}
 
 				P++
-				log.Printf("校验失败 %d/%d 切换源 %d %s %s %s", ok, fail, P, RawURL, BookURL[P-1], BookURL[P])
+				log.Printf("校验失败 %f 切换源 %d %s %s %s", ok/(ok+fail), P, RawURL, BookURL[P-1], BookURL[P])
 				// log.Printf("EEE: %#v", ee)
 				// log.Printf(sss)
 				// log.Fatal("Fuck")

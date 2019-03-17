@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/chromedp/chromedp"
+	"github.com/chromedp/chromedp/runner"
 	"github.com/ma6254/FictionDown/store"
 )
 
@@ -25,8 +26,8 @@ func ChromedpBookInfo(BookURL string, logfile string) (s *store.Store, err error
 	var (
 		// BookName string
 		// Author   string
-		html   string
-		logOpt []chromedp.Option
+		html string
+		opts []chromedp.Option
 	)
 
 	tasks := chromedp.Tasks{
@@ -45,16 +46,26 @@ func ChromedpBookInfo(BookURL string, logfile string) (s *store.Store, err error
 	defer cancel()
 
 	if logfile == "" {
-		logOpt = []chromedp.Option{}
+		opts = []chromedp.Option{
+			chromedp.WithLog(nil),
+			chromedp.WithErrorf(nil),
+		}
 	} else {
 		clog := log.New(os.Stdout, "", log.LstdFlags)
-		logOpt = []chromedp.Option{
+		opts = []chromedp.Option{
 			chromedp.WithLog(clog.Printf),
+			chromedp.WithErrorf(clog.Printf),
 		}
 	}
 
+	opts = append(opts, chromedp.WithRunnerOptions(
+		runner.Flag("headless", true),
+		runner.Flag("disable-gpu", true),
+		runner.Flag("no-sandbox", true),
+	))
+
 	// create chrome instance
-	c, err := chromedp.New(ctxt, logOpt...)
+	c, err := chromedp.New(ctxt, opts...)
 	if err != nil {
 		log.Fatal(err)
 	}
