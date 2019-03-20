@@ -11,14 +11,17 @@
 [![QQ 群](https://img.shields.io/badge/qq%E7%BE%A4-934873832-orange.svg)](https://jq.qq.com/?_wv=1027&k=5bN0SVA)
 
 [![travis-ci](https://www.travis-ci.org/ma6254/FictionDown.svg?branch=master)](https://travis-ci.org/ma6254/FictionDown)
+[![Go Report Card](https://goreportcard.com/badge/github.com/ma6254/FictionDown)](https://goreportcard.com/report/github.com/ma6254/FictionDown)
 
 ## 特性
 
 - 以起点为样本，多站点多线程爬取校对
 - 支持导出txt，以兼容大多数阅读器
-- 支持导出markdown，可以用pandoc转换成epub，保留书本信息、卷结构、作者信息
+- 支持导出epub(还有些问题，某些阅读器无法打开)
+- 支持导出markdown，可以用pandoc转换成epub，附带epub的`metadata`，保留书本信息、卷结构、作者信息
 - 内置简单的广告过滤（现在还不完善）
 - 用Golang编写，安装部署方便，可选的外部依赖：PhantomJS、Chromedp
+- 支持断点续爬，强制结束再爬会在上次结束的地方继续
 
 ## 使用注意
 
@@ -68,7 +71,10 @@
 - 完善广告过滤
 - 简化使用步骤
 - 优化log输出
-- 书本简介也应该为HTML。即`<p>&emsp;&emsp;</p>`而不是现在的用`\t`和`\n`
+- 对于特殊章节，支持手动指定盗版链接或者跳过忽略
+- 外部加载匹配规则，让用户可以自己添加正/盗版源
+- 支持章节更新
+- 章节匹配过程优化
 
 ## 编译
 

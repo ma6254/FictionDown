@@ -65,37 +65,63 @@ func main() {
 
 	app.Commands = []cli.Command{
 		cli.Command{
-			Name: "check",
-			Flags: []cli.Flag{
-				cli.StringFlag{
-					Name: "f",
-				},
-			},
+			Name:    "check",
+			Aliases: []string{"c"},
+			Flags:   []cli.Flag{},
 			Action: func(c *cli.Context) error {
 				var (
-					Chapter *store.Store
+					Chapter  *store.Store
+					filename = c.GlobalString("i")
 				)
 
-				var filename = c.String("f")
+				log.Printf("Loading cache file: %s", filename)
 				b, err := ioutil.ReadFile(filename)
 				if err != nil {
 					return err
 				}
 				err = yaml.Unmarshal(b, &Chapter)
-				if err != nil {
-					return err
+
+				fmt.Printf("书名: %#v\n", Chapter.BookName)
+				fmt.Printf("作者: %#v\n", Chapter.Author)
+				fmt.Printf("封面: %s\n", Chapter.CoverURL)
+				fmt.Printf("简介: \n\t%v\n", strings.Replace(Chapter.Description, "\n", "\n\t", -1))
+				fmt.Printf("章节数: \n")
+				for _, v := range Chapter.Volumes {
+					var VIP string
+					if v.IsVIP {
+						VIP = "VIP"
+					} else {
+						VIP = "免费"
+					}
+					fmt.Printf("\t%s卷(%s) %d章\n", v.Name, VIP, len(v.Chapters))
 				}
-				for _, vol := range Chapter.Volumes {
-					for ci, ch := range vol.Chapters {
-						var l string
-						if len(ch.Text) == 0 {
-							l = "未缓存"
-						} else {
-							l = fmt.Sprintf("%d", len(ch.Text))
+
+				var (
+					chCount       = 0
+					isDone        = 0
+					isExample     = 0
+					isDonwExample = 0
+				)
+				for _, v := range Chapter.Volumes {
+					chCount += len(v.Chapters)
+					for _, v2 := range v.Chapters {
+						if len(v2.Text) != 0 {
+							isDone++
 						}
-						fmt.Printf("%s %d %#v %s\n", vol.Name, ci, ch.Name, l)
+
+						if len(v2.Example) != 0 {
+							isExample++
+						}
+						if (len(v2.Example) != 0) && (len(v2.Text) != 0) {
+							isDonwExample++
+						}
+
 					}
 				}
+				if isDone != 0 {
+					log.Printf("[读入] 已缓存:%d 样本:%d 完成样本:%d", isDone, isExample, isDonwExample)
+				}
+
 				return nil
 			},
 		},
@@ -263,10 +289,7 @@ func main() {
 					fmt.Printf("\t%s卷(%s) %d章\n", v.Name, VIP, len(v.Chapters))
 				}
 
-				// log.Fatal("Fuck...")
-
-				log.Printf("Working...\n")
-				log.Printf("routine: %d", c.Int("t"))
+				log.Printf("线程数: %d,预缓存中...\n", c.Int("t"))
 				ssss := &SyncStore{
 					Store: Chapter,
 				}
@@ -275,32 +298,31 @@ func main() {
 				var chCount = 0
 				var isDone = 0
 				var isExample = 0
-				var isDonwExample = 0
+				var isDoneExample = 0
 				for _, v := range Chapter.Volumes {
 					chCount += len(v.Chapters)
 					for _, v2 := range v.Chapters {
 						if len(v2.Text) != 0 {
 							isDone++
 						}
-
 						if len(v2.Example) != 0 {
 							isExample++
 						}
 						if (len(v2.Example) != 0) && (len(v2.Text) != 0) {
-							isDonwExample++
+							isDoneExample++
 						}
-
 					}
 				}
 				if isDone != 0 {
-					log.Printf("[读入] 已缓存:%d 样本:%d 完成样本:%d", isDone, isExample, isDonwExample)
+					log.Printf("[读入] 已缓存:%d 样本:%d 完成样本:%d", isDone, isExample, isDoneExample)
 				}
 
+				// End Print
 				defer func(s *store.Store) {
 					var chCount = 0
 					var isDone = 0
 					var isExample = 0
-					var isDonwExample = 0
+					var isDoneExample = 0
 					for _, v := range Chapter.Volumes {
 						chCount += len(v.Chapters)
 						for _, v2 := range v.Chapters {
@@ -311,19 +333,19 @@ func main() {
 								isExample++
 							}
 							if (len(v2.Example) != 0) && (len(v2.Text) != 0) {
-								isDonwExample++
+								isDoneExample++
 							}
 						}
 					}
 					if isDone != 0 {
-						log.Printf("[爬取结束] 已缓存:%d 样本:%d 完成样本:%d", isDone, isExample, isDonwExample)
+						log.Printf("[爬取结束] 已缓存:%d 样本:%d 完成样本:%d", isDone, isExample, isDoneExample)
 					}
 				}(Chapter)
 
 				if isDone < chCount {
 
 					bar := processbar.StartNew(chCount)
-					bar.Set(isDone)
+					bar.Set(isDone + isExample - isDoneExample)
 
 					Jobch := make(chan error)
 					for i := 0; i < c.Int("t"); i++ {
@@ -499,7 +521,7 @@ func main() {
 						isDone = 0
 						isExample = 0
 						chCount = 0
-						isDonwExample = 0
+						isDoneExample = 0
 						for _, v := range Chapter.Volumes {
 							chCount += len(v.Chapters)
 							for _, v2 := range v.Chapters {
@@ -511,12 +533,12 @@ func main() {
 									isExample++
 								}
 								if (len(v2.Example) != 0) && (len(v2.Text) != 0) {
-									isDonwExample++
+									isDoneExample++
 								}
 
 							}
 						}
-						log.Printf("[完成] 已缓存:%d 样本:%d 完成样本:%d", isDone, isExample, isDonwExample)
+						log.Printf("[完成] 已缓存:%d 样本:%d 完成样本:%d", isDone, isExample, isDoneExample)
 					}
 				}
 

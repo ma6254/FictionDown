@@ -3,7 +3,6 @@ package site
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"strings"
 
 	"github.com/antchfx/htmlquery"
@@ -40,7 +39,7 @@ func (b *QiDian) BookInfo(body io.Reader) (s *store.Store, err error) {
 	}
 	s.Description = desc[:len(desc)-1]
 
-	ioutil.WriteFile("xxxx.html", []byte(htmlquery.OutputHTML(doc, false)), 0775)
+	// ioutil.WriteFile("xxxx.html", []byte(htmlquery.OutputHTML(doc, false)), 0775)
 
 	volumes := htmlquery.Find(doc, `//div[@class="volume"]`)
 	for _, volume := range volumes {
