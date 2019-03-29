@@ -36,7 +36,7 @@
 3. 手动设置笔趣阁等盗版小说的对应链接，`tamp`字段
 4. 再次启动，开始爬取，只爬取VIP部分，并跟`Example`进行校对
 5. 手动编辑对应的缓存文件，手动删除广告和某些随机字符(有部分是关键字,可能会导致pandoc内存溢出或者样式错误)
-6. `d -f md`生成markwown
+6. `conv -f md`生成markwown
 7. 用pandoc转换成epub，`pandoc -o xxxx.epub xxxx.md`
 
 ### Example
@@ -45,16 +45,20 @@
 > ./FictionDown --url https://book.qidian.com/info/3249362 d # 获取正版信息
 
 # 有时会发生`not match volumes`的错误，请启用Chromedp或者PhantomJS
-
 # Use Chromedp
 > ./FictionDown --url https://book.qidian.com/info/3249362 d --driver chromedp
-
 # Use PhantomJS
 > ./FictionDown --url https://book.qidian.com/info/3249362 d --driver phantomjs
 
 > vim 一世之尊.FictionDown # 加入盗版小说链接
-> ./FictionDown -i 一世之尊.FictionDown d -f md # 获取盗版内容
+> ./FictionDown -i 一世之尊.FictionDown d # 获取盗版内容
+
+# 转换成epub有两种方式
+# 1.输出markdown，再用pandoc转换成epub
+> ./FictionDown -i 一世之尊.FictionDown conv -f md
 > pandoc -o 一世之尊.epub 一世之尊.md
+# 2.直接输出epub（某些阅读器会报错）
+> ./FictionDown -i 一世之尊.FictionDown conv -f epub
 ```
 
 ## 未实现
@@ -88,6 +92,16 @@
 需要安装gox
 
 `make multiple_build`
+
+## 某些匹配问题
+
+小说《一世之尊》
+
+卷: "第三卷 满堂花醉三千客" 章节: "第十四章 姚家小鬼"
+
+在盗版站的章节名均为`"第14章 姚家小鬼"`
+
+
 
 ## 支持的盗版站点
 

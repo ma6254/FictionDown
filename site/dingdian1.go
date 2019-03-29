@@ -81,6 +81,7 @@ func (b *DingDian1) Chapter(body io.Reader) ([]string, error) {
 	M := []string{}
 	//list
 	nodeContent := htmlquery.Find(doc, `//*[@id="content"]/p`)
+	nodeContent = append(nodeContent, htmlquery.Find(doc, `//*[@id="content"]/text()`)...)
 	if len(nodeContent) == 0 {
 		err = fmt.Errorf("No matching content")
 		return nil, err

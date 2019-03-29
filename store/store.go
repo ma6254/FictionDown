@@ -2,6 +2,8 @@
  */
 package store
 
+import "sync"
+
 // FileExt is filename extension (without dot)
 const FileExt = "FictionDown"
 
@@ -14,6 +16,25 @@ type Store struct {
 	Description string   // 介绍
 	Tmap        []string //盗版源
 	Volumes     []Volume
+}
+
+func (store Store) Total() (Done, Example, ExampleDone, AllChaper int) {
+
+	for _, v := range store.Volumes {
+		AllChaper += len(v.Chapters)
+		for _, v2 := range v.Chapters {
+			if len(v2.Text) != 0 {
+				Done++
+			}
+			if len(v2.Example) != 0 {
+				Example++
+			}
+			if (len(v2.Example) != 0) && (len(v2.Text) != 0) {
+				ExampleDone++
+			}
+		}
+	}
+	return
 }
 
 // Volume 卷
@@ -30,22 +51,6 @@ type Chapter struct {
 	TURL    []string
 	Text    []string
 	Example []string
-}
-
-func (store Store) Total() (Done, Example, ExampleDone, AllChaper int) {
-	for _, v := range store.Volumes {
-		AllChaper += len(v.Chapters)
-		for _, v2 := range v.Chapters {
-			if len(v2.Text) != 0 {
-				Done++
-			}
-			if len(v2.Example) != 0 {
-				Example++
-			}
-			if (len(v2.Example) != 0) && (len(v2.Text) != 0) {
-				ExampleDone++
-			}
-		}
-	}
-	return
+	Alias   []string   `yaml:"-"`
+	MuxLock sync.Mutex `yaml:"-"`
 }

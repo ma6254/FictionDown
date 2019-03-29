@@ -3,6 +3,7 @@ package site
 import (
 	"fmt"
 	"io"
+	"regexp"
 	"strings"
 
 	"github.com/antchfx/htmlquery"
@@ -63,15 +64,18 @@ func (b *QiDian) BookInfo(body io.Reader) (s *store.Store, err error) {
 		nodeContent := htmlquery.Find(volume, `//div[@class="volume"]/ul/li/a`)
 		for _, v := range nodeContent {
 			c := store.Chapter{
-				Name: strings.TrimSpace(htmlquery.InnerText(v)),
-				URL:  "https:" + htmlquery.SelectAttr(v, "href"),
+				Name: strings.TrimSpace(
+					SingleSpace(
+						htmlquery.InnerText(v),
+					),
+				),
+				URL: htmlquery.SelectAttr(v, "href"),
 			}
 			// fmt.Printf("%#v %v\n", c.Name, c.URL)
 			V.Chapters = append(V.Chapters, c)
 		}
 		s.Volumes = append(s.Volumes, V)
 	}
-
 	return
 }
 
@@ -100,4 +104,9 @@ func (b *QiDian) Chapter(body io.Reader) ([]string, error) {
 		M = append(M, t)
 	}
 	return M, nil
+}
+
+func SingleSpace(s string) (r string) {
+	rex := regexp.MustCompile("[\u0020\u3000]")
+	return rex.ReplaceAllString(s, " ")
 }

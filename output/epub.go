@@ -14,7 +14,7 @@ import (
 type EPUB struct {
 }
 
-func (t *EPUB) Conv(src store.Store, outpath string) (err error) {
+func (t *EPUB) Conv(src store.Store, outpath string, opts Option) (err error) {
 	e := goepub.NewEpub(src.BookName)
 	e.SetLang("中文")
 	e.SetAuthor(src.Author)
