@@ -57,7 +57,7 @@ var app = &cli.App{
 			Usage: "log file path",
 		},
 		cli.StringFlag{
-			Name:        "driver",
+			Name:        "driver,d",
 			Usage:       "请求方式,support: none,phantomjs,chromedp",
 			Destination: &driver,
 		},
@@ -67,6 +67,8 @@ var app = &cli.App{
 		check,
 		edit,
 		convert,
+		pirate,
+		search,
 	},
 }
 

@@ -75,12 +75,12 @@ func PhBookInfo(BookURL string) (s *store.Store, err error) {
 		return
 	}
 
-	site, ok := regMap[bu.Host]
-	if !ok {
-		return nil, ErrUnsupportSite{bu.Host}
+	ms, err := MatchOne(Sitepool, BookURL)
+	if err != nil {
+		return nil, err
 	}
 
-	chapter, err := site.BookInfo(strings.NewReader(content))
+	chapter, err := ms.BookInfo(strings.NewReader(content))
 	chapter.BookURL = BookURL
 
 	for v1, k1 := range chapter.Volumes {
@@ -109,16 +109,10 @@ func PhChapter(BookURL string) (content []string, err error) {
 		return
 	}
 
-	bu, err := url.Parse(BookURL)
+	ms, err := MatchOne(Sitepool, BookURL)
 	if err != nil {
-		return
+		return nil, err
 	}
 
-	site, ok := regMap[bu.Host]
-	if !ok {
-		return nil, ErrUnsupportSite{bu.Host}
-	}
-
-	return site.Chapter(strings.NewReader(c))
-
+	return ms.Chapter(strings.NewReader(c))
 }

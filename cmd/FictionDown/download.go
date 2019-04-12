@@ -35,10 +35,6 @@ var download = cli.Command{
 			Value: 10,
 		},
 		cli.StringFlag{
-			Name:  "driver",
-			Usage: "请求方式,support: none,phantomjs,chromedp",
-		},
-		cli.StringFlag{
 			Name:  "f",
 			Usage: "输出格式",
 		},

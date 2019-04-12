@@ -46,13 +46,37 @@
 
 # 有时会发生`not match volumes`的错误，请启用Chromedp或者PhantomJS
 # Use Chromedp
-> ./FictionDown --url https://book.qidian.com/info/3249362 d --driver chromedp
+> ./FictionDown --url https://book.qidian.com/info/3249362 -d chromedp d
 # Use PhantomJS
-> ./FictionDown --url https://book.qidian.com/info/3249362 d --driver phantomjs
+> ./FictionDown --url https://book.qidian.com/info/3249362 -d phantomjs d
 
 > vim 一世之尊.FictionDown # 加入盗版小说链接
 > ./FictionDown -i 一世之尊.FictionDown d # 获取盗版内容
+# 爬取完毕就可以输出可阅读的文档了
+> ./FictionDown -i 一世之尊.FictionDown conv -f txt
+# 转换成epub有两种方式
+# 1.输出markdown，再用pandoc转换成epub
+> ./FictionDown -i 一世之尊.FictionDown conv -f md
+> pandoc -o 一世之尊.epub 一世之尊.md
+# 2.直接输出epub（某些阅读器会报错）
+> ./FictionDown -i 一世之尊.FictionDown conv -f epub
+```
 
+#### 现在支持小说站内搜索，可以不用手动填入了
+
+```bash
+> ./FictionDown --url https://book.qidian.com/info/3249362 d # 获取正版信息
+
+# 有时会发生`not match volumes`的错误，请启用Chromedp或者PhantomJS
+# Use Chromedp
+> ./FictionDown --url https://book.qidian.com/info/3249362 --driver chromedp d
+# Use PhantomJS
+> ./FictionDown --url https://book.qidian.com/info/3249362 --driver phantomjs d
+
+> ./FictionDown -i 一世之尊.FictionDown s -k 一世之尊 -p # 搜索然后放入
+> ./FictionDown -i 一世之尊.FictionDown d # 获取盗版内容
+# 爬取完毕就可以输出可阅读的文档了
+> ./FictionDown -i 一世之尊.FictionDown conv -f txt
 # 转换成epub有两种方式
 # 1.输出markdown，再用pandoc转换成epub
 > ./FictionDown -i 一世之尊.FictionDown conv -f md
@@ -67,11 +91,9 @@
 - 支持 晋江文学城
 - 支持 纵横中文网
 - 支持刺猬猫（即“欢乐书客”）
-- 支持直接输出epub，不需要pandoc
-- 支持小说站内搜索
+- ~~支持小说站内搜索~~
 - 整理main包中的面条逻辑
 - 整理命令行参数风格
-- 在windows下，md转换到epub时有路径问题
 - 完善广告过滤
 - 简化使用步骤
 - 优化log输出

@@ -2,6 +2,7 @@ package site
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/url"
 	"os"
@@ -13,13 +14,9 @@ import (
 
 func ChromedpBookInfo(BookURL string, logfile string) (s *store.Store, err error) {
 
-	u, err := url.Parse(BookURL)
+	ms, err := MatchOne(Sitepool, BookURL)
 	if err != nil {
 		return nil, err
-	}
-	Site, ok := regMap[u.Host]
-	if !ok {
-		return nil, ErrUnsupportSite{u.Host}
 	}
 
 	var (
@@ -27,17 +24,16 @@ func ChromedpBookInfo(BookURL string, logfile string) (s *store.Store, err error
 		// Author   string
 		html string
 		opts []chromedp.Option
+		u    *url.URL
 	)
+
+	u, _ = url.Parse(BookURL)
 
 	tasks := chromedp.Tasks{
 		chromedp.Navigate(BookURL),
 		// chromedp.Text(`html`, &html, chromedp.ByQuery),
 		chromedp.OuterHTML(`html`, &html, chromedp.ByQuery),
 		// chromedp.WaitVisible(`html`, chromedp.ByQuery),
-		// chromedp.ActionFunc(func(ctxt context.Context, c cdp.Executor) error {
-		// 	html, err := dom.GetOuterHTML().WithNodeID(cdp.NodeID(0)).Do(ctxt, c)
-		// 	return nil
-		// }),
 	}
 
 	// create context
@@ -86,5 +82,22 @@ func ChromedpBookInfo(BookURL string, logfile string) (s *store.Store, err error
 		log.Fatal(err)
 	}
 
-	return Site.BookInfo(strings.NewReader(html))
+	chapter, err := ms.BookInfo(strings.NewReader(html))
+	if err != nil {
+		return nil, err
+	}
+
+	for v1, k1 := range chapter.Volumes {
+		for v2, k2 := range k1.Chapters {
+			u1, _ := url.Parse(k2.URL)
+			chapter.Volumes[v1].Chapters[v2].URL = u.ResolveReference(u1).String()
+		}
+	}
+
+	if len(chapter.Volumes) == 0 {
+		// fmt.Printf(content)
+		return nil, fmt.Errorf("not match volumes")
+	}
+
+	return chapter, nil
 }
