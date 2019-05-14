@@ -12,12 +12,11 @@ LDFLAG := "\
 "
 
 build_tool:
-	go get -v -u github.com/golang/dep/cmd/dep
 	go get -v -u github.com/mitchellh/gox
-	dep ensure -v
+	go mod vendor
 
 build:
-	go build --ldflags $(LDFLAG) $(Package)
+	go build -v --ldflags $(LDFLAG) $(Package)
 
 multiple_build:
 	gox -osarch="linux/arm" -osarch="linux/amd64" --osarch="darwin/amd64" -osarch="windows/amd64" -ldflags $(LDFLAG) -output "{{.Dir}}_$(BUILD_VERSION)_{{.OS}}_{{.Arch}}" github.com/ma6254/FictionDown/cmd/FictionDown
