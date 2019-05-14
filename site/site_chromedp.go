@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/url"
-	"os"
 	"strings"
 
 	"github.com/chromedp/chromedp"
@@ -23,7 +22,6 @@ func ChromedpBookInfo(BookURL string, logfile string) (s *store.Store, err error
 		// BookName string
 		// Author   string
 		html string
-		opts []chromedp.Option
 		u    *url.URL
 	)
 
@@ -36,49 +34,11 @@ func ChromedpBookInfo(BookURL string, logfile string) (s *store.Store, err error
 		// chromedp.WaitVisible(`html`, chromedp.ByQuery),
 	}
 
-	// create context
-	ctxt, cancel := context.WithCancel(context.Background())
+	// create chrome instance
+	ctx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()
 
-	if logfile == "" {
-		// opts = []chromedp.Option{
-		// 	chromedp.WithLog(nil),
-		// 	chromedp.WithErrorf(nil),
-		// }
-	} else {
-		clog := log.New(os.Stdout, "", log.LstdFlags)
-		opts = []chromedp.Option{
-			chromedp.WithLog(clog.Printf),
-			chromedp.WithErrorf(clog.Printf),
-		}
-	}
-
-	opts = append(opts, chromedp.WithRunnerOptions(
-	// runner.Flag("headless", true),
-	// runner.Flag("disable-gpu", true),
-	// runner.Flag("no-sandbox", true),
-	))
-
-	// create chrome instance
-	c, err := chromedp.New(ctxt, opts...)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = c.Run(ctxt, tasks)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// shutdown chrome
-	err = c.Shutdown(ctxt)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// wait for chrome to finish
-	err = c.Wait()
-	if err != nil {
+	if err := chromedp.Run(ctx, tasks...); err != nil {
 		log.Fatal(err)
 	}
 
