@@ -1,8 +1,20 @@
 package utils
 
 import (
+	"bufio"
+	"bytes"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"net/http"
+	"strings"
+
+	"github.com/antchfx/htmlquery"
+	"golang.org/x/net/html"
+	"golang.org/x/net/html/charset"
+	"golang.org/x/text/encoding"
+	"golang.org/x/text/encoding/simplifiedchinese"
+	"golang.org/x/text/transform"
 )
 
 func RequestGet(u string) (resp *http.Response, err error) {
@@ -78,4 +90,47 @@ func StringSliceEqual(a, b []string) bool {
 		}
 	}
 	return true
+}
+
+func U8ToGBK(a string) string {
+	b, _, _ := transform.String(simplifiedchinese.GBK.NewEncoder(), a)
+	return b
+}
+
+func detectContentCharset(body io.Reader) encoding.Encoding {
+	data, err := bufio.NewReader(body).Peek(1024)
+	if err != nil {
+		panic(err)
+	}
+	e, _, _ := charset.DetermineEncoding(data, "")
+	return e
+}
+
+func GetWegPageDOM(u string) (node *html.Node, err error) {
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", u, nil)
+	if err != nil {
+		return
+	}
+	req.Header.Add(
+		"user-agent",
+		"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36",
+	)
+	resp, err := client.Do(req)
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
+
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return
+	}
+	var body io.Reader = bytes.NewReader(bodyBytes)
+
+	if strings.Contains(resp.Header.Get("Content-Type"), "text/html") {
+		encode := detectContentCharset(bytes.NewReader(bodyBytes))
+		body = transform.NewReader(body, encode.NewDecoder())
+	}
+	return htmlquery.Parse(body)
 }

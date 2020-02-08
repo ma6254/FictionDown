@@ -8,8 +8,6 @@ import (
 
 	"github.com/antchfx/htmlquery"
 	"github.com/ma6254/FictionDown/store"
-	"golang.org/x/text/encoding/simplifiedchinese"
-	"golang.org/x/text/transform"
 )
 
 var dingdian = SiteA{
@@ -20,7 +18,6 @@ var dingdian = SiteA{
 		`https://www\.booktxt\.net/\d+_\d+/\d+\.html/*`,
 	},
 	BookInfo: func(body io.Reader) (s *store.Store, err error) {
-		body = transform.NewReader(body, simplifiedchinese.GBK.NewDecoder())
 		doc, err := htmlquery.Parse(body)
 		if err != nil {
 			return
@@ -72,7 +69,6 @@ var dingdian = SiteA{
 		return
 	},
 	Chapter: func(body io.Reader) ([]string, error) {
-		body = transform.NewReader(body, simplifiedchinese.GBK.NewDecoder())
 		doc, err := htmlquery.Parse(body)
 		if err != nil {
 			return nil, err

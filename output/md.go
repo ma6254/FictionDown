@@ -8,16 +8,16 @@ import (
 	"os"
 	"strings"
 
-	"github.com/go-yaml/yaml"
 	"github.com/ma6254/FictionDown/store"
+	"gopkg.in/yaml.v2"
 )
 
 type MarkdownEPUBmeta struct {
 	Title       string `yaml:"title"`
-	Description string `yaml:"description"`
-	Author      string `yaml:"creator"`
-	Lang        string `yaml:"lang"`
-	Cover       string `yaml:"cover-image"`
+	Description string `yaml:"description,omitempty"`
+	Author      string `yaml:"creator,omitempty"`
+	Lang        string `yaml:"lang,omitempty"`
+	Cover       string `yaml:"cover-image,omitempty"`
 }
 
 type Markdown struct {
@@ -122,9 +122,15 @@ var MarkdownTemplate = `
 {{end -}}
 # 简介
 
-书名: {{.Store.BookName}}
+	该文档由FictionDown工具生成
+	仅供软件测试评估使用
+	请勿传播该文档以及用于此软件评估外的任何用途
+<https://github.com/ma6254/FictionDown>
+
+书名: [{{.Store.BookName | markdown}}]({.Store.BookURL})
+
 作者: {{.Store.Author}}
-简介: 
+简介:
 {{range split .Store.Description "\n" -}}
 <p style="text-indent:2em">{{. | markdown}}</p>
 {{end -}}

@@ -8,9 +8,6 @@ import (
 
 	"github.com/antchfx/htmlquery"
 	"github.com/ma6254/FictionDown/store"
-	"github.com/ma6254/FictionDown/utils"
-	"golang.org/x/text/encoding/simplifiedchinese"
-	"golang.org/x/text/transform"
 )
 
 var biquge3 = SiteA{
@@ -22,7 +19,6 @@ var biquge3 = SiteA{
 		`https://www\.biqiuge\.com/book/\d+/\d+\.html/*`,
 	},
 	BookInfo: func(body io.Reader) (s *store.Store, err error) {
-		body = transform.NewReader(body, simplifiedchinese.GBK.NewDecoder())
 		doc, err := htmlquery.Parse(body)
 		if err != nil {
 			return
@@ -64,7 +60,6 @@ var biquge3 = SiteA{
 		return
 	},
 	Chapter: func(body io.Reader) ([]string, error) {
-		body = transform.NewReader(body, simplifiedchinese.GBK.NewDecoder())
 		doc, err := htmlquery.Parse(body)
 		if err != nil {
 			return nil, err
@@ -97,44 +92,46 @@ var biquge3 = SiteA{
 		}
 		return M, nil
 	},
-	Search: func(s string) (result []ChaperSearchResult, err error) {
-		baseurl, err := url.Parse("https://so.biqusoso.com/s.php")
-		if err != nil {
-			return
-		}
-		value := baseurl.Query()
-		value.Add("ie", "utf-8")
-		value.Add("siteid", "biqiuge.com")
-		value.Add("s", "2758772450457967865")
-		value.Add("q", s)
-		baseurl.RawQuery = value.Encode()
-
-		resp, err := utils.RequestGet(baseurl.String())
-		if err != nil {
-			return
-		}
-		defer resp.Body.Close()
-		body := resp.Body
-		// body := transform.NewReader(resp.Body, simplifiedchinese.GBK.NewDecoder())
-		doc, err := htmlquery.Parse(body)
-		if err != nil {
-			return
-		}
-
-		r := htmlquery.Find(doc, `//*[@class="search-list"]/ul/li`)
-		if len(r) == 0 {
-			return nil, nil
-		}
-		for _, v := range r[1:] {
-			s2 := htmlquery.FindOne(v, `/span[2]/a`)
-			s4 := htmlquery.FindOne(v, `/span[3]`)
-			r := ChaperSearchResult{
-				BookName: htmlquery.InnerText(s2),
-				Author:   htmlquery.InnerText(s4),
-				BookURL:  htmlquery.SelectAttr(s2, "href"),
+	/*
+		Search: func(s string) (result []ChaperSearchResult, err error) {
+			baseurl, err := url.Parse("https://so.biqusoso.com/s.php")
+			if err != nil {
+				return
 			}
-			result = append(result, r)
-		}
-		return
-	},
+			value := baseurl.Query()
+			value.Add("ie", "utf-8")
+			value.Add("siteid", "biqiuge.com")
+			value.Add("s", "2758772450457967865")
+			value.Add("q", s)
+			baseurl.RawQuery = value.Encode()
+
+			resp, err := utils.RequestGet(baseurl.String())
+			if err != nil {
+				return
+			}
+			defer resp.Body.Close()
+			body := resp.Body
+			// body := transform.NewReader(resp.Body, simplifiedchinese.GBK.NewDecoder())
+			doc, err := htmlquery.Parse(body)
+			if err != nil {
+				return
+			}
+
+			r := htmlquery.Find(doc, `//*[@class="search-list"]/ul/li`)
+			if len(r) == 0 {
+				return nil, nil
+			}
+			for _, v := range r[1:] {
+				s2 := htmlquery.FindOne(v, `/span[2]/a`)
+				s4 := htmlquery.FindOne(v, `/span[3]`)
+				r := ChaperSearchResult{
+					BookName: htmlquery.InnerText(s2),
+					Author:   htmlquery.InnerText(s4),
+					BookURL:  htmlquery.SelectAttr(s2, "href"),
+				}
+				result = append(result, r)
+			}
+			return
+		},
+	*/
 }

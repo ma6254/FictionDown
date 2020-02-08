@@ -14,8 +14,8 @@ import (
 	"github.com/ma6254/FictionDown/site"
 	"github.com/ma6254/FictionDown/store"
 
-	"github.com/go-yaml/yaml"
 	"github.com/urfave/cli"
+	"gopkg.in/yaml.v2"
 )
 
 var (
@@ -69,6 +69,7 @@ var app = &cli.App{
 		convert,
 		pirate,
 		search,
+		update,
 	},
 }
 
@@ -148,12 +149,13 @@ func (s *SyncStore) SaveJob(vi, ci int, text []string) {
 	}
 
 	// log.Printf("SaveJob 2")
+	s.Store.LastUpdate = time.Now()
 	bbb, err := yaml.Marshal(*(s.Store))
 	if err != nil {
 		panic(err)
 	}
 	// log.Printf("SaveJob 3")
-	var filename = fmt.Sprintf("%s.%s", s.Store.BookName, store.FileExt)
+	var filename = GetFileName(s.Store)
 	err = ioutil.WriteFile(filename, bbb, 0775)
 	if err != nil {
 		panic(err)
@@ -252,43 +254,9 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 				}
 			}
 
-			//开始对比
-			sss := ""
-			aaa := ""
-			var ok float32
-			var fail float32
+			v := verify(Example, content)
 
-			for _, v := range content {
-				sss += v
-			}
-
-			for _, v := range Example {
-				aaa += v
-			}
-			var ee = strings.Split(aaa, "。")
-			// ee = SplitXX(ee, "，", "：", "“", "”", "？", "…")
-			ee = SplitX(ee, "，")
-			ee = SplitX(ee, "：")
-			ee = SplitX(ee, "“")
-			ee = SplitX(ee, "”")
-			ee = SplitX(ee, "？")
-			ee = SplitX(ee, "…")
-			ee = SplitX(ee, "[")
-			ee = SplitX(ee, "]")
-			ee = SplitX(ee, "!")
-			ee = SplitX(ee, "！")
-
-			for _, v := range ee {
-				if strings.Contains(sss, v) {
-					ok++
-				} else if strings.Contains(v, sss) {
-					ok++
-				} else {
-					fail++
-				}
-			}
-
-			if (ok / (ok + fail)) < 0.4 {
+			if (v) < 0.4 {
 				RP[P] = true
 
 				isDie := true
@@ -302,29 +270,68 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 
 				if isDie {
 					// log.Printf("ok/fail %d/%d", ok, fail)
-					log.Printf("全部校验失败 %f Raw: %s", ok/(ok+fail), RawURL)
-					log.Printf("BookURL: %#v", BookURL)
+					log.Printf("全部校验失败 %f Raw: %s", v, RawURL)
+					// log.Printf("BookURL: %#v", BookURL)
 					// log.Printf("EEE: %#v", ee)
-					// log.Printf("SSS: %s", sss)
+					// log.Printf("SSS: %#v", sss)
 
 					break A
 				}
 
 				P++
-				log.Printf("校验失败 %f 切换源 %d %s %s %s", ok/(ok+fail), P, RawURL, BookURL[P-1], BookURL[P])
+				log.Printf("校验失败 %f 切换源 %d %s %s => %s", v, P, RawURL, BookURL[P-1], BookURL[P])
 				// log.Printf("EEE: %#v", ee)
 				// log.Printf(sss)
 				// log.Fatal("Fuck")
 
 				continue A
 			}
-
 			syncStore.SaveJob(vi, ci, content)
 			jobch <- nil
 			time.Sleep(tSleep)
 			break A
 		}
 	}
+}
+
+func verify(example, content []string) float32 {
+
+	//开始对比
+	sss := ""
+	aaa := ""
+	var ok float32
+	var fail float32
+
+	for _, v := range content {
+		sss += v
+	}
+
+	for _, v := range example {
+		aaa += v
+	}
+	var ee = strings.Split(aaa, "。")
+	// ee = SplitXX(ee, "，", "：", "“", "”", "？", "…")
+	ee = SplitX(ee, "，")
+	ee = SplitX(ee, "：")
+	ee = SplitX(ee, "“")
+	ee = SplitX(ee, "”")
+	ee = SplitX(ee, "？")
+	ee = SplitX(ee, "…")
+	ee = SplitX(ee, "[")
+	ee = SplitX(ee, "]")
+	ee = SplitX(ee, "!")
+	ee = SplitX(ee, "！")
+
+	for _, v := range ee {
+		if strings.Contains(sss, v) {
+			ok++
+		} else if strings.Contains(v, sss) {
+			ok++
+		} else {
+			fail++
+		}
+	}
+	return ok / (ok + fail)
 }
 
 func SplitX(s []string, q string) []string {
@@ -402,7 +409,7 @@ func initLoadStore(c *cli.Context) error {
 			return err
 		}
 		chapter.BookURL = bookURL.String()
-		filename = fmt.Sprintf("%s.%s", chapter.BookName, store.FileExt)
+		filename = GetFileName(chapter)
 		filemode, err := os.Stat(filename)
 		if err != nil && os.IsNotExist(err) {
 			b, err := yaml.Marshal(chapter)
@@ -443,4 +450,13 @@ func initLoadStore(c *cli.Context) error {
 		}
 	}
 	return nil
+}
+
+func GetFileName(s *store.Store) string {
+
+	si, err := site.MatchOne(site.Sitepool, s.BookURL)
+	if err != nil {
+		return fmt.Sprintf("%s-%s.%s", s.BookName, s.Author, store.FileExt)
+	}
+	return fmt.Sprintf("%s-%s-%s.%s", s.BookName, s.Author, si.Name, store.FileExt)
 }

@@ -16,7 +16,6 @@ import (
 )
 
 func wwww81newcomBookInfo(body io.Reader) (s *store.Store, err error) {
-	body = transform.NewReader(body, simplifiedchinese.GBK.NewDecoder())
 	doc, err := htmlquery.Parse(body)
 	if err != nil {
 		return
@@ -49,7 +48,7 @@ func wwww81newcomBookInfo(body io.Reader) (s *store.Store, err error) {
 
 	// Contents
 	node_content := htmlquery.Find(doc, `//*[@class="ml_list"]/ul/li/a`)
-	if len(node_desc) == 0 {
+	if len(node_content) == 0 {
 		err = fmt.Errorf("No matching contents")
 		return
 	}
@@ -87,7 +86,6 @@ var wwww81newcom = SiteA{
 	},
 	BookInfo: wwww81newcomBookInfo,
 	Chapter: func(body io.Reader) ([]string, error) {
-		body = transform.NewReader(body, simplifiedchinese.GBK.NewDecoder())
 		doc, err := htmlquery.Parse(body)
 		if err != nil {
 			return nil, err

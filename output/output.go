@@ -8,9 +8,11 @@ import (
 )
 
 func init() {
-	RegOutputFormat("epub", &EPUB{})
+	formatMap = make(map[string][]Conversion)
 	RegOutputFormat("md", &Markdown{})
+	RegOutputFormat("epub", &PandocEPUB{})
 	RegOutputFormat("txt", &TXT{})
+	// RegOutputFormat("epub", &EPUB{})
 }
 
 // Option is Convert output options
@@ -23,22 +25,28 @@ type Conversion interface {
 	Conv(src store.Store, outpath string, opts Option) error
 }
 
-var formatMap = map[string]Conversion{}
+var formatMap = map[string][]Conversion{}
 
 var (
 	ErrUnsupportFormat = fmt.Errorf("Unsupport Conversion Format")
 )
 
 func RegOutputFormat(s string, conv Conversion) {
-	formatMap[s] = conv
+	formatMap[s] = append(formatMap[s], conv)
 }
 
 func Output(src store.Store, format string, outpath string, opts Option) (err error) {
 	var c Conversion
-	conver, ok := formatMap[format]
+	convers, ok := formatMap[format]
 	if !ok {
 		err = ErrUnsupportFormat
+		return
 	}
+	if len(convers) == 0 {
+		err = ErrUnsupportFormat
+		return
+	}
+	conver := convers[0]
 	c = reflect.New(reflect.TypeOf(conver).Elem()).Interface().(Conversion)
 	return c.Conv(src, outpath, opts)
 }

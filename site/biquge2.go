@@ -8,8 +8,6 @@ import (
 
 	"github.com/antchfx/htmlquery"
 	"github.com/ma6254/FictionDown/store"
-	"golang.org/x/text/encoding/simplifiedchinese"
-	"golang.org/x/text/transform"
 )
 
 var biquge2 = SiteA{
@@ -20,7 +18,6 @@ var biquge2 = SiteA{
 		`https://www\.bqg5200\.com/xiaoshuo/\d+/\d+/\d+\.html`,
 	},
 	BookInfo: func(body io.Reader) (s *store.Store, err error) {
-		body = transform.NewReader(body, simplifiedchinese.GBK.NewDecoder())
 		doc, err := htmlquery.Parse(body)
 		if err != nil {
 			return
@@ -61,7 +58,6 @@ var biquge2 = SiteA{
 		return
 	},
 	Chapter: func(body io.Reader) ([]string, error) {
-		body = transform.NewReader(body, simplifiedchinese.GBK.NewDecoder())
 		doc, err := htmlquery.Parse(body)
 		if err != nil {
 			return nil, err

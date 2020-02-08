@@ -11,12 +11,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-yaml/yaml"
 	"github.com/ma6254/FictionDown/matching"
 	"github.com/ma6254/FictionDown/site"
 	"github.com/ma6254/FictionDown/store"
 	"github.com/urfave/cli"
 	processbar "gopkg.in/cheggaaa/pb.v1"
+	"gopkg.in/yaml.v2"
 )
 
 var (

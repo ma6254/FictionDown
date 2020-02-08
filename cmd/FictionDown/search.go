@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"strings"
 
 	"github.com/ma6254/FictionDown/utils"
 
-	"github.com/go-yaml/yaml"
 	"github.com/ma6254/FictionDown/site"
+	"gopkg.in/yaml.v2"
 
 	"github.com/urfave/cli"
 )
@@ -36,7 +37,7 @@ var search = cli.Command{
 		if !c.Bool("put") {
 			fmt.Printf("搜索到%d个内容:\n", len(r))
 			for _, v := range r {
-				fmt.Printf("%s %s %s\n", v.BookURL, v.BookName, v.Author)
+				fmt.Printf("%s %s %s\n", v.BookName, v.Author, v.BookURL)
 			}
 		} else {
 			err := initLoadStore(c)
@@ -45,12 +46,15 @@ var search = cli.Command{
 			}
 			rrr := []site.ChaperSearchResult{}
 			for _, v := range r {
-				if (v.Author == chapter.Author) && (v.BookName == chapter.BookName) {
+				if (strings.Contains(v.Author, chapter.Author)) && (v.BookName == chapter.BookName) {
 					log.Printf("%s %s %s", v.BookURL, v.BookName, v.Author)
 					rrr = append(rrr, v)
 				}
 			}
 			for _, v := range rrr {
+				if strings.Contains(v.BookURL, chapter.BookURL) {
+					continue
+				}
 				chapter.Tmap = append(chapter.Tmap, v.BookURL)
 			}
 			chapter.Tmap = utils.TupleSlice(chapter.Tmap)

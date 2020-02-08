@@ -1,13 +1,18 @@
 package site
 
 import (
+	"bytes"
 	"fmt"
 	"io"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"regexp"
+	"strings"
 
 	"github.com/ma6254/FictionDown/store"
+	"golang.org/x/text/transform"
 )
 
 type ErrUnsupportSite struct {
@@ -27,12 +32,15 @@ func (e ErrMethodMissing) Error() string {
 }
 
 var Sitepool = []SiteA{
-	qidian,
-	wwww81newcom,
+	// wwww81newcom,
 	dingdian,
-	biquge1,
+	// biquge1,
 	biquge2,
 	biquge3,
+}
+
+func addSite(site SiteA) {
+	Sitepool = append(Sitepool, site)
 }
 
 type SiteA struct {
@@ -129,7 +137,21 @@ func BookInfo(BookURL string) (s *store.Store, err error) {
 		return nil, ErrMethodMissing{ms}
 	}
 
-	chapter, err := ms.BookInfo(resp.Body)
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return
+	}
+	var body io.Reader = bytes.NewReader(bodyBytes)
+
+	if strings.Contains(resp.Header.Get("Content-Type"), "text/html") {
+		encode := detectContentCharset(bytes.NewReader(bodyBytes))
+		body = transform.NewReader(body, encode.NewDecoder())
+	}
+
+	chapter, err := ms.BookInfo(body)
+	if err != nil {
+		return nil, err
+	}
 	chapter.BookURL = BookURL
 
 	for v1, k1 := range chapter.Volumes {
@@ -184,7 +206,19 @@ func Chapter(BookURL string) (content []string, err error) {
 	if resp.StatusCode != 200 {
 		return nil, fmt.Errorf("%#v %s", BookURL, resp.Status)
 	}
-	return ms.Chapter(resp.Body)
+
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return
+	}
+	var body io.Reader = bytes.NewReader(bodyBytes)
+
+	if strings.Contains(resp.Header.Get("Content-Type"), "text/html") {
+		encode := detectContentCharset(bytes.NewReader(bodyBytes))
+		body = transform.NewReader(body, encode.NewDecoder())
+	}
+
+	return ms.Chapter(body)
 }
 
 func Search(s string) (result []ChaperSearchResult, err error) {
@@ -194,8 +228,10 @@ func Search(s string) (result []ChaperSearchResult, err error) {
 		}
 		r, err := v.Search(s)
 		if err != nil {
-			return nil, err
+			log.Printf("搜索站点: %s %s %s", v.Name, v.HomePage, err)
+			continue
 		}
+		log.Printf("搜索站点: 结果: %d %s %s", len(r), v.Name, v.HomePage)
 		result = append(result, r...)
 	}
 	return
