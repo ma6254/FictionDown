@@ -3,6 +3,8 @@ package matching
 import (
 	"log"
 	"testing"
+
+	"github.com/ma6254/FictionDown/utils"
 )
 
 func TestTitleAlias(t *testing.T) {
@@ -64,7 +66,7 @@ func TestTitleAlias(t *testing.T) {
 		ret := TitleAlias(v.Src)
 		log.Printf("alias: %#v", ret)
 		for _, v := range v.Dst {
-			if !StringInSlice(v, ret) {
+			if !utils.StringInSlice(v, ret) {
 				t.Fatalf("want %#v in %#v", v, ret)
 			}
 		}

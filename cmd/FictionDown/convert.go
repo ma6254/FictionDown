@@ -10,7 +10,7 @@ import (
 )
 
 var convert = cli.Command{
-	Name:    "Convert",
+	Name:    "convert",
 	Usage:   "转换格式输出",
 	Aliases: []string{"conv"},
 	Flags: []cli.Flag{
