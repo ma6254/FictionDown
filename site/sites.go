@@ -36,7 +36,14 @@ func Type1BookInfo(nameExpr, coverExpr, authorExpr, chapterExpr string) func(bod
 			return
 		}
 		s = &store.Store{}
-		s.BookName = htmlquery.InnerText(htmlquery.FindOne(doc, nameExpr))
+		var tmpNode *html.Node
+
+		tmpNode = htmlquery.FindOne(doc, nameExpr)
+		if tmpNode == nil {
+			err = fmt.Errorf("No matching bookName")
+			return
+		}
+		s.BookName = htmlquery.InnerText(tmpNode)
 
 		if coverExpr == "" {
 			// log.Printf("Empty Cover Image Expr")

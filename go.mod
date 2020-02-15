@@ -9,7 +9,6 @@ require (
 	github.com/bmaupin/go-epub v0.5.0
 	github.com/chromedp/chromedp v0.3.0
 	github.com/fatih/color v1.7.0 // indirect
-	github.com/go-yaml/yaml v2.1.0+incompatible
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.1 // indirect
 	github.com/mattn/go-runewidth v0.0.4 // indirect
