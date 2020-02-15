@@ -9,56 +9,11 @@
 [![last-commit](https://img.shields.io/github/last-commit/ma6254/FictionDown.svg)](https://github.com/ma6254/FictionDown/commits)
 [![Download Count](https://img.shields.io/github/downloads/ma6254/FictionDown/total.svg)](https://github.com/ma6254/FictionDown/releases)
 
-[![godoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/ma6254/FictionDown/)
+[![godoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://pkg.go.dev/github.com/ma6254/FictionDown/)
 [![QQ 群](https://img.shields.io/badge/qq%E7%BE%A4-934873832-orange.svg)](https://jq.qq.com/?_wv=1027&k=5bN0SVA)
 
 [![travis-ci](https://www.travis-ci.org/ma6254/FictionDown.svg?branch=master)](https://travis-ci.org/ma6254/FictionDown)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ma6254/FictionDown)](https://goreportcard.com/report/github.com/ma6254/FictionDown)
-
-## Usage
-
-```bash
-NAME:
-   FictionDown - https://github.com/ma6254/FictionDown
-
-USAGE:
-    [global options] command [command options] [arguments...]
-
-AUTHOR:
-   ma6254 <9a6c5609806a@gmail.com>
-
-COMMANDS:
-     download, d, down  下载缓存文件
-     check, c, chk      检查缓存文件
-     edit, e            对缓存文件进行手动修改
-     convert, conv      转换格式输出
-     pirate, p          检索盗版站点
-     search, s          检索盗版站点
-     help, h            Shows a list of commands or help for one command
-
-GLOBAL OPTIONS:
-   -u value, --url value     图书链接
-   --tu value, --turl value  资源网站链接
-   -i value, --input value   输入缓存文件
-   --log value               log file path
-   --driver value, -d value  请求方式,support: none,phantomjs,chromedp
-   --help, -h                show help
-   --version, -v             print the version
-```
-
-## 安装和编译
-
-程序为单执行文件，命令行 CLI 界面
-
-包管理为 gomod
-
-```bash
-go get github.com/ma6254/FictionDown/cmd/FictionDown
-```
-
-交叉编译需要安装 gox
-
-`make multiple_build`
 
 ## 特性
 
@@ -69,6 +24,23 @@ go get github.com/ma6254/FictionDown/cmd/FictionDown
 - 内置简单的广告过滤（现在还不完善）
 - 用 Golang 编写，安装部署方便，可选的外部依赖：PhantomJS、Chromedp
 - 支持断点续爬，强制结束再爬会在上次结束的地方继续
+
+## 站点支持
+
+- 是否正版：✅ 为正版站点 ❌ 为盗版站点
+- 是否分卷：✅ 章节分卷 ❌ 所有章节放在一个卷中不分卷
+- 站内搜索：✅ 完全支持 ❌ 不支持 ❔ 站点支持但软件未适配 ⚠️ 站点支持，但不可用或维护中 ⛔ 站点支持搜索，但没有好的适配方案（比如用 Google 做站内搜索）
+
+| 站点名称     | 网址              | 是否正版 | 是否分卷 | 支持站内搜索 | 代码文件              |
+| ------------ | ----------------- | -------- | -------- | ------------ | --------------------- |
+| 起点中文网   | www.qidian.com    | ✅       | ✅       | ✅           | site\qidian.go        |
+| 笔趣阁       | www.biquge5200.cc | ❌       | ❌       | ❔           | site\biquge.go        |
+| 笔趣阁 5200  | www.bqg5200.com   | ❌       | ❌       | ❔           | site\biquge2.go       |
+| 笔趣阁       | www.biqiuge.com   | ❌       | ❌       | ⚠️           | site\biquge3.go       |
+| 顶点小说     | www.booktxt.net   | ❌       | ❌       | ❔           | site\dingdian1.go     |
+| 新八一中文网 | www.81new.com     | ❌       | ❌       | ✅           | site\81new.go         |
+| 书迷楼       | www.shumil.co     | ❌       | ❌       | ✅           | site\shumil_co.go     |
+| 完本神站     | www.wanbentxt.com | ❌       | ❌       | ✅           | site\wanbentxt_com.go |
 
 ## 使用注意
 
@@ -141,7 +113,6 @@ go get github.com/ma6254/FictionDown/cmd/FictionDown
 - 支持 纵横中文网
 - 支持有毒小说网
 - 支持刺猬猫（即“欢乐书客”）
-- ~~支持小说站内搜索~~
 - 整理 main 包中的面条逻辑
 - 整理命令行参数风格
 - 完善广告过滤
@@ -152,14 +123,47 @@ go get github.com/ma6254/FictionDown/cmd/FictionDown
 - 支持章节更新
 - 章节匹配过程优化
 
-## 支持的盗版站点
+## Usage
 
-随机挑选了几个
+```bash
+NAME:
+   FictionDown - https://github.com/ma6254/FictionDown
 
-- www.biqiuge.com
-- www.biquge5200.cc
-- www.bqg5200.com
-- www.booktxt.net
-- www.81new.com
-- www.shumil.co
-- www.wanbentxt.com
+USAGE:
+    [global options] command [command options] [arguments...]
+
+AUTHOR:
+   ma6254 <9a6c5609806a@gmail.com>
+
+COMMANDS:
+     download, d, down  下载缓存文件
+     check, c, chk      检查缓存文件
+     edit, e            对缓存文件进行手动修改
+     convert, conv      转换格式输出
+     pirate, p          检索盗版站点
+     search, s          检索盗版站点
+     help, h            Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   -u value, --url value     图书链接
+   --tu value, --turl value  资源网站链接
+   -i value, --input value   输入缓存文件
+   --log value               log file path
+   --driver value, -d value  请求方式,support: none,phantomjs,chromedp
+   --help, -h                show help
+   --version, -v             print the version
+```
+
+## 安装和编译
+
+程序为单执行文件，命令行 CLI 界面
+
+包管理为 gomod
+
+```bash
+go get github.com/ma6254/FictionDown/cmd/FictionDown
+```
+
+交叉编译需要安装 gox
+
+`make multiple_build`
