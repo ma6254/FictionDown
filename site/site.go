@@ -33,7 +33,6 @@ func (e ErrMethodMissing) Error() string {
 }
 
 var Sitepool = []SiteA{
-	wwww81newcom,
 	dingdian,
 	biquge2,
 	biquge3,

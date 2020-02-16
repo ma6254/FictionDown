@@ -227,7 +227,13 @@ func Type1SearchAfter(
 		}
 		for _, v := range r {
 			s2 := htmlquery.FindOne(v, nameExpr)
+			if s2 == nil {
+				return nil, fmt.Errorf("No matching result name")
+			}
 			s4 := htmlquery.FindOne(v, authorExpr)
+			if s4 == nil {
+				return nil, fmt.Errorf("No matching result author")
+			}
 
 			u1, _ := url.Parse(htmlquery.SelectAttr(s2, "href"))
 

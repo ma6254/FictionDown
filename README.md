@@ -35,7 +35,7 @@
 | 站点名称     | 网址              | 是否正版 | 是否分卷 | 支持站内搜索 | 代码文件              |
 | ------------ | ----------------- | -------- | -------- | ------------ | --------------------- |
 | 起点中文网   | www.qidian.com    | ✅       | ✅       | ✅           | site\qidian.go        |
-| 笔趣阁       | www.biquge5200.cc | ❌       | ❌       | ❔           | site\biquge.go        |
+| 笔趣阁       | www.biquge5200.cc | ❌       | ❌       | ✅           | site\biquge.go        |
 | 笔趣阁 5200  | www.bqg5200.com   | ❌       | ❌       | ❔           | site\biquge2.go       |
 | 笔趣阁       | www.biqiuge.com   | ❌       | ❌       | ⚠️           | site\biquge3.go       |
 | 顶点小说     | www.booktxt.net   | ❌       | ❌       | ❔           | site\dingdian1.go     |
