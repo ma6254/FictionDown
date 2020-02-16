@@ -11,7 +11,7 @@ import (
 )
 
 var biquge3 = SiteA{
-	Name:     "笔趣阁",
+	Name:     "笔趣阁3",
 	HomePage: "https://www.biqiuge.com/",
 	Match: []string{
 		`https://www\.biqiuge\.com/book/\d+/*`,

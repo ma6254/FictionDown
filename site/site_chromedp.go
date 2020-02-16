@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/chromedp/chromedp"
 	"github.com/ma6254/FictionDown/store"
@@ -29,6 +30,7 @@ func ChromedpBookInfo(BookURL string, logfile string) (s *store.Store, err error
 
 	tasks := chromedp.Tasks{
 		chromedp.Navigate(BookURL),
+		chromedp.Sleep(2 * time.Second),
 		// chromedp.Text(`html`, &html, chromedp.ByQuery),
 		chromedp.OuterHTML(`html`, &html, chromedp.ByQuery),
 		// chromedp.WaitVisible(`html`, chromedp.ByQuery),
@@ -45,6 +47,10 @@ func ChromedpBookInfo(BookURL string, logfile string) (s *store.Store, err error
 	chapter, err := ms.BookInfo(strings.NewReader(html))
 	if err != nil {
 		return nil, err
+	}
+	if strings.TrimSpace(chapter.BookName) == "" {
+		err = fmt.Errorf("BookInfo Name is empty")
+		return
 	}
 
 	for v1, k1 := range chapter.Volumes {

@@ -14,8 +14,6 @@ script:
 notifications:
   email:
     recipients:
-      - 1172380450@qq.com
       - 9a6c5609806a@gmail.com
-      - ma6254ma@163.com
     on_success: change
     on_failure: always

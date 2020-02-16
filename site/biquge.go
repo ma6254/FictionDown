@@ -15,7 +15,7 @@ import (
 
 func init() {
 	addSite(SiteA{
-		Name:     "笔趣阁",
+		Name:     "笔趣阁1",
 		HomePage: "https://www.biquge5200.cc/",
 		Match: []string{
 			`https://www\.biquge5200\.cc/\d+_\d+/*`,

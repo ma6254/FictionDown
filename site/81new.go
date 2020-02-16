@@ -81,7 +81,7 @@ var wwww81newcom = SiteA{
 	Name:     "新八一中文网",
 	HomePage: "https://www.81new.com/",
 	Match: []string{
-		`https://www\.81new\.com/\d+/\d+/*`,
+		`https://www\.81new\.com/\d+/\d+/`,
 		`https://www\.81new\.com/\d+/\d+/d+\.html`,
 	},
 	BookInfo: wwww81newcomBookInfo,

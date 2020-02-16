@@ -106,7 +106,7 @@ func detectContentCharset(body io.Reader) encoding.Encoding {
 	return e
 }
 
-func GetWegPageDOM(u string) (node *html.Node, err error) {
+func GetWebPageBodyReader(u string) (r io.Reader, err error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", u, nil)
 	if err != nil {
@@ -120,7 +120,6 @@ func GetWegPageDOM(u string) (node *html.Node, err error) {
 	if err != nil {
 		return
 	}
-	defer resp.Body.Close()
 
 	bodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -131,6 +130,14 @@ func GetWegPageDOM(u string) (node *html.Node, err error) {
 	if strings.Contains(resp.Header.Get("Content-Type"), "text/html") {
 		encode := detectContentCharset(bytes.NewReader(bodyBytes))
 		body = transform.NewReader(body, encode.NewDecoder())
+	}
+	return body, nil
+}
+
+func GetWegPageDOM(u string) (node *html.Node, err error) {
+	body, err := GetWebPageBodyReader(u)
+	if err != nil {
+		return
 	}
 	return htmlquery.Parse(body)
 }

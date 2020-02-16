@@ -166,11 +166,22 @@ func Type2Chapter(expr string, next func(doc *html.Node) *html.Node, block func(
 	}
 }
 
+type SearchFunc func(s string) (result []ChaperSearchResult, err error)
+
 // Type1Search 搜索类型1: 搜索后得到302跳转或者列表的
 func Type1Search(
 	URL string,
 	getReq func(s string) *http.Request,
 	resultExpr, nameExpr, authorExpr string) func(s string) (result []ChaperSearchResult, err error) {
+	return Type1SearchAfter(URL, getReq, resultExpr, nameExpr, authorExpr, nil)
+}
+
+// Type1SearchAfter 搜索类型1: 搜索后得到302跳转或者列表的
+func Type1SearchAfter(
+	URL string,
+	getReq func(s string) *http.Request,
+	resultExpr, nameExpr, authorExpr string,
+	after func(r ChaperSearchResult) ChaperSearchResult) func(s string) (result []ChaperSearchResult, err error) {
 	return func(s string) (result []ChaperSearchResult, err error) {
 		req := getReq(s)
 		resp, err := http.DefaultClient.Do(req)
@@ -185,11 +196,15 @@ func Type1Search(
 			if err != nil {
 				return nil, e
 			}
-			result = append(result, ChaperSearchResult{
+			r := ChaperSearchResult{
 				BookName: store.BookName,
 				Author:   store.Author,
 				BookURL:  resp.Request.URL.String(),
-			})
+			}
+			if after != nil {
+				r = after(r)
+			}
+			result = append(result, r)
 			return result, nil
 		}
 
@@ -220,6 +235,9 @@ func Type1Search(
 				BookName: htmlquery.InnerText(s2),
 				Author:   htmlquery.InnerText(s4),
 				BookURL:  resp.Request.URL.ResolveReference(u1).String(),
+			}
+			if after != nil {
+				r = after(r)
 			}
 			result = append(result, r)
 		}

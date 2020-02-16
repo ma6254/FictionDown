@@ -3,6 +3,7 @@ package site
 import (
 	"net/http"
 	"net/url"
+	"strings"
 
 	"github.com/ma6254/FictionDown/utils"
 )
@@ -21,7 +22,7 @@ func init() {
 			`//a[starts-with(@href, "/zuozhe/")]/text()`,
 			`//div[@class="content"]/div[@class="list"]/ul/li/a`),
 		Chapter: Type1Chapter(`//*[@id="content"]/p[1]/text()`),
-		Search: Type1Search("http://www.shumil.co/search.php",
+		Search: Type1SearchAfter("http://www.shumil.co/search.php",
 			func(s string) *http.Request {
 				baseurl, err := url.Parse("http://www.shumil.co/search.php")
 				if err != nil {
@@ -42,6 +43,10 @@ func init() {
 			`//div[@class="content"]/div[@class="list"]/ul/li`,
 			`a`,
 			`text()`,
+			func(r ChaperSearchResult) ChaperSearchResult {
+				r.Author = strings.TrimPrefix(r.Author, "/")
+				return r
+			},
 		),
 	})
 }

@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"regexp"
+	"runtime"
 	"strings"
 
 	"github.com/ma6254/FictionDown/store"
@@ -40,12 +41,16 @@ var Sitepool = []SiteA{
 }
 
 func addSite(site SiteA) {
+	_, filename, _, _ := runtime.Caller(1)
+	site.File = filename
 	Sitepool = append(Sitepool, site)
 }
 
 type SiteA struct {
 	Name     string // 站点名称
 	HomePage string // 站点首页
+
+	File string
 
 	// match url, look that https://godoc.org/path#Match
 	Match []string
@@ -152,6 +157,12 @@ func BookInfo(BookURL string) (s *store.Store, err error) {
 	if err != nil {
 		return nil, err
 	}
+
+	if strings.TrimSpace(chapter.BookName) == "" {
+		err = fmt.Errorf("BookInfo Name is empty")
+		return
+	}
+
 	chapter.BookURL = BookURL
 
 	for v1, k1 := range chapter.Volumes {
