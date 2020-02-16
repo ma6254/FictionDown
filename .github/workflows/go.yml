@@ -11,6 +11,11 @@ jobs:
           go-version: 1.13
         id: go
 
+      - name: setup env
+        run: |
+          echo "::set-env name=GOPATH::$(go env GOPATH)"
+          echo "::add-path::$(go env GOPATH)/bin"
+
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
 
@@ -23,7 +28,19 @@ jobs:
           fi
 
       - name: Build
-        run: go build -v .
+        run: |
+          make build_tool
+          mkdir release
+          cd release
+          make -f ../Makefile multiple_build
+          cd ..
+
+      - name: Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: release-build
+          path: release/FictionDown_*
+
   test:
     name: Test
     runs-on: ubuntu-latest
