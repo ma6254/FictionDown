@@ -18,8 +18,10 @@ jobs:
           args: check
 
       - name: Create release on GitHub
-        uses: docker://goreleaser/goreleaser:latest
+        uses: goreleaser/goreleaser-action@v1
         with:
-          args: release
+          version: latest
+          args: release --rm-dist
+          key: ${{ secrets.YOUR_PRIVATE_KEY }}
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
