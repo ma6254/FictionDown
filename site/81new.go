@@ -83,6 +83,8 @@ var wwww81newcom = SiteA{
 	Match: []string{
 		`https://www\.81new\.com/\d+/\d+/`,
 		`https://www\.81new\.com/\d+/\d+/d+\.html`,
+		`https://www\.81new\.net/\d+/\d+/`,
+		`https://www\.81new\.net/\d+/\d+/d+\.html`,
 	},
 	BookInfo: wwww81newcomBookInfo,
 	Chapter: func(body io.Reader) ([]string, error) {

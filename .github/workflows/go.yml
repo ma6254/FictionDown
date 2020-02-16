@@ -35,12 +35,6 @@ jobs:
           make -f ../Makefile multiple_build
           cd ..
 
-      - name: Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: release-build
-          path: release/FictionDown_*
-
   test:
     name: Test
     runs-on: ubuntu-latest

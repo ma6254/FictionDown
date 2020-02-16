@@ -87,8 +87,9 @@ func GenBookInfoSite(s SiteA) func(t *testing.T) {
 			Name:   "放开那个女巫",
 			Author: "二目",
 			URL: map[string]string{
-				"书迷楼":  "http://www.shumil.co/fangkainagenvwu/",
-				"完本神站": "https://www.wanbentxt.com/1949/",
+				"书迷楼":    "http://www.shumil.co/fangkainagenvwu/",
+				"完本神站":   "https://www.wanbentxt.com/1949/",
+				"新八一中文网": "https://www.81new.net/11/11609/",
 				// "起点中文网": "https://book.qidian.com/info/1003306811",
 			},
 		},

@@ -33,9 +33,8 @@ func (e ErrMethodMissing) Error() string {
 }
 
 var Sitepool = []SiteA{
-	// wwww81newcom,
+	wwww81newcom,
 	dingdian,
-	// biquge1,
 	biquge2,
 	biquge3,
 }
@@ -122,7 +121,7 @@ func BookInfo(BookURL string) (s *store.Store, err error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", BookURL, nil)
 	if err != nil {
-		return
+		return nil, err
 	}
 	req.Header.Add(
 		"user-agent",
@@ -130,7 +129,7 @@ func BookInfo(BookURL string) (s *store.Store, err error) {
 	)
 	resp, err := client.Do(req)
 	if err != nil {
-		return
+		return nil, err
 	}
 	defer resp.Body.Close()
 
