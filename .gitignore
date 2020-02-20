@@ -1,4 +1,5 @@
-/release/
+/release
+/dist
 
 # Book file
 *.epub 

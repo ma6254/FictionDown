@@ -10,9 +10,11 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/antchfx/htmlquery"
 	"github.com/ma6254/FictionDown/store"
+	"github.com/ma6254/FictionDown/utils"
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/charset"
 	"golang.org/x/text/encoding"
@@ -184,16 +186,21 @@ func Type1SearchAfter(
 	after func(r ChaperSearchResult) ChaperSearchResult) func(s string) (result []ChaperSearchResult, err error) {
 	return func(s string) (result []ChaperSearchResult, err error) {
 		req := getReq(s)
-		resp, err := http.DefaultClient.Do(req)
-		if err != nil {
-			return
+		var (
+			resp *http.Response
+		)
+		if err = utils.Retry(5, time.Millisecond*500, func() error {
+			resp, err = http.DefaultClient.Do(req)
+			return err
+		}); err != nil {
+			return nil, err
 		}
 		defer resp.Body.Close()
 
 		if req.URL.String() != resp.Request.URL.String() {
 			// 单个搜索结果
 			store, e := BookInfo(resp.Request.URL.String())
-			if err != nil {
+			if e != nil {
 				return nil, e
 			}
 			r := ChaperSearchResult{

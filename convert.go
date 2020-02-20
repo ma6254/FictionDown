@@ -47,7 +47,7 @@ var convert = cli.Command{
 			return nil
 		}
 
-		var ConversionFileName string
+		ConversionFileName := outputpath
 		if outputpath == "" {
 			ConversionFileName = fmt.Sprintf("%s.%s", chapter.BookName, format)
 		}

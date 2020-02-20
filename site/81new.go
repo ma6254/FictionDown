@@ -12,7 +12,6 @@ import (
 	"github.com/antchfx/htmlquery"
 	"github.com/ma6254/FictionDown/store"
 	"github.com/ma6254/FictionDown/utils"
-	"golang.org/x/text/encoding/simplifiedchinese"
 	"golang.org/x/text/transform"
 )
 
@@ -62,12 +61,10 @@ func init() {
 				return
 			}
 			value := baseurl.Query()
-			gbk_word, _ := simplifiedchinese.GBK.NewEncoder().String(s)
-			value.Add("searchkey", gbk_word)
+			value.Add("searchkey", utils.U8ToGBK(s))
 			baseurl.RawQuery = value.Encode()
 
 			// Get WebPage
-
 			resp, err := utils.RequestGet(baseurl.String())
 			if err != nil {
 				return nil, err

@@ -3,13 +3,13 @@ package site
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/url"
 	"strings"
 	"time"
 
 	"github.com/chromedp/chromedp"
 	"github.com/ma6254/FictionDown/store"
+	"github.com/ma6254/FictionDown/utils"
 )
 
 func ChromedpBookInfo(BookURL string, logfile string) (s *store.Store, err error) {
@@ -36,12 +36,13 @@ func ChromedpBookInfo(BookURL string, logfile string) (s *store.Store, err error
 		// chromedp.WaitVisible(`html`, chromedp.ByQuery),
 	}
 
-	// create chrome instance
-	ctx, cancel := chromedp.NewContext(context.Background())
-	defer cancel()
-
-	if err := chromedp.Run(ctx, tasks...); err != nil {
-		log.Fatal(err)
+	if err = utils.Retry(5, time.Millisecond*500, func() error {
+		// create chrome instance
+		ctx, cancel := chromedp.NewContext(context.Background())
+		defer cancel()
+		return chromedp.Run(ctx, tasks...)
+	}); err != nil {
+		return nil, err
 	}
 
 	chapter, err := ms.BookInfo(strings.NewReader(html))

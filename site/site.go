@@ -6,13 +6,13 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
-	"net/http"
 	"net/url"
 	"regexp"
 	"runtime"
 	"strings"
 
 	"github.com/ma6254/FictionDown/store"
+	"github.com/ma6254/FictionDown/utils"
 	"golang.org/x/text/transform"
 )
 
@@ -117,25 +117,11 @@ func BookInfo(BookURL string) (s *store.Store, err error) {
 	}
 
 	// Get WebPage
-	client := &http.Client{}
-	req, err := http.NewRequest("GET", BookURL, nil)
-	if err != nil {
-		return nil, err
-	}
-	req.Header.Add(
-		"user-agent",
-		"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36",
-	)
-	resp, err := client.Do(req)
+	resp, err := utils.RequestGet(BookURL)
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
-
-	if resp.StatusCode != 200 {
-		return nil, fmt.Errorf("%d %v", resp.StatusCode, resp.Status)
-	}
-
 	if ms.BookInfo == nil {
 		return nil, ErrMethodMissing{ms}
 	}
@@ -197,34 +183,9 @@ func Chapter(BookURL string) (content []string, err error) {
 		return nil, err
 	}
 	// Get WebPage
-	client := &http.Client{}
-	req, err := http.NewRequest("GET", BookURL, nil)
+	body, err := utils.GetWebPageBodyReader(BookURL)
 	if err != nil {
-		return
-	}
-	req.Header.Add(
-		"user-agent",
-		"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36",
-	)
-	resp, err := client.Do(req)
-	if err != nil {
-		return
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != 200 {
-		return nil, fmt.Errorf("%#v %s", BookURL, resp.Status)
-	}
-
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return
-	}
-	var body io.Reader = bytes.NewReader(bodyBytes)
-
-	if strings.Contains(resp.Header.Get("Content-Type"), "text/html") {
-		encode := detectContentCharset(bytes.NewReader(bodyBytes))
-		body = transform.NewReader(body, encode.NewDecoder())
+		return nil, err
 	}
 
 	return ms.Chapter(body)

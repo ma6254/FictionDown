@@ -4,11 +4,12 @@ import (
 	"html/template"
 	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/ma6254/FictionDown/store"
+	"github.com/ma6254/FictionDown/utils"
 	"gopkg.in/yaml.v2"
 )
 
@@ -45,36 +46,20 @@ func (t *Markdown) Conv(src store.Store, outpath string, opts Option) (err error
 		}
 		if !opts.IgnoreCover {
 			if src.CoverURL != "" {
-				client := &http.Client{}
-				req, err := http.NewRequest("GET", src.CoverURL, nil)
+				body, err := utils.GetWebPageBodyReader(src.CoverURL)
 				if err != nil {
 					return err
 				}
-				req.Header.Add(
-					"user-agent",
-					"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Mobile Safari/537.36",
-				)
-				resp, err := client.Do(req)
-				if err != nil {
-					return err
-				}
-				defer resp.Body.Close()
-
-				coverBuf, err := ioutil.ReadAll(resp.Body)
-				if err != nil {
-					return err
-				}
-
 				tempfile, err := ioutil.TempFile("", "book_cover_*.jpg")
 				if err != nil {
 					return err
 				}
-
+				coverBuf, _ := ioutil.ReadAll(body)
 				ioutil.WriteFile(tempfile.Name(), coverBuf, 0775)
 
 				log.Printf("Save Cover Image: %#v", tempfile.Name())
 
-				meta.Cover = tempfile.Name()
+				meta.Cover = filepath.FromSlash(tempfile.Name())
 			}
 		}
 	}
@@ -117,7 +102,7 @@ func MarkdownEscape(s string) string {
 var MarkdownTemplate = `
 {{- if not .Opts.NoEPUBMetadata -}}
 ---
-{{.EPUBMeta | yaml_marshal}}
+{{.EPUBMeta | yaml_marshal -}}
 ---
 {{end -}}
 # 简介
