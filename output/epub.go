@@ -50,14 +50,14 @@ func (t *EPUB) Conv(src store.Store, outpath string, opts Option) (err error) {
 		return err
 	}
 	for k1, v1 := range src.Volumes {
-		for k2, v2 := range v1.Chapters {
+		for k2 := range v1.Chapters {
 			s := ""
 			// s += fmt.Sprintf(`<h1><a href=%#v>%s</a></h1>`, v2.URL, v2.Name)
-			s += fmt.Sprintf(`<h1>%s</h1>`, v2.Name)
-			for _, cc := range v2.Text {
+			s += fmt.Sprintf(`<h1>%s</h1>`, v1.Chapters[k2].Name)
+			for _, cc := range v1.Chapters[k2].Text {
 				s += fmt.Sprintf(`<p style="text-indent:2em">%s</p>`, cc)
 			}
-			_, err = e.AddSection(s, v2.Name, fmt.Sprintf("%d-%d.xhtml", k1, k2), "")
+			_, err = e.AddSection(s, v1.Chapters[k2].Name, fmt.Sprintf("%d-%d.xhtml", k1, k2), "")
 			if err != nil {
 				return err
 			}

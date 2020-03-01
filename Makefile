@@ -6,9 +6,10 @@ Package := "github.com/ma6254/FictionDown"
 
 LDFLAG := "\
 -s -w \
--X 'main.Version=${BUILD_VERSION}' \
--X 'main.CommitID=${COMMIT_ID}' \
--X 'main.BuildData=${BUILD_TIME}' \
+-X 'main.version=${BUILD_VERSION}' \
+-X 'main.commit=${COMMIT_ID}' \
+-X 'main.date=${BUILD_TIME}' \
+-X 'main.builBy=${git config user.name}' \
 "
 
 build_tool:

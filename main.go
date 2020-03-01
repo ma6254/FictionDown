@@ -20,11 +20,7 @@ import (
 
 var (
 	// Version git or release tag
-	Version = ""
-	// CommitID latest commit id
-	CommitID = ""
-	// BuildData build data
-	BuildData = ""
+	version, commit, date, builBy string
 )
 
 var (
@@ -33,6 +29,13 @@ var (
 	driver   = ""
 	chapter  *store.Store
 )
+
+var welcome = `
+ _____ _      _   _             ____                      
+|  ___(_) ___| |_(_) ___  _ __ |  _ \  _____      ___ __  
+| |_  | |/ __| __| |/ _ \| '_ \| | | |/ _ \ \ /\ / / '_ \ 
+|  _| | | (__| |_| | (_) | | | | |_| | (_) \ V  V /| | | |
+|_|   |_|\___|\__|_|\___/|_| |_|____/ \___/ \_/\_/ |_| |_|`
 
 var app = &cli.App{
 	Name:  "FictionDown",
@@ -62,6 +65,14 @@ var app = &cli.App{
 			Destination: &driver,
 		},
 	},
+	Before: func(ctx *cli.Context) error {
+		fmt.Println(strings.TrimLeft(welcome, "\r\n"))
+		fmt.Printf("\thttps://github.com/ma6254/FictionDown\n")
+		fmt.Printf("\tVersion %s\n", version)
+		fmt.Printf("\tCommitID: %s\n", commit)
+		fmt.Printf("\tBuild Data: %s\n", date)
+		return nil
+	},
 	Commands: []cli.Command{
 		download,
 		check,
@@ -75,14 +86,12 @@ var app = &cli.App{
 
 func main() {
 
-	app.Version = Version
+	app.Version = version
 	app.Authors = []cli.Author{
-		cli.Author{Name: "ma6254", Email: "9a6c5609806a@gmail.com"},
+		{Name: "ma6254", Email: "9a6c5609806a@gmail.com"},
 	}
 
-	if (BuildData != "") && (CommitID != "") {
-		app.Description = fmt.Sprintf("BuildData: %s\n   CommitID: %s ", BuildData, CommitID)
-	}
+	app.Description = fmt.Sprintf("BuildData: %s\n   CommitID: %s BuildBy %s", date, commit, builBy)
 
 	err := app.Run(os.Args)
 	if err != nil {

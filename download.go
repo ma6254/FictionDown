@@ -65,12 +65,6 @@ var download = cli.Command{
 			return err
 		}
 
-		if (CommitID != "") && (BuildData != "") && (Version != "") {
-			fmt.Printf("Commit ID: %s\n", CommitID)
-			fmt.Printf("Build Data: %s\n", BuildData)
-			fmt.Printf("Build Version: %s\n", Version)
-		}
-
 		if logfile := c.GlobalString("log"); logfile != "" {
 			fmt.Printf("Set log file: %s\n", logfile)
 			f, err := os.Create(logfile)
