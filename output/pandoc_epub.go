@@ -23,6 +23,7 @@ func (t *PandocEPUB) Conv(src store.Store, outpath string, opts Option) (err err
 	c := exec.Command(
 		"pandoc",
 		"--epub-chapter-level", "2",
+		"-f", "markdown-raw_tex",
 		"-o", outpath,
 		mdpath)
 	log.Printf("调用Pandoc: %#v %#v\n", c.Path, c.Args)
