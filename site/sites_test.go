@@ -76,7 +76,7 @@ func GenBookInfoSite(s SiteA) func(t *testing.T) {
 				"书迷楼":    "http://www.shumil.co/fangkainagenvwu/",
 				"完本神站":   "https://www.wanbentxt.com/1949/",
 				"新八一中文网": "https://www.81new.net/11/11609/",
-				// "起点中文网":  "https://book.qidian.com/info/1003306811",
+				"起点中文网":  "https://book.qidian.com/info/1003306811",
 			},
 		},
 		{
@@ -87,7 +87,18 @@ func GenBookInfoSite(s SiteA) func(t *testing.T) {
 				"书迷楼":    "http://www.shumil.co/limingzhijian/",
 				"新八一中文网": "https://www.81new.net/44/44290/",
 				"完本神站":   "https://www.wanbentxt.com/2817/",
-				// "起点中文网":  "https://book.qidian.com/info/1010400217",
+				"起点中文网":  "https://book.qidian.com/info/1010400217",
+			},
+		},
+		{
+			Name:   "异常生物见闻录",
+			Author: "远瞳",
+			URL: map[string]string{
+				"笔趣阁":    "https://www.biquge5200.cc/0_799/",
+				"书迷楼":    "http://www.shumil.co/yichangshengwujianwenlu/",
+				"起点中文网":  "https://book.qidian.com/info/3242304",
+				"完本神站":   "https://www.wanbentxt.com/643/",
+				"新八一中文网": "https://www.81new.net/15/15408/",
 			},
 		},
 		{

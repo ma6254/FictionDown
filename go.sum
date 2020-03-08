@@ -6,6 +6,8 @@ github.com/benbjohnson/phantomjs v0.0.0-20181211182228-6499a20f5cd6 h1:8M0IQG86r
 github.com/benbjohnson/phantomjs v0.0.0-20181211182228-6499a20f5cd6/go.mod h1:AnuTIiacTYWkfuqm8V2pSrShJokKKkNVoG4FyCc17q0=
 github.com/bmaupin/go-epub v0.5.0 h1:ptOZQuO3YBRytuhRPsHUJh5bRmvP66/GvB+NWTC2dyE=
 github.com/bmaupin/go-epub v0.5.0/go.mod h1:4RBr0Zo03mRGOyGAcc25eLOqIPCkMbfz+tINVmH6clQ=
+github.com/buger/jsonparser v0.0.0-20191204142016-1a29609e0929 h1:MW/JDk68Rny52yI0M0N+P8lySNgB+NhpI/uAmhgOhUM=
+github.com/buger/jsonparser v0.0.0-20191204142016-1a29609e0929/go.mod h1:tgcrVJ81GPSF0mz+0nu1Xaz0fazGPrmmJfJtxjbHhUQ=
 github.com/chromedp/cdproto v0.0.0-20190429085128-1aa4f57ff2a9 h1:ARnDd2vEk91rLNra8yk1hF40H8z+1HrD6juNpe7FsI0=
 github.com/chromedp/cdproto v0.0.0-20190429085128-1aa4f57ff2a9/go.mod h1:xquOK9dIGFlLaIGI4c6IyfLI/Gz0LiYYuJtzhsUODgI=
 github.com/chromedp/chromedp v0.3.0 h1:7/pwrXFRq6/ym3sxCykm90DMoyw6VKXY48DgGRgUURA=

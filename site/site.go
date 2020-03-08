@@ -153,8 +153,11 @@ func BookInfo(BookURL string) (s *store.Store, err error) {
 
 	for v1, k1 := range chapter.Volumes {
 		for v2, k2 := range k1.Chapters {
-			u1, _ := url.Parse(k2.URL)
-			chapter.Volumes[v1].Chapters[v2].URL = resp.Request.URL.ResolveReference(u1).String()
+			u1, err := resp.Request.URL.Parse(k2.URL)
+			if err != nil {
+				return nil, err
+			}
+			chapter.Volumes[v1].Chapters[v2].URL = u1.String()
 			// if !u.IsAbs() {
 			// 	u1.Scheme = resp.Request.URL.Scheme
 			// 	u1.Host = resp.Request.URL.Host

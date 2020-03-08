@@ -119,6 +119,7 @@ func GetWebPageBodyReader(u string) (r io.Reader, err error) {
 	}); err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
 
 	bodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {

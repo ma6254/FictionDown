@@ -52,6 +52,7 @@ type Volume struct {
 type Chapter struct {
 	Name    string
 	URL     string
+	IsVIP   bool `yaml:",omitempty"`
 	TURL    []string
 	Text    []string
 	Example []string

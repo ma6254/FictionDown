@@ -7,6 +7,7 @@ require (
 	github.com/antchfx/xpath v1.0.0 // indirect
 	github.com/benbjohnson/phantomjs v0.0.0-20181211182228-6499a20f5cd6
 	github.com/bmaupin/go-epub v0.5.0
+	github.com/buger/jsonparser v0.0.0-20191204142016-1a29609e0929
 	github.com/chromedp/chromedp v0.3.0
 	github.com/fatih/color v1.7.0 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
