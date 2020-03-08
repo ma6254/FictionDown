@@ -10,6 +10,8 @@ import (
 	"regexp"
 	"runtime"
 	"strings"
+	"sync"
+	"time"
 
 	"github.com/ma6254/FictionDown/store"
 	"github.com/ma6254/FictionDown/utils"
@@ -192,17 +194,44 @@ func Chapter(BookURL string) (content []string, err error) {
 }
 
 func Search(s string) (result []ChaperSearchResult, err error) {
+	var (
+		wg         sync.WaitGroup
+		resultLock = sync.Mutex{}
+	)
+
+	searchFunc := func(fn func([]ChaperSearchResult), is SiteA) {
+		defer wg.Done()
+		var (
+			err error
+			rr  []ChaperSearchResult
+		)
+
+		if err := utils.Retry(3, 1*time.Second, func() error {
+			rr, err = is.Search(s)
+			if err != nil {
+				log.Printf("Error: 搜索站点: %s %s %s", is.Name, is.HomePage, err)
+				return err
+			}
+			return nil
+		}); err != nil {
+			return
+		}
+		log.Printf("搜索站点: 结果: %d %s %s", len(rr), is.Name, is.HomePage)
+		resultLock.Lock()
+		defer resultLock.Unlock()
+		fn(rr)
+	}
+
 	for _, v := range Sitepool {
 		if v.Search == nil {
 			continue
 		}
-		r, err := v.Search(s)
-		if err != nil {
-			log.Printf("搜索站点: %s %s %s", v.Name, v.HomePage, err)
-			continue
-		}
-		log.Printf("搜索站点: 结果: %d %s %s", len(r), v.Name, v.HomePage)
-		result = append(result, r...)
+		log.Printf("开始搜索站点: %s %s", v.Name, v.HomePage)
+		wg.Add(1)
+		go searchFunc(func(r []ChaperSearchResult) {
+			result = append(result, r...)
+		}, v)
 	}
+	wg.Wait()
 	return
 }

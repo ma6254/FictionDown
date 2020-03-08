@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"testing"
+	"time"
 
 	"github.com/ma6254/FictionDown/store"
 	"github.com/ma6254/FictionDown/utils"
@@ -66,7 +67,38 @@ func GenBookInfoSite(s SiteA) func(t *testing.T) {
 		ChapterNum int               // 章节数目
 		URL        map[string]string // Key:SiteName Value:BookURL
 	}
-	CheckFunc := func(tc TestCase, st *store.Store) (err error) {
+	dd := []TestCase{
+		{
+			Name:   "放开那个女巫",
+			Author: "二目",
+			URL: map[string]string{
+				"笔趣阁1":   "https://www.biquge5200.cc/39_39136/",
+				"书迷楼":    "http://www.shumil.co/fangkainagenvwu/",
+				"完本神站":   "https://www.wanbentxt.com/1949/",
+				"新八一中文网": "https://www.81new.net/11/11609/",
+				// "起点中文网":  "https://book.qidian.com/info/1003306811",
+			},
+		},
+		{
+			Name:   "黎明之剑",
+			Author: "远瞳",
+			URL: map[string]string{
+				"笔趣阁1":   "https://www.biquge5200.cc/95_95192/",
+				"书迷楼":    "http://www.shumil.co/limingzhijian/",
+				"新八一中文网": "https://www.81new.net/44/44290/",
+				"完本神站":   "https://www.wanbentxt.com/2817/",
+				// "起点中文网":  "https://book.qidian.com/info/1010400217",
+			},
+		},
+		{
+			Name:   "战略级天使",
+			Author: "白伯欢",
+			URL: map[string]string{
+				"完本神站": "https://www.wanbentxt.com/15287/",
+			},
+		},
+	}
+	CheckFunc := func(t *testing.T, tc TestCase, st *store.Store) (err error) {
 		if tc.Name != st.BookName {
 			return fmt.Errorf("BookName check does not match")
 		}
@@ -80,21 +112,9 @@ func GenBookInfoSite(s SiteA) func(t *testing.T) {
 		if chapterNum == 0 {
 			return fmt.Errorf("ChapterNum check does not match")
 		}
+		t.Logf("%s %s %s %d", tc.Name, tc.Author, st.BookURL, chapterNum)
 		return
 	}
-	dd := []TestCase{
-		{
-			Name:   "放开那个女巫",
-			Author: "二目",
-			URL: map[string]string{
-				"书迷楼":    "http://www.shumil.co/fangkainagenvwu/",
-				"完本神站":   "https://www.wanbentxt.com/1949/",
-				"新八一中文网": "https://www.81new.net/11/11609/",
-				// "起点中文网": "https://book.qidian.com/info/1003306811",
-			},
-		},
-	}
-
 	return func(t *testing.T) {
 		t.Parallel()
 		var (
@@ -117,7 +137,7 @@ func GenBookInfoSite(s SiteA) func(t *testing.T) {
 				t.Fail()
 				continue
 			}
-			if err = CheckFunc(d, st); err != nil {
+			if err = CheckFunc(t, d, st); err != nil {
 				t.Logf("%s", err)
 				t.Fail()
 				continue
@@ -137,6 +157,7 @@ func GenSearchSite(s SiteA) func(t *testing.T) {
 		{"底栖魔鱼日记", "辣鸡葱花"},
 		{"俺，龙领主", "熊瀚"},
 		{"红龙", "接口卡"},
+		{"战略级天使", "白伯欢"},
 	}
 	return func(t *testing.T) {
 		t.Parallel()
@@ -150,8 +171,17 @@ func GenSearchSite(s SiteA) func(t *testing.T) {
 		}
 		isOK := false
 		for _, b := range dd {
-			result, err := s.Search(b.Name)
-			if err != nil {
+			var (
+				result []ChaperSearchResult
+				err    error
+			)
+			if utils.Retry(3, 1*time.Second, func() error {
+				result, err = s.Search(b.Name)
+				if err != nil {
+					return err
+				}
+				return nil
+			}); err != nil {
 				t.Fatalf("%s %s %s", s.Name, s.HomePage, err)
 			}
 			for _, r := range result {
