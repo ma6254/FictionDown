@@ -41,4 +41,6 @@ Thumbs.db
 # Files generated during the test process #
 Test*.yml
 
+node_modules
+
 # End of https://www.gitignore.io/api/go

@@ -86,6 +86,7 @@ func Type1BookInfo(nameExpr, coverExpr, authorExpr, chapterExpr string) func(bod
 	}
 }
 
+// Type1Chapter 小说章节段落匹配
 func Type1Chapter(expr string) func(body io.Reader) ([]string, error) {
 	return func(body io.Reader) ([]string, error) {
 		doc, err := htmlquery.Parse(body)
