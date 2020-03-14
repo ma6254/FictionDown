@@ -1,28 +1,30 @@
-package site
+package shumil_co
 
 import (
 	"net/http"
 	"net/url"
 	"strings"
 
+	"github.com/ma6254/FictionDown/site"
 	"github.com/ma6254/FictionDown/utils"
 )
 
-func init() {
-	addSite(SiteA{
+func Site() site.SiteA {
+	return site.SiteA{
 		Name:     "书迷楼",
 		HomePage: "http://www.shumil.co/",
+		Tags:     func() []string { return []string{"盗版", "优质书源"} },
 		Match: []string{
 			`http\??://www\.shumil\.co/\w+/`,
 			`http\??://www\.shumil\.co/\w+/\d+\.html`,
 		},
-		BookInfo: Type1BookInfo(
+		BookInfo: site.Type1BookInfo(
 			`//div[@class="content"]/div[@class="list"]/div[@class="tit"]/b`,
 			``,
 			`//a[starts-with(@href, "/zuozhe/")]/text()`,
 			`//div[@class="content"]/div[@class="list"]/ul/li/a`),
-		Chapter: Type1Chapter(`//*[@id="content"]/p[1]/text()`),
-		Search: Type1SearchAfter("http://www.shumil.co/search.php",
+		Chapter: site.Type1Chapter(`//*[@id="content"]/p[1]/text()`),
+		Search: site.Type1SearchAfter("http://www.shumil.co/search.php",
 			func(s string) *http.Request {
 				baseurl, err := url.Parse("http://www.shumil.co/search.php")
 				if err != nil {
@@ -43,10 +45,10 @@ func init() {
 			`//div[@class="content"]/div[@class="list"]/ul/li`,
 			`a`,
 			`text()`,
-			func(r ChaperSearchResult) ChaperSearchResult {
+			func(r site.ChaperSearchResult) site.ChaperSearchResult {
 				r.Author = strings.TrimPrefix(r.Author, "/")
 				return r
 			},
 		),
-	})
+	}
 }

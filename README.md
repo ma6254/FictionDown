@@ -38,7 +38,7 @@
 | 笔趣阁       | www.biquge5200.cc | ❌       | ❌       | ✅           | site\biquge.go        |
 | 笔趣阁 5200  | www.bqg5200.com   | ❌       | ❌       | ❔           | site\biquge2.go       |
 | 笔趣阁       | www.biqiuge.com   | ❌       | ❌       | ⚠️           | site\biquge3.go       |
-| 顶点小说     | www.booktxt.net   | ❌       | ❌       | ❔           | site\dingdian1.go     |
+| 顶点小说     | www.booktxt.net   | ❌       | ❌       | ✅           | site\dingdian1.go     |
 | 新八一中文网 | www.81new.com     | ❌       | ❌       | ✅           | site\81new.go         |
 | 书迷楼       | www.shumil.co     | ❌       | ❌       | ✅           | site\shumil_co.go     |
 | 完本神站     | www.wanbentxt.com | ❌       | ❌       | ✅           | site\wanbentxt_com.go |

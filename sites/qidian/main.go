@@ -1,4 +1,4 @@
-package site
+package qidian
 
 import (
 	"encoding/json"
@@ -13,6 +13,7 @@ import (
 
 	"github.com/antchfx/htmlquery"
 	"github.com/buger/jsonparser"
+	"github.com/ma6254/FictionDown/site"
 	"github.com/ma6254/FictionDown/store"
 	"github.com/ma6254/FictionDown/utils"
 	"gopkg.in/yaml.v2"
@@ -23,10 +24,11 @@ func SingleSpace(s string) (r string) {
 	return rex.ReplaceAllString(s, " ")
 }
 
-func init() {
-	addSite(SiteA{
+func Site() site.SiteA {
+	return site.SiteA{
 		Name:     "起点中文网",
 		HomePage: "https://www.qidian.com/",
+		Tags:     site.AddTag(nil, "正版", "阅文集团"),
 		Match: []string{
 			`https://book\.qidian\.com/info/\d+/*(#\w+)?`,
 			`https://read\.qidian\.com/chapter/[\w_-]+/[\w_-]+/*`,
@@ -130,7 +132,7 @@ func init() {
 			}
 			return M, nil
 		},
-		Search: Type1Search("",
+		Search: site.Type1Search("",
 			func(s string) *http.Request {
 				baseurl, err := url.Parse("https://www.qidian.com/search")
 				if err != nil {
@@ -149,7 +151,7 @@ func init() {
 			`//div[(@class="book-mid-info") and (./h4/a/cite/@class="red-kw") ]`,
 			`h4/a`,
 			`p/a[@class="name"]/text()`),
-	})
+	}
 }
 
 type qidianAPIStatus struct {

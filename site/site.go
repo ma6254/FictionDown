@@ -35,14 +35,14 @@ func (e ErrMethodMissing) Error() string {
 }
 
 var Sitepool = []SiteA{
-	dingdian,
-	biquge2,
-	biquge3,
+	// biquge2,
 }
 
-func addSite(site SiteA) {
-	_, filename, _, _ := runtime.Caller(1)
-	site.File = filename
+func AddSite(site SiteA) {
+	if site.File == "" {
+		_, filename, _, _ := runtime.Caller(1)
+		site.File = filename
+	}
 	Sitepool = append(Sitepool, site)
 }
 
@@ -56,13 +56,16 @@ type SiteA struct {
 	Match []string
 
 	// search book on site
-	Search func(s string) (result []ChaperSearchResult, err error)
+	Search func(s string) (result []ChaperSearchResult, err error) `json:"-"`
 
 	// parse fiction info by page body
-	BookInfo func(body io.Reader) (s *store.Store, err error)
+	BookInfo func(body io.Reader) (s *store.Store, err error) `json:"-"`
 
 	// parse fiction chaper content by page body
-	Chapter func(body io.Reader) (content []string, err error)
+	Chapter func(body io.Reader) (content []string, err error) `json:"-"`
+
+	// get site tags
+	Tags func() []string `json:"-"`
 }
 
 // MatchOne match one site, is use `MatchSites` first result
@@ -74,19 +77,19 @@ func MatchOne(pool []SiteA, u string) (*SiteA, error) {
 	if len(a) == 0 {
 		return nil, ErrUnsupportSite{u}
 	}
-	return &a[0], nil
+	return a[0], nil
 }
 
 // MatchSites match all site
-func MatchSites(pool []SiteA, u string) ([]SiteA, error) {
-	var result = []SiteA{}
-	for _, v := range pool {
-		ok, err := v.match(u)
+func MatchSites(pool []SiteA, u string) ([]*SiteA, error) {
+	var result = []*SiteA{}
+	for k := range pool {
+		ok, err := pool[k].match(u)
 		if err != nil {
 			return nil, err
 		}
 		if ok {
-			result = append(result, v)
+			result = append(result, &pool[k])
 		}
 	}
 	return result, nil
@@ -135,7 +138,7 @@ func BookInfo(BookURL string) (s *store.Store, err error) {
 	var body io.Reader = bytes.NewReader(bodyBytes)
 
 	if strings.Contains(resp.Header.Get("Content-Type"), "text/html") {
-		encode := detectContentCharset(bytes.NewReader(bodyBytes))
+		encode := utils.DetectContentCharset(bytes.NewReader(bodyBytes))
 		body = transform.NewReader(body, encode.NewDecoder())
 	}
 
@@ -148,6 +151,8 @@ func BookInfo(BookURL string) (s *store.Store, err error) {
 		err = fmt.Errorf("BookInfo Name is empty")
 		return
 	}
+
+	chapter.Author = strings.Replace(chapter.Author, "\u00a0", "", -1)
 
 	chapter.BookURL = BookURL
 

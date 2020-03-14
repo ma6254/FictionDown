@@ -1,4 +1,4 @@
-package site
+package wanbentxt
 
 import (
 	"log"
@@ -7,24 +7,26 @@ import (
 	"strings"
 
 	"github.com/antchfx/htmlquery"
+	"github.com/ma6254/FictionDown/site"
 	"github.com/ma6254/FictionDown/utils"
 	"golang.org/x/net/html"
 )
 
-func init() {
-	addSite(SiteA{
+func Site() site.SiteA {
+	return site.SiteA{
 		Name:     "完本神站",
 		HomePage: "https://www.wanbentxt.com/",
+		Tags:     func() []string { return []string{"盗版", "优质书源"} },
 		Match: []string{
 			`https://www\.wanbentxt\.com/\d+/`,
 			`https://www\.wanbentxt\.com/\d+/\d+\.html`,
 		},
-		BookInfo: Type1BookInfo(
+		BookInfo: site.Type1BookInfo(
 			`//div[@class="detailTitle"]/h1/text()`,
 			`//div[@class="detailTopLeft"]/img/@src`,
 			`//div[@class="detailTopMid"]/div[@class="writer"]/a/text()`,
 			`//div[@class="chapter"]/ul/li/a`),
-		Chapter: Type2Chapter(`//div[@class="readerCon"]/p/text()`, func(doc *html.Node) *html.Node {
+		Chapter: site.Type2Chapter(`//div[@class="readerCon"]/p/text()`, func(doc *html.Node) *html.Node {
 			nextNode := htmlquery.FindOne(doc, `//div[@class="readPage"]/a[3]`)
 			if nextNode == nil {
 				return nil
@@ -50,7 +52,7 @@ func init() {
 			}
 			return b[:len(b)-1]
 		}),
-		Search: Type1Search(
+		Search: site.Type1Search(
 			"",
 			func(s string) *http.Request {
 				baseurl, err := url.Parse("https://www.wanbentxt.com/modules/article/search.php")
@@ -71,5 +73,5 @@ func init() {
 			`//div[@class="result"]/div[@class="resultLeft"]/ul/li/div[@class="sortPhr"]`,
 			`a`,
 			`p[@class="author"]/a/text()`),
-	})
+	}
 }

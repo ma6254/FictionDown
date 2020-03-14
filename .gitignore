@@ -38,4 +38,7 @@ Thumbs.db
 /vendor/
 /Godeps/
 
+# Files generated during the test process #
+Test*.yml
+
 # End of https://www.gitignore.io/api/go

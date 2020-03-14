@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/ma6254/FictionDown/site"
+	"github.com/ma6254/FictionDown/sites"
 	"github.com/ma6254/FictionDown/store"
 
 	"github.com/urfave/cli"
@@ -68,9 +69,15 @@ var app = &cli.App{
 	Before: func(ctx *cli.Context) error {
 		fmt.Println(strings.TrimLeft(welcome, "\r\n"))
 		fmt.Printf("\thttps://github.com/ma6254/FictionDown\n")
-		fmt.Printf("\tVersion %s\n", version)
-		fmt.Printf("\tCommitID: %s\n", commit)
-		fmt.Printf("\tBuild Data: %s\n", date)
+		if version != "" {
+			fmt.Printf("\tVersion %s\n", version)
+		}
+		if commit != "" {
+			fmt.Printf("\tCommitID: %s\n", commit)
+		}
+		if date != "" {
+			fmt.Printf("\tBuild Data: %s\n", date)
+		}
 		return nil
 	},
 	Commands: []cli.Command{
@@ -93,6 +100,7 @@ func main() {
 
 	app.Description = fmt.Sprintf("BuildData: %s\n   CommitID: %s BuildBy %s", date, commit, builBy)
 
+	sites.InitSites()
 	err := app.Run(os.Args)
 	if err != nil {
 		log.Fatal(err)
@@ -240,8 +248,6 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 			switch deiver {
 			case 0:
 				content, err = site.Chapter(BookURL[P])
-			case 1:
-				content, err = site.PhChapter(BookURL[P])
 			default:
 				jobch <- fmt.Errorf("爬取方式错误: %d", deiver)
 				break A
@@ -383,22 +389,6 @@ func initLoadStore(c *cli.Context) error {
 		}
 		log.Printf("URL: %#v", bookURL.String())
 		switch c.GlobalString("driver") {
-		case "phantomjs":
-			log.Printf("Init PhantomJS")
-			site.InitPhantomJS()
-			defer func() {
-				log.Printf("Close PhantomJS")
-				site.ClosePhantomJS()
-			}()
-			for errCount := 0; errCount < 20; errCount++ {
-				chapter, err = site.PhBookInfo(bookURL.String())
-				if err == nil {
-					break
-				} else {
-					log.Printf("ErrCount: %d Err: %s", errCount, err)
-					time.Sleep(1000 * time.Millisecond)
-				}
-			}
 		case "chromedp":
 			log.Printf("Chromedp Running...")
 			chapter, err = site.ChromedpBookInfo(bookURL.String(), c.String("chromedp-log"))

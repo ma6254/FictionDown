@@ -84,7 +84,7 @@ var search = cli.Command{
 				switch fileext {
 				case "", ".json":
 					saveformat = "json"
-				case ".yaml":
+				case ".yaml", ".yml":
 					saveformat = "yaml"
 				default:
 					return fmt.Errorf("Unsupported file extension %s", fileext)
@@ -96,7 +96,7 @@ var search = cli.Command{
 				dumpFunc = func(v interface{}) ([]byte, error) {
 					return json.MarshalIndent(v, "", "\t")
 				}
-			case "yaml", "yml":
+			case "yaml":
 				dumpFunc = yaml.Marshal
 			default:
 				return fmt.Errorf("unsupport marshal format: %s", saveformat)
@@ -141,7 +141,12 @@ var search = cli.Command{
 		for _, v := range rr {
 			fmt.Printf("书名: %s 作者: %s %d个书源\n", v.Name, v.Author, len(v.Urls))
 			for _, u := range v.Urls {
-				fmt.Printf("\t%s\n", u)
+				matchSite, err := site.MatchOne(site.Sitepool, u)
+				n := matchSite.Name
+				if err != nil {
+					n = "无匹配站点"
+				}
+				fmt.Printf("\t%#v : %#v\n", n, u)
 			}
 		}
 		return nil

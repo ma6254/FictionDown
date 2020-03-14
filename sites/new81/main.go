@@ -1,4 +1,4 @@
-package site
+package new81
 
 import (
 	"bytes"
@@ -10,15 +10,17 @@ import (
 	"strings"
 
 	"github.com/antchfx/htmlquery"
+	"github.com/ma6254/FictionDown/site"
 	"github.com/ma6254/FictionDown/store"
 	"github.com/ma6254/FictionDown/utils"
 	"golang.org/x/text/transform"
 )
 
-func init() {
-	addSite(SiteA{
+func Site() site.SiteA {
+	return site.SiteA{
 		Name:     "新八一中文网",
 		HomePage: "https://www.81new.net/",
+		Tags:     func() []string { return []string{"盗版", "优质书源"} },
 		Match: []string{
 			`https://www\.81new\.net/\d+/\d+/`,
 			`https://www\.81new\.net/\d+/\d+/d+\.html`,
@@ -55,7 +57,7 @@ func init() {
 
 			return M, nil
 		},
-		Search: func(s string) (result []ChaperSearchResult, err error) {
+		Search: func(s string) (result []site.ChaperSearchResult, err error) {
 			baseurl, err := url.Parse("https://www.81new.net/modules/article/search.php")
 			if err != nil {
 				return
@@ -76,7 +78,7 @@ func init() {
 				return nil, err
 			}
 			var body io.Reader = bytes.NewReader(bodyBytes)
-			encode := detectContentCharset(bytes.NewReader(bodyBytes))
+			encode := utils.DetectContentCharset(bytes.NewReader(bodyBytes))
 			body = transform.NewReader(body, encode.NewDecoder())
 
 			if regexp.MustCompile(`/modules/article/search\.php`).MatchString(resp.Request.URL.Path) {
@@ -91,7 +93,7 @@ func init() {
 				}
 				for _, v := range r[1:] {
 					a := htmlquery.FindOne(v, `/*[1]/a`)
-					r := ChaperSearchResult{
+					r := site.ChaperSearchResult{
 						BookName: htmlquery.InnerText(a),
 						Author:   htmlquery.InnerText(htmlquery.FindOne(v, `/*[3]`)),
 						BookURL:  htmlquery.SelectAttr(a, "href"),
@@ -104,7 +106,7 @@ func init() {
 				if err != nil {
 					return nil, err
 				}
-				result = append(result, ChaperSearchResult{
+				result = append(result, site.ChaperSearchResult{
 					BookName: store.BookName,
 					Author:   store.Author,
 					BookURL:  resp.Request.URL.String(),
@@ -113,7 +115,7 @@ func init() {
 
 			return
 		},
-	})
+	}
 }
 
 func wwww81newcomBookInfo(body io.Reader) (s *store.Store, err error) {

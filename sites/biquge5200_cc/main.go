@@ -1,4 +1,4 @@
-package site
+package biquge5200_cc
 
 import (
 	"fmt"
@@ -7,16 +7,25 @@ import (
 	"strings"
 
 	"github.com/antchfx/htmlquery"
+	"github.com/ma6254/FictionDown/site"
 	"github.com/ma6254/FictionDown/store"
 	"github.com/ma6254/FictionDown/utils"
 	"golang.org/x/text/encoding/simplifiedchinese"
 	"golang.org/x/text/transform"
 )
 
-func init() {
-	addSite(SiteA{
+func Site() site.SiteA {
+	return site.SiteA{
 		Name:     "笔趣阁1",
 		HomePage: "https://www.biquge5200.cc/",
+		Tags: func() []string {
+			return []string{
+				"盗版",
+				"一般书源",
+				"PTCMS",
+				"笔趣阁",
+			}
+		},
 		Match: []string{
 			`https://www\.biquge5200\.cc/\d+_\d+/*`,
 			`https://www\.biquge5200\.cc/\d+_\d+/\d+\.html/*`,
@@ -100,7 +109,7 @@ func init() {
 
 			return M, nil
 		},
-		Search: func(s string) (result []ChaperSearchResult, err error) {
+		Search: func(s string) (result []site.ChaperSearchResult, err error) {
 			baseurl, err := url.Parse("https://www.biquge5200.cc/modules/article/search.php")
 			if err != nil {
 				return
@@ -128,7 +137,7 @@ func init() {
 
 			for _, v := range r[1:] {
 				a := htmlquery.FindOne(v, `/*[1]/a`)
-				r := ChaperSearchResult{
+				r := site.ChaperSearchResult{
 					BookName: htmlquery.InnerText(a),
 					Author:   htmlquery.InnerText(htmlquery.FindOne(v, `/*[3]`)),
 					BookURL:  htmlquery.SelectAttr(a, "href"),
@@ -137,5 +146,5 @@ func init() {
 			}
 			return
 		},
-	})
+	}
 }

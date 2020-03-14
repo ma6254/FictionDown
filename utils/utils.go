@@ -28,7 +28,7 @@ func RequestGet(u string) (resp *http.Response, err error) {
 		"user-agent",
 		"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36",
 	)
-	err = Retry(10, time.Millisecond*500, func() error {
+	err = Retry(3, time.Millisecond*500, func() error {
 		resp, err = client.Do(req)
 		if err != nil {
 			return err
@@ -100,7 +100,7 @@ func U8ToGBK(a string) string {
 	return b
 }
 
-func detectContentCharset(body io.Reader) encoding.Encoding {
+func DetectContentCharset(body io.Reader) encoding.Encoding {
 	data, err := bufio.NewReader(body).Peek(1024)
 	if err != nil {
 		panic(err)
@@ -128,7 +128,7 @@ func GetWebPageBodyReader(u string) (r io.Reader, err error) {
 	var body io.Reader = bytes.NewReader(bodyBytes)
 
 	if strings.Contains(resp.Header.Get("Content-Type"), "text/html") {
-		encode := detectContentCharset(bytes.NewReader(bodyBytes))
+		encode := DetectContentCharset(bytes.NewReader(bodyBytes))
 		body = transform.NewReader(body, encode.NewDecoder())
 	}
 	return body, nil

@@ -1,7 +1,6 @@
 package site
 
 import (
-	"bufio"
 	"bytes"
 	"fmt"
 	"io"
@@ -16,19 +15,8 @@ import (
 	"github.com/ma6254/FictionDown/store"
 	"github.com/ma6254/FictionDown/utils"
 	"golang.org/x/net/html"
-	"golang.org/x/net/html/charset"
-	"golang.org/x/text/encoding"
 	"golang.org/x/text/transform"
 )
-
-func detectContentCharset(body io.Reader) encoding.Encoding {
-	data, err := bufio.NewReader(body).Peek(1024)
-	if err != nil {
-		panic(err)
-	}
-	e, _, _ := charset.DetermineEncoding(data, "")
-	return e
-}
 
 // Type1BookInfo 书籍信息页，单页，无翻页，无分卷
 func Type1BookInfo(nameExpr, coverExpr, authorExpr, chapterExpr string) func(body io.Reader) (s *store.Store, err error) {
@@ -220,7 +208,7 @@ func Type1SearchAfter(
 			return
 		}
 		var body io.Reader = bytes.NewReader(bodyBytes)
-		encode := detectContentCharset(bytes.NewReader(bodyBytes))
+		encode := utils.DetectContentCharset(bytes.NewReader(bodyBytes))
 		body = transform.NewReader(body, encode.NewDecoder())
 
 		doc, err := htmlquery.Parse(body)
