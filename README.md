@@ -18,6 +18,10 @@ FictionDown 是一个命令行界面的小说爬取工具
 [![travis-ci](https://www.travis-ci.org/ma6254/FictionDown.svg?branch=master)](https://travis-ci.org/ma6254/FictionDown)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ma6254/FictionDown)](https://goreportcard.com/report/github.com/ma6254/FictionDown)
 
+## 文档
+
+文档目前「指南」部分已完成，你可以在[这里](https://ma6254.github.io/FictionDown/)查看。
+
 ## 特性
 
 - 以起点为样本，多站点多线程爬取校对
