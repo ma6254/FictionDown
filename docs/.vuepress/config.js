@@ -4,6 +4,7 @@ module.exports = {
     markdown: {
         lineNumbers: true
     },
+    base: '/FictionDown/',
     themeConfig: {
         repo: 'ma6254/FictionDown',
         docsDir: 'docs',
