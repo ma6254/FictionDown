@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>快速上手 | FictionDown</title>
+    <meta name="description" content="FictionDown 小说爬取">
+    <meta name="generator" content="VuePress 1.3.1">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.0a95e718.css" as="style"><link rel="preload" href="/assets/js/app.498b5ac3.js" as="script"><link rel="preload" href="/assets/js/2.a3a7faba.js" as="script"><link rel="preload" href="/assets/js/9.fbdc85ba.js" as="script"><link rel="prefetch" href="/assets/js/10.986264de.js"><link rel="prefetch" href="/assets/js/11.51bb3375.js"><link rel="prefetch" href="/assets/js/3.79bc8e71.js"><link rel="prefetch" href="/assets/js/4.9f8e46ef.js"><link rel="prefetch" href="/assets/js/5.7d20b452.js"><link rel="prefetch" href="/assets/js/6.96e1ba9b.js"><link rel="prefetch" href="/assets/js/7.f81d39f4.js"><link rel="prefetch" href="/assets/js/8.6435e48a.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.0a95e718.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">FictionDown</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/guide/" class="nav-link router-link-active">
+  指南
+</a></div><div class="nav-item"><a href="/api/" class="nav-link">
+  API
+</a></div> <a href="https://github.com/ma6254/FictionDown" target="_blank" rel="noopener noreferrer" class="repo-link">
+    查看源码
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/guide/" class="nav-link router-link-active">
+  指南
+</a></div><div class="nav-item"><a href="/api/" class="nav-link">
+  API
+</a></div> <a href="https://github.com/ma6254/FictionDown" target="_blank" rel="noopener noreferrer" class="repo-link">
+    查看源码
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><a href="/guide/" class="sidebar-heading clickable router-link-active open"><span>指南</span> <!----></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/guide/install.html" class="sidebar-link">编译安装</a></li><li><a href="/guide/quickstart.html" class="active sidebar-link">快速上手</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/guide/quickstart.html#直接爬取盗版源" class="sidebar-link">直接爬取盗版源</a></li><li class="sidebar-sub-header"><a href="/guide/quickstart.html#爬取正版源再补充盗版源" class="sidebar-link">爬取正版源再补充盗版源</a></li><li class="sidebar-sub-header"><a href="/guide/quickstart.html#转换格式输出" class="sidebar-link">转换格式输出</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/guide/quickstart.html#输出-txt" class="sidebar-link">输出 TXT</a></li><li class="sidebar-sub-header"><a href="/guide/quickstart.html#直接输出-epub" class="sidebar-link">直接输出 EPUB</a></li></ul></li><li class="sidebar-sub-header"><a href="/guide/quickstart.html#搜索书籍" class="sidebar-link">搜索书籍</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/guide/quickstart.html#搜索结果保存为文件" class="sidebar-link">搜索结果保存为文件</a></li><li class="sidebar-sub-header"><a href="/guide/quickstart.html#输出在终端里" class="sidebar-link">输出在终端里</a></li></ul></li></ul></li><li><a href="/guide/source.html" class="sidebar-link">添加自定义书源</a></li></ul></section></li><li><a href="/api/" class="sidebar-link">API</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="快速上手"><a href="#快速上手" class="header-anchor">#</a> 快速上手</h1> <h2 id="直接爬取盗版源"><a href="#直接爬取盗版源" class="header-anchor">#</a> 直接爬取盗版源</h2> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>NAME:
+    download - 下载缓存文件
+
+USAGE:
+    download <span class="token punctuation">[</span>command options<span class="token punctuation">]</span> <span class="token punctuation">[</span>arguments<span class="token punctuation">..</span>.<span class="token punctuation">]</span>
+
+OPTIONS:
+   -t value              线程数 <span class="token punctuation">(</span>default: <span class="token number">10</span><span class="token punctuation">)</span>
+   -f value              输出格式
+   -o value              输出路径
+   --chromedp-log value  Chromedp log <span class="token function">file</span>
+   --tsleep value        章节爬取间隔 <span class="token punctuation">(</span>default: 200ms<span class="token punctuation">)</span>
+   --errsleep value      章节爬取错误间隔 <span class="token punctuation">(</span>default: 500ms<span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>在不指定输出路径时，默认为<code>{书名}-{作者}-{站点}.FictionDown</code></p> <p>例如如下的命令将输出文件为<code>奥术神座-爱潜水的乌贼-书迷楼.FictionDown</code></p> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>╰─$ FictionDown --url http://www.shumil.co/aoshushenzuo/ d
+<span class="token number">2020</span>/03/15 00:42:59 URL: <span class="token string">&quot;http://www.shumil.co/aoshushenzuo/&quot;</span>
+<span class="token number">2020</span>/03/15 00:42:59 use golang default http
+<span class="token number">2020</span>/03/15 00:43:00 Loading<span class="token punctuation">..</span><span class="token punctuation">..</span>
+书名: <span class="token string">&quot;奥术神座&quot;</span>
+作者: <span class="token string">&quot;爱潜水的乌贼&quot;</span>
+封面:
+简介:
+
+章节数:
+        正文卷<span class="token punctuation">(</span>免费<span class="token punctuation">)</span> <span class="token number">1082</span>章
+<span class="token number">2020</span>/03/15 00:43:00 线程数: <span class="token number">10</span>,预缓存中<span class="token punctuation">..</span>.
+<span class="token number">2020</span>/03/15 00:43:00 <span class="token punctuation">[</span>读入<span class="token punctuation">]</span> 已缓存:45 样本:0 完成样本:0
+ <span class="token number">1082</span> / <span class="token number">1082</span> <span class="token punctuation">[</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token number">100.00</span>% 3m4s
+<span class="token number">2020</span>/03/15 00:46:05 缓存完成
+<span class="token number">2020</span>/03/15 00:46:05 生成别名
+<span class="token number">2020</span>/03/15 00:46:06 <span class="token punctuation">[</span>爬取结束<span class="token punctuation">]</span> 已缓存:1082 样本:0 完成样本:0
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h2 id="爬取正版源再补充盗版源"><a href="#爬取正版源再补充盗版源" class="header-anchor">#</a> 爬取正版源再补充盗版源</h2> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>FictionDown --url https://book.qidian.com/info/1009968948 d
+FictionDown -i 绝对交易-隐语者-起点中文网.FictionDown s -k 绝对交易 -p
+FictionDown -i 绝对交易-隐语者-起点中文网.FictionDown d
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h2 id="转换格式输出"><a href="#转换格式输出" class="header-anchor">#</a> 转换格式输出</h2> <p>Usage 如下：</p> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>NAME:
+    convert - 转换格式输出
+
+USAGE:
+    convert <span class="token punctuation">[</span>command options<span class="token punctuation">]</span> <span class="token punctuation">[</span>arguments<span class="token punctuation">..</span>.<span class="token punctuation">]</span>
+
+OPTIONS:
+   -f value            输出格式
+   -o value            输出路径
+   --ignore_cover      忽略封面
+   --no-EPUB-metadata  禁用EPUB元数据
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><h3 id="输出-txt"><a href="#输出-txt" class="header-anchor">#</a> 输出 TXT</h3> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>FictionDown -i 绝对交易-隐语者-起点中文网.FictionDown conv -f txt
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h3 id="直接输出-epub"><a href="#直接输出-epub" class="header-anchor">#</a> 直接输出 EPUB</h3> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>FictionDown -i 绝对交易-隐语者-起点中文网.FictionDown conv -f epub
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h2 id="搜索书籍"><a href="#搜索书籍" class="header-anchor">#</a> 搜索书籍</h2> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>AME:
+    search - 检索盗版站点
+
+USAGE:
+    search <span class="token punctuation">[</span>command options<span class="token punctuation">]</span> <span class="token punctuation">[</span>arguments<span class="token punctuation">..</span>.<span class="token punctuation">]</span>
+
+OPTIONS:
+   -k value, --keyword value  搜索关键词
+   --put, -p                  对比并放入缓存文件
+   --save value, -s value     searh and save to <span class="token function">file</span> 搜索结果存储
+   --format value, -f value   save <span class="token function">format</span> support json,yaml 存储格式
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><h3 id="搜索结果保存为文件"><a href="#搜索结果保存为文件" class="header-anchor">#</a> 搜索结果保存为文件</h3> <p>支持 json 和 yaml 格式，当只指定文件名而不指定格式时，将会识别文件扩展名作为格式</p> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>╰─$ FictionDown s -k <span class="token string">&quot;诡秘&quot;</span> -s a.yml
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><div class="language-bash line-numbers-mode"><pre class="language-bash"><code>╰─$ FictionDown s -k <span class="token string">&quot;诡秘&quot;</span> -s a.json
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h3 id="输出在终端里"><a href="#输出在终端里" class="header-anchor">#</a> 输出在终端里</h3> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>╰─$ FictionDown s -k <span class="token string">&quot;诡秘&quot;</span>
+<span class="token number">2020</span>/03/15 01:09:53 开始搜索站点: 起点中文网 https://www.qidian.com/
+<span class="token number">2020</span>/03/15 01:09:53 开始搜索站点: 完本神站 https://www.wanbentxt.com/
+<span class="token number">2020</span>/03/15 01:09:53 开始搜索站点: 书迷楼 http://www.shumil.co/
+<span class="token number">2020</span>/03/15 01:09:53 开始搜索站点: 新八一中文网 https://www.81new.net/
+<span class="token number">2020</span>/03/15 01:09:53 开始搜索站点: 顶点小说 https://www.booktxt.net/
+<span class="token number">2020</span>/03/15 01:09:53 开始搜索站点: 笔趣阁1 https://www.biquge5200.cc/
+<span class="token number">2020</span>/03/15 01:09:53 搜索站点: 结果: <span class="token number">7</span> 书迷楼 http://www.shumil.co/
+<span class="token number">2020</span>/03/15 01:09:53 搜索站点: 结果: <span class="token number">10</span> 起点中文网 https://www.qidian.com/
+<span class="token number">2020</span>/03/15 01:09:54 搜索站点: 结果: <span class="token number">17</span> 笔趣阁1 https://www.biquge5200.cc/
+<span class="token number">2020</span>/03/15 01:09:54 搜索站点: 结果: <span class="token number">10</span> 顶点小说 https://www.booktxt.net/
+<span class="token number">2020</span>/03/15 01:09:54 搜索站点: 结果: <span class="token number">5</span> 完本神站 https://www.wanbentxt.com/
+<span class="token number">2020</span>/03/15 01:09:55 搜索站点: 结果: <span class="token number">24</span> 新八一中文网 https://www.81new.net/
+搜索到41个内容:
+书名: 诡秘世界之旅 作者: 梦里几度寒秋 <span class="token number">6</span>个书源
+        <span class="token string">&quot;书迷楼&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.shumil.co/guimishijiezhilv/&quot;</span>
+        <span class="token string">&quot;起点中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://book.qidian.com/info/1015609520&quot;</span>
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/123_123176/&quot;</span>
+        <span class="token string">&quot;顶点小说&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.booktxt.net/book/goto/id/16070&quot;</span>
+        <span class="token string">&quot;完本神站&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.wanbentxt.com/16638/&quot;</span>
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/131/131496/&quot;</span>
+书名: 诡秘之主 作者: 爱潜水的乌贼 <span class="token number">6</span>个书源
+        <span class="token string">&quot;书迷楼&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.shumil.co/guimizhizhu/&quot;</span>
+        <span class="token string">&quot;起点中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://book.qidian.com/info/1010868264&quot;</span>
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/94_94525/&quot;</span>
+        <span class="token string">&quot;顶点小说&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.booktxt.net/book/goto/id/5552&quot;</span>
+        <span class="token string">&quot;完本神站&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.wanbentxt.com/853/&quot;</span>
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/34/34569/&quot;</span>
+书名: 诡秘神探 作者: 残剑 <span class="token number">5</span>个书源
+        <span class="token string">&quot;书迷楼&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.shumil.co/guimishentan/&quot;</span>
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/126_126408/&quot;</span>
+        <span class="token string">&quot;顶点小说&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.booktxt.net/book/goto/id/18142&quot;</span>
+        <span class="token string">&quot;完本神站&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.wanbentxt.com/20149/&quot;</span>
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/139/139778/&quot;</span>
+书名: 诡秘无限 作者: 柒月海岸 <span class="token number">3</span>个书源
+        <span class="token string">&quot;起点中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://book.qidian.com/info/1016934876&quot;</span>
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/130_130271/&quot;</span>
+        <span class="token string">&quot;顶点小说&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.booktxt.net/book/goto/id/19660&quot;</span>
+书名: 诡秘三千藏 作者: 八黎 <span class="token number">3</span>个书源
+        <span class="token string">&quot;书迷楼&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.shumil.co/guimisanqiancang/&quot;</span>
+        <span class="token string">&quot;完本神站&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.wanbentxt.com/8481/&quot;</span>
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/105/105720/&quot;</span>
+书名: 诡秘力量 作者: 潇湘夫子 <span class="token number">3</span>个书源
+        <span class="token string">&quot;起点中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://book.qidian.com/info/1016911451&quot;</span>
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/127_127572/&quot;</span>
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/143/143310/&quot;</span>
+书名: 光掩黑色：诡秘女探 作者: 青丝染霜 <span class="token number">3</span>个书源
+        <span class="token string">&quot;书迷楼&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.shumil.co/guangyanheiseguiminvtan/&quot;</span>
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/103_103830/&quot;</span>
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/99/99938/&quot;</span>
+书名: 诡秘邪典 作者: 花生和尚 <span class="token number">3</span>个书源
+        <span class="token string">&quot;起点中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://book.qidian.com/info/1017679642&quot;</span>
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/131_131743/&quot;</span>
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/147/147554/&quot;</span>
+书名: 诡秘妖异之变 作者: 星点烽火 <span class="token number">3</span>个书源
+        <span class="token string">&quot;书迷楼&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.shumil.co/guimiyaoyizhibian/&quot;</span>
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/97_97317/&quot;</span>
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/107/107732/&quot;</span>
+书名: 诡秘魔术师 作者: 浮世黄粱 <span class="token number">2</span>个书源
+        <span class="token string">&quot;完本神站&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.wanbentxt.com/5759/&quot;</span>
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/113/113779/&quot;</span>
+书名: 诡秘档案之追凶 作者: 隐蔽者 <span class="token number">2</span>个书源
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/112_112741/&quot;</span>
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/111/111369/&quot;</span>
+书名: 诡秘之王 作者: 妖异君 <span class="token number">2</span>个书源
+        <span class="token string">&quot;起点中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://book.qidian.com/info/1015636402&quot;</span>
+        <span class="token string">&quot;顶点小说&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.booktxt.net/book/goto/id/14077&quot;</span>
+书名: 诡秘邮件 作者: 一口老仙 <span class="token number">2</span>个书源
+        <span class="token string">&quot;起点中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://book.qidian.com/info/1016716524&quot;</span>
+        <span class="token string">&quot;顶点小说&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.booktxt.net/book/goto/id/19984&quot;</span>
+书名: 诡秘之梦 作者: 洒家随风 <span class="token number">2</span>个书源
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/128_128260/&quot;</span>
+        <span class="token string">&quot;顶点小说&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.booktxt.net/book/goto/id/19709&quot;</span>
+书名: 一个诡秘作家的自我修养 作者: 月宫陈树 <span class="token number">2</span>个书源
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/129_129010/&quot;</span>
+        <span class="token string">&quot;顶点小说&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.booktxt.net/book/goto/id/20547&quot;</span>
+书名: 夜不语诡秘档案 作者: 夜不语 <span class="token number">1</span>个书源
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/58/58299/&quot;</span>
+书名: 诡秘狂欢 作者: 反派驾到 <span class="token number">1</span>个书源
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/110_110484/&quot;</span>
+书名: 诡秘的禁地 作者: 黎钥 <span class="token number">1</span>个书源
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/90_90335/&quot;</span>
+书名: 灵魂诡秘 作者: 越月约 <span class="token number">1</span>个书源
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/127/127170/&quot;</span>
+书名: 灵岛诡秘 作者: 落花蝶 <span class="token number">1</span>个书源
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/57/57188/&quot;</span>
+书名: 诡秘妖主 作者: 槐风眠 <span class="token number">1</span>个书源
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/144/144864/&quot;</span>
+书名: 诡秘游戏 作者: 九三曰 <span class="token number">1</span>个书源
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/123_123188/&quot;</span>
+书名: 诡秘侦探所 作者: 君公子墨 <span class="token number">1</span>个书源
+        <span class="token string">&quot;起点中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://book.qidian.com/info/1019622326&quot;</span>
+书名: 诡秘探索 作者: 低等水平 <span class="token number">1</span>个书源
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/135/135594/&quot;</span>
+书名: 诡秘事件簿 作者: 漠然旅者 <span class="token number">1</span>个书源
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/107/107664/&quot;</span>
+书名: 诡秘来袭 作者: 六小卿 <span class="token number">1</span>个书源
+        <span class="token string">&quot;起点中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://book.qidian.com/info/1017261930&quot;</span>
+书名: 道士诡秘手札 作者: 枫叶恋秋落 <span class="token number">1</span>个书源
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/59/59174/&quot;</span>
+书名: 诡秘怪谈 作者: 神鬼测 <span class="token number">1</span>个书源
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/142/142779/&quot;</span>
+书名: 仙湖诡秘录 作者: 洛珩书 <span class="token number">1</span>个书源
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/72/72591/&quot;</span>
+书名: 诡秘迷宫 作者: 磐生莲儿 <span class="token number">1</span>个书源
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/109/109610/&quot;</span>
+书名: 诡秘的旅程 作者: 今天吃鱼 <span class="token number">1</span>个书源
+        <span class="token string">&quot;起点中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://book.qidian.com/info/1017733082&quot;</span>
+书名: 创造诡秘世界 作者: 奶茶会挖煤 <span class="token number">1</span>个书源
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/130_130587/&quot;</span>
+书名: 诡秘18月 作者: 磐生莲儿 <span class="token number">1</span>个书源
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/99/99820/&quot;</span>
+书名: 万佛诡秘 作者: 梦无命 <span class="token number">1</span>个书源
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/77/77826/&quot;</span>
+书名: 诡秘盒子 作者: 蛋煎平底锅 <span class="token number">1</span>个书源
+        <span class="token string">&quot;顶点小说&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.booktxt.net/book/goto/id/16639&quot;</span>
+书名: 诡秘昆仑 作者: 夏二公子 <span class="token number">1</span>个书源
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/142/142010/&quot;</span>
+书名: 捉诡秘记 作者: 天涯无月 <span class="token number">1</span>个书源
+        <span class="token string">&quot;新八一中文网&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.81new.net/28/28810/&quot;</span>
+书名: 诡秘管理员 作者: 陈知道 <span class="token number">1</span>个书源
+        <span class="token string">&quot;顶点小说&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.booktxt.net/book/goto/id/20919&quot;</span>
+书名: 诡秘之主笔趣 作者: 爱潜水的乌贼 <span class="token number">1</span>个书源
+        <span class="token string">&quot;书迷楼&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;http://www.shumil.co/guimizhizhubiqu/&quot;</span>
+书名: 能量进化 作者: 诡秘OL <span class="token number">1</span>个书源
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/64_64476/&quot;</span>
+书名: 时空穿梭的诡秘者 作者: 秀屿熙 <span class="token number">1</span>个书源
+        <span class="token string">&quot;笔趣阁1&quot;</span> <span class="token builtin class-name">:</span> <span class="token string">&quot;https://www.biquge5200.cc/49_49766/&quot;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br><span class="line-number">106</span><br><span class="line-number">107</span><br><span class="line-number">108</span><br><span class="line-number">109</span><br><span class="line-number">110</span><br><span class="line-number">111</span><br><span class="line-number">112</span><br><span class="line-number">113</span><br><span class="line-number">114</span><br><span class="line-number">115</span><br><span class="line-number">116</span><br><span class="line-number">117</span><br><span class="line-number">118</span><br><span class="line-number">119</span><br><span class="line-number">120</span><br><span class="line-number">121</span><br><span class="line-number">122</span><br><span class="line-number">123</span><br><span class="line-number">124</span><br><span class="line-number">125</span><br><span class="line-number">126</span><br><span class="line-number">127</span><br><span class="line-number">128</span><br></div></div></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/ma6254/FictionDown/edit/master/docs/guide/quickstart.md" target="_blank" rel="noopener noreferrer">帮助我们改善此页面！</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">3/14/2020, 6:18:55 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/guide/install.html" class="prev">
+        编译安装
+      </a></span> <span class="next"><a href="/guide/source.html">
+        添加自定义书源
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.498b5ac3.js" defer></script><script src="/assets/js/2.a3a7faba.js" defer></script><script src="/assets/js/9.fbdc85ba.js" defer></script>
+  </body>
+</html>
