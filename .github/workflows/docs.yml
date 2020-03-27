@@ -19,9 +19,11 @@ jobs:
 
       - name: Yarn install
         run: yarn install
+        working-directory: ./docs
 
       - name: VuePress Build
         run: yarn docs:build
+        working-directory: ./docs
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v2

@@ -62,7 +62,7 @@ var app = &cli.App{
 		},
 		cli.StringFlag{
 			Name:        "driver,d",
-			Usage:       "请求方式,support: none,phantomjs,chromedp",
+			Usage:       "请求方式,support: none,chromedp",
 			Destination: &driver,
 		},
 	},

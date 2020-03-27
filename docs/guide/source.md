@@ -21,7 +21,7 @@
 
 <https://github.com/ma6254/FictionDown/blob/master/sites/imports.go>
 
-<<< @/sites/imports.go
+<<< @/../sites/imports.go
 
 ## 通过配置文件添加书源
 

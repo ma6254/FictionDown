@@ -29,7 +29,7 @@ FictionDown 是一个命令行界面的小说爬取工具
 - 支持导出 epub(还有些问题，某些阅读器无法打开)
 - 支持导出 markdown，可以用 pandoc 转换成 epub，附带 epub 的`metadata`，保留书本信息、卷结构、作者信息
 - 内置简单的广告过滤（现在还不完善）
-- 用 Golang 编写，安装部署方便，可选的外部依赖：PhantomJS、Chromedp
+- 用 Golang 编写，安装部署方便，可选的外部依赖：Chromedp
 - 支持断点续爬，强制结束再爬会在上次结束的地方继续
 
 ## 站点支持

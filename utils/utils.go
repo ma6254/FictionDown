@@ -28,6 +28,7 @@ func RequestGet(u string) (resp *http.Response, err error) {
 		"user-agent",
 		"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36",
 	)
+
 	err = Retry(3, time.Millisecond*500, func() error {
 		resp, err = client.Do(req)
 		if err != nil {
@@ -103,6 +104,7 @@ func U8ToGBK(a string) string {
 func DetectContentCharset(body io.Reader) encoding.Encoding {
 	data, err := bufio.NewReader(body).Peek(1024)
 	if err != nil {
+		fmt.Printf("%s\n", err)
 		panic(err)
 	}
 	e, _, _ := charset.DetermineEncoding(data, "")

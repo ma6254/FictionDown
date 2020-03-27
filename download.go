@@ -219,7 +219,7 @@ var download = cli.Command{
 					if err != nil {
 						return err
 					}
-					log.Printf("请求盗版源信息: %s 书名:%#v 作者:%#v\n", ts.BookURL, ts.BookName, ts.Author)
+					log.Printf("请求源信息: %s 书名:%#v 作者:%#v\n", ts.BookURL, ts.BookName, ts.Author)
 
 					rr, err := regexp.Compile(`（[\S ]*）`)
 					if err != nil {
