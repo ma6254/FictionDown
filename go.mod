@@ -9,7 +9,6 @@ require (
 	github.com/buger/jsonparser v0.0.0-20191204142016-1a29609e0929
 	github.com/chromedp/chromedp v0.3.0
 	github.com/fatih/color v1.7.0 // indirect
-	github.com/fatih/structs v1.1.0 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.4 // indirect
 	github.com/mattn/go-isatty v0.0.10 // indirect

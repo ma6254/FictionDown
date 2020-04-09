@@ -6,6 +6,8 @@ import (
 	"net/url"
 	"strings"
 
+	fcontext "github.com/ma6254/FictionDown/context"
+
 	"github.com/antchfx/htmlquery"
 	"github.com/ma6254/FictionDown/site"
 	"github.com/ma6254/FictionDown/store"
@@ -87,8 +89,8 @@ func Site() site.SiteA {
 
 			return
 		},
-		Chapter: func(body io.Reader) ([]string, error) {
-			doc, err := htmlquery.Parse(body)
+		Chapter: func(ctx fcontext.Context) (content []string, err error) {
+			doc, err := htmlquery.Parse(ctx.Value(fcontext.KeyBody).(io.Reader))
 			if err != nil {
 				return nil, err
 			}

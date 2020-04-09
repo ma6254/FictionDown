@@ -200,7 +200,7 @@ func Job(syncStore *SyncStore, jobch chan error) {
 		for {
 			content, err := site.Chapter(BookURL)
 			if err != nil {
-				log.Printf("Error: %s", err)
+				log.Printf("Error: %s %s", err, BookURL)
 				time.Sleep(errSleep)
 				continue A
 			}

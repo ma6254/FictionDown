@@ -11,6 +11,8 @@ import (
 	"strings"
 	"time"
 
+	fcontext "github.com/ma6254/FictionDown/context"
+
 	"github.com/antchfx/htmlquery"
 	"github.com/ma6254/FictionDown/store"
 	"github.com/ma6254/FictionDown/utils"
@@ -87,9 +89,9 @@ func Type1BookInfo(nameExpr, coverExpr, authorExpr, chapterExpr string) func(bod
 }
 
 // Type1Chapter 小说章节段落匹配
-func Type1Chapter(expr string) func(body io.Reader) ([]string, error) {
-	return func(body io.Reader) ([]string, error) {
-		doc, err := htmlquery.Parse(body)
+func Type1Chapter(expr string) func(ctx fcontext.Context) (content []string, err error) {
+	return func(ctx fcontext.Context) (content []string, err error) {
+		doc, err := htmlquery.Parse(ctx.Value(fcontext.KeyBody).(io.Reader))
 		if err != nil {
 			return nil, err
 		}
@@ -118,13 +120,20 @@ func Type1Chapter(expr string) func(body io.Reader) ([]string, error) {
 // Type2Chapter 章节匹配2：单章分多页,
 // next函数返回下一个页面的DOM
 // block函数用于屏蔽多余的段落
-func Type2Chapter(expr string, next func(doc *html.Node) *html.Node, block func([]string) []string) func(body io.Reader) ([]string, error) {
-	return func(body io.Reader) ([]string, error) {
-		doc, err := htmlquery.Parse(body)
+func Type2Chapter(
+	expr string,
+	next func(preURL *url.URL, doc *html.Node) *html.Node,
+	block func([]string) []string,
+) func(fcontext.Context) (content []string, err error) {
+	return func(ctx fcontext.Context) (content []string, err error) {
+		doc, err := htmlquery.Parse(ctx.Value(fcontext.KeyBody).(io.Reader))
 		if err != nil {
 			return nil, err
 		}
 		M := []string{}
+		if block == nil {
+			block = func(a []string) []string { return a }
+		}
 		for {
 			//list
 			nodeContent := htmlquery.Find(doc, expr)
@@ -143,12 +152,13 @@ func Type2Chapter(expr string, next func(doc *html.Node) *html.Node, block func(
 				}
 				MM = append(MM, t)
 			}
+			return MM, nil
 			M = append(M, block(MM)...)
 
 			if next == nil {
 				return M, nil
 			}
-			doc = next(doc)
+			doc = next(ctx.Value(fcontext.KeyURL).(*url.URL), doc)
 			if doc == nil {
 				break
 			}
@@ -188,6 +198,7 @@ func Type1SearchAfter(
 
 		if req.URL.String() != resp.Request.URL.String() {
 			// 单个搜索结果
+			log.Printf("%s %s", req.URL.String(), resp.Request.URL.String())
 			store, e := BookInfo(resp.Request.URL.String())
 			if e != nil {
 				return nil, e

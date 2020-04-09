@@ -15,8 +15,8 @@ func Site() site.SiteA {
 		HomePage: "http://www.shumil.co/",
 		Tags:     func() []string { return []string{"盗版", "优质书源"} },
 		Match: []string{
-			`http\??://www\.shumil\.co/\w+/`,
-			`http\??://www\.shumil\.co/\w+/\d+\.html`,
+			`https://www\.shumil\.co/\w+/`,
+			`https://www\.shumil\.co/\w+/\d+\.html`,
 		},
 		BookInfo: site.Type1BookInfo(
 			`//div[@class="content"]/div[@class="list"]/div[@class="tit"]/b`,
@@ -24,9 +24,9 @@ func Site() site.SiteA {
 			`//a[starts-with(@href, "/zuozhe/")]/text()`,
 			`//div[@class="content"]/div[@class="list"]/ul/li/a`),
 		Chapter: site.Type1Chapter(`//*[@id="content"]/p[1]/text()`),
-		Search: site.Type1SearchAfter("http://www.shumil.co/search.php",
+		Search: site.Type1SearchAfter("https://www.shumil.co/search.php",
 			func(s string) *http.Request {
-				baseurl, err := url.Parse("http://www.shumil.co/search.php")
+				baseurl, err := url.Parse("https://www.shumil.co/search.php")
 				if err != nil {
 					panic(err)
 				}

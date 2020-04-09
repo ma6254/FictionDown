@@ -26,7 +26,7 @@ func Site() site.SiteA {
 			`//div[@class="detailTopLeft"]/img/@src`,
 			`//div[@class="detailTopMid"]/div[@class="writer"]/a/text()`,
 			`//div[@class="chapter"]/ul/li/a`),
-		Chapter: site.Type2Chapter(`//div[@class="readerCon"]/p/text()`, func(doc *html.Node) *html.Node {
+		Chapter: site.Type2Chapter(`//div[@class="readerCon"]/p/text()`, func(preURL *url.URL, doc *html.Node) *html.Node {
 			nextNode := htmlquery.FindOne(doc, `//div[@class="readPage"]/a[3]`)
 			if nextNode == nil {
 				return nil

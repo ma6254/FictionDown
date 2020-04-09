@@ -2,6 +2,7 @@ package site
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -12,6 +13,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	fcontext "github.com/ma6254/FictionDown/context"
 
 	"github.com/ma6254/FictionDown/store"
 	"github.com/ma6254/FictionDown/utils"
@@ -62,7 +65,7 @@ type SiteA struct {
 	BookInfo func(body io.Reader) (s *store.Store, err error) `json:"-"`
 
 	// parse fiction chaper content by page body
-	Chapter func(body io.Reader) (content []string, err error) `json:"-"`
+	Chapter func(fcontext.Context) (content []string, err error) `json:"-"`
 
 	// get site tags
 	Tags func() []string `json:"-"`
@@ -74,7 +77,7 @@ func MatchOne(pool []SiteA, u string) (*SiteA, error) {
 	if err != nil {
 		return nil, err
 	}
-	if len(a) == 0 {
+	if len(a) < 1 {
 		return nil, ErrUnsupportSite{u}
 	}
 	return a[0], nil
@@ -198,7 +201,20 @@ func Chapter(BookURL string) (content []string, err error) {
 		return nil, err
 	}
 
-	return ms.Chapter(body)
+	if ms.Chapter == nil {
+		return nil, fmt.Errorf("Site %s Chapter Func is empty", ms.Name)
+	}
+
+	bu, err := url.Parse(BookURL)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.Background()
+	ctx = context.WithValue(ctx, fcontext.KeyURL, bu)
+	ctx = context.WithValue(ctx, fcontext.KeyBody, body)
+
+	return ms.Chapter(ctx)
 }
 
 func Search(s string) (result []ChaperSearchResult, err error) {

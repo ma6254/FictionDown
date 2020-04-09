@@ -10,6 +10,7 @@ FictionDown 是一个命令行界面的小说爬取工具
 [![release_version](https://img.shields.io/github/release/ma6254/FictionDown.svg)](https://github.com/ma6254/FictionDown/releases)
 [![last-commit](https://img.shields.io/github/last-commit/ma6254/FictionDown.svg)](https://github.com/ma6254/FictionDown/commits)
 [![Download Count](https://img.shields.io/github/downloads/ma6254/FictionDown/total.svg)](https://github.com/ma6254/FictionDown/releases)
+[![goproxy.cn](https://goproxy.cn/stats/github.com/ma6254/FictionDown/badges/download-count.svg)](https://goproxy.cn)
 
 [![godoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://pkg.go.dev/github.com/ma6254/FictionDown/)
 [![QQ 群](https://img.shields.io/badge/qq%E7%BE%A4-934873832-orange.svg)](https://jq.qq.com/?_wv=1027&k=5bN0SVA)
@@ -38,16 +39,15 @@ FictionDown 是一个命令行界面的小说爬取工具
 - 是否分卷：✅ 章节分卷 ❌ 所有章节放在一个卷中不分卷
 - 站内搜索：✅ 完全支持 ❌ 不支持 ❔ 站点支持但软件未适配 ⚠️ 站点支持，但不可用或维护中 ⛔ 站点支持搜索，但没有好的适配方案（比如用 Google 做站内搜索）
 
-| 站点名称     | 网址              | 是否正版 | 是否分卷 | 支持站内搜索 | 代码文件              |
-| ------------ | ----------------- | -------- | -------- | ------------ | --------------------- |
-| 起点中文网   | www.qidian.com    | ✅       | ✅       | ✅           | site\qidian.go        |
-| 笔趣阁       | www.biquge5200.cc | ❌       | ❌       | ✅           | site\biquge.go        |
-| 笔趣阁 5200  | www.bqg5200.com   | ❌       | ❌       | ❔           | site\biquge2.go       |
-| 笔趣阁       | www.biqiuge.com   | ❌       | ❌       | ⚠️           | site\biquge3.go       |
-| 顶点小说     | www.booktxt.net   | ❌       | ❌       | ✅           | site\dingdian1.go     |
-| 新八一中文网 | www.81new.com     | ❌       | ❌       | ✅           | site\81new.go         |
-| 书迷楼       | www.shumil.co     | ❌       | ❌       | ✅           | site\shumil_co.go     |
-| 完本神站     | www.wanbentxt.com | ❌       | ❌       | ✅           | site\wanbentxt_com.go |
+| 站点名称     | 网址              | 是否正版 | 是否分卷 | 支持站内搜索 | 代码文件                       |
+| ------------ | ----------------- | -------- | -------- | ------------ | ------------------------------ |
+| 起点中文网   | www.qidian.com    | ✅       | ✅       | ✅           | sites\qidian\main.go           |
+| 笔趣阁       | www.biquge5200.cc | ❌       | ❌       | ✅           | sites\biquge5200_cc\main.go    |
+| 顶点小说     | www.booktxt.net   | ❌       | ❌       | ✅           | sites\booktxt_net\main.go      |
+| 新八一中文网 | www.81new.com     | ❌       | ❌       | ✅           | sites\new81\main.go            |
+| 书迷楼       | www.shumil.co     | ❌       | ❌       | ✅           | sites\shumil_co\main.go        |
+| 完本神站     | www.wanbentxt.com | ❌       | ❌       | ✅           | site\wanbentxt_com.go          |
+| 38 看书      | www.38kanshu.com  | ❌       | ❌       | ⚠️           | sites\com_38kanshu\38kanshu.go |
 
 ## 使用注意
 
@@ -90,7 +90,13 @@ FictionDown 是一个命令行界面的小说爬取工具
 > ./FictionDown -i 一世之尊.FictionDown conv -f epub
 ```
 
-#### 现在支持小说站内搜索，可以不用手动填入了
+#### 可直接根据搜索结果直接下载（当存在至少一个正版源时可用）
+
+```bash
+> ./FictionDown s -d -k "诡秘之主"
+```
+
+#### 站内搜索，然后填入
 
 ```bash
 > ./FictionDown --url https://book.qidian.com/info/3249362 d # 获取正版信息

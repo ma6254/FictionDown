@@ -136,6 +136,9 @@ var search = cli.Command{
 				}
 				fmt.Printf("\t%#v : %#v\n", n, u)
 			}
+			if len(vipBookURL) == 0 {
+				return fmt.Errorf("无正版站点")
+			}
 			bookurl = vipBookURL[0]
 			if err = download.Run(c); err != nil {
 				return err
