@@ -11,6 +11,8 @@ import (
 	"regexp"
 	"strings"
 
+	xhtml "golang.org/x/net/html"
+
 	fcontext "github.com/ma6254/FictionDown/context"
 
 	"github.com/antchfx/htmlquery"
@@ -116,11 +118,16 @@ func Site() site.SiteA {
 			}
 
 			M := []string{}
+			var nodeContent []*xhtml.Node
 			//list
-			nodeContent := htmlquery.Find(doc, `//div[contains(@class,"read-content")]/p`)
+			nodeContent = htmlquery.Find(doc, `//div[contains(@class,"j_readContent")]/p/span[contains(@class,"content-wrap")]`)
 			if len(nodeContent) == 0 {
-				err = fmt.Errorf("No matching content")
-				return nil, err
+				nodeContent = htmlquery.Find(doc, `//div[contains(@class,"j_readContent")]/p`)
+				if len(nodeContent) == 0 {
+					// fmt.Printf("%s\n", htmlquery.OutputHTML(doc, true))
+					err = fmt.Errorf("No matching content")
+					return nil, err
+				}
 			}
 			for _, v := range nodeContent {
 				t := htmlquery.InnerText(v)

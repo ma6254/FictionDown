@@ -20,8 +20,9 @@ import (
 )
 
 var (
-	tSleep   time.Duration
-	errSleep time.Duration
+	tSleep    time.Duration
+	errSleep  time.Duration
+	threadNum int
 )
 
 var download = cli.Command{
@@ -29,11 +30,6 @@ var download = cli.Command{
 	Usage:   "下载缓存文件",
 	Aliases: []string{"d", "down"},
 	Flags: []cli.Flag{
-		cli.IntFlag{
-			Name:  "t",
-			Usage: "线程数",
-			Value: 10,
-		},
 		cli.StringFlag{
 			Name:  "f",
 			Usage: "输出格式",
@@ -94,7 +90,7 @@ var download = cli.Command{
 			fmt.Printf("\t%s卷(%s) %d章\n", v.Name, VIP, len(v.Chapters))
 		}
 
-		log.Printf("线程数: %d,预缓存中...\n", c.Int("t"))
+		log.Printf("线程数: %d,预缓存中...\n", threadNum)
 		ssss := &SyncStore{
 			Store: chapter,
 		}
@@ -153,7 +149,7 @@ var download = cli.Command{
 			bar.Set(isDone + isExample - isDoneExample)
 
 			Jobch := make(chan error)
-			for i := 0; i < c.Int("t"); i++ {
+			for i := 0; i < threadNum; i++ {
 				go Job(ssss, Jobch)
 			}
 			cc := make(chan os.Signal)
@@ -170,7 +166,7 @@ var download = cli.Command{
 					if err != nil {
 						if err == io.EOF {
 							ii++
-							if ii >= c.Int("t") {
+							if ii >= threadNum {
 								bar.Finish()
 								log.Printf("缓存完成")
 								break AA
@@ -211,10 +207,14 @@ var download = cli.Command{
 				}
 
 				for _, v := range chapter.Tmap {
-
 					var (
 						ts *store.Store
 					)
+
+					if v == chapter.BookURL {
+						continue
+					}
+
 					ts, err = site.BookInfo(v)
 					if err != nil {
 						return err
@@ -301,7 +301,7 @@ var download = cli.Command{
 				ssss.IsTWork = true
 
 				Jobch := make(chan error)
-				for i := 0; i < c.Int("t"); i++ {
+				for i := 0; i < threadNum; i++ {
 					go TJob(ssss, Jobch)
 				}
 				cc := make(chan os.Signal)
@@ -318,7 +318,7 @@ var download = cli.Command{
 						if err != nil {
 							if err == io.EOF {
 								ii++
-								if ii >= c.Int("t") {
+								if ii >= threadNum {
 									bar.Finish()
 									log.Printf("缓存完成")
 									break BB

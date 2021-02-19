@@ -65,6 +65,12 @@ var app = &cli.App{
 			Usage:       "请求方式,support: none,chromedp",
 			Destination: &driver,
 		},
+		cli.IntFlag{
+			Name:        "t",
+			Usage:       "线程数",
+			Value:       10,
+			Destination: &threadNum,
+		},
 	},
 	Before: func(ctx *cli.Context) error {
 		fmt.Println(strings.TrimLeft(welcome, "\r\n"))
@@ -182,6 +188,11 @@ func (s *SyncStore) SaveJob(vi, ci int, text []string) {
 }
 
 func Job(syncStore *SyncStore, jobch chan error) {
+
+	var (
+		content []string
+	)
+
 	defer func(jobch chan error) {
 		jobch <- io.EOF
 	}(jobch)
@@ -198,7 +209,12 @@ func Job(syncStore *SyncStore, jobch chan error) {
 
 	A:
 		for {
-			content, err := site.Chapter(BookURL)
+			switch driver {
+			case "chromedp":
+				content, err = site.ChromedpChapter(BookURL)
+			default:
+				content, err = site.Chapter(BookURL)
+			}
 			if err != nil {
 				log.Printf("Error: %s %s", err, BookURL)
 				time.Sleep(errSleep)
@@ -220,7 +236,6 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 
 	for {
 		var (
-			deiver      = 0
 			errCount    = 0
 			MaxErrCount = 5
 		)
@@ -245,11 +260,13 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 				err     error
 			)
 
-			switch deiver {
-			case 0:
+			switch driver {
+			case "":
 				content, err = site.Chapter(BookURL[P])
+			case "chromedp":
+				content, err = site.ChromedpChapter(BookURL[P])
 			default:
-				jobch <- fmt.Errorf("爬取方式错误: %d", deiver)
+				jobch <- fmt.Errorf("爬取方式错误: %d", driver)
 				break A
 			}
 			if err != nil {
@@ -263,7 +280,6 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 					time.Sleep(errSleep)
 					continue A
 				} else {
-					deiver++
 					log.Printf("错误次数过多，忽略此章节，并尝试更换爬取方式")
 					continue A
 				}
@@ -379,6 +395,11 @@ func SplitXX(s []string, q ...string) []string {
 }
 
 func initLoadStore(c *cli.Context) error {
+
+	if driver == "chromedp" {
+		threadNum = 1
+		site.ChromedpInit()
+	}
 	if filename == "" {
 		if bookurl == "" {
 			return fmt.Errorf("Must Input URL")
