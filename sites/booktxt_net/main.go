@@ -10,12 +10,12 @@ import (
 func Site() site.SiteA {
 	return site.SiteA{
 		Name:     "顶点小说",
-		HomePage: "https://www.booktxt.net/",
+		HomePage: "https://www.ddxstxt8.com/",
 		Tags:     func() []string { return []string{"盗版", "一般书源", "PTCMS"} },
 		Match: []string{
-			`https://www\.booktxt\.net/\d+_\d+/*`,
-			`https://www\.booktxt\.net/\d+_\d+/\d+\.html/*`,
-			`http://www\.booktxt\.net/book/goto/id/\d+`,
+			`https://www\.ddxstxt8\.com/\d+_\d+/*`,
+			`https://www\.ddxstxt8\.com/\d+_\d+/\d+\.html/*`,
+			`http://www\.ddxstxt8\.com/book/goto/id/\d+`,
 		},
 		BookInfo: site.Type1BookInfo(
 			`//div[@id="info"]/h1`,
