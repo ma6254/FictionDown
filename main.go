@@ -208,7 +208,7 @@ func Job(syncStore *SyncStore, jobch chan error) {
 		}
 
 	A:
-		for {
+		for i:=0;i<3;i++ {
 			switch driver {
 			case "chromedp":
 				content, err = site.ChromedpChapter(BookURL)
