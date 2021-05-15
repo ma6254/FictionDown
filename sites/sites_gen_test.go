@@ -30,7 +30,7 @@ func GenBookInfoSite(s site.SiteA) func(t *testing.T) {
 				"笔趣阁1":   "https://www.biquge5200.cc/39_39136/",
 				"新八一中文网": "https://www.81new.net/11/11609/",
 				"书迷楼":    "https://www.shumil.co/fangkainagenvwu/",
-				"顶点小说":   "http://www.booktxt.net/book/goto/id/2600",
+				"顶点小说":   "https://www.ddxstxt8.com/2_2600/",
 				"完本神站":   "https://www.wanbentxt.com/1949/",
 				"38看书":   "https://www.38kanshu.com/9839/",
 			},
@@ -41,7 +41,7 @@ func GenBookInfoSite(s site.SiteA) func(t *testing.T) {
 			URL: map[string]string{
 				"起点中文网":  "https://book.qidian.com/info/1010400217",
 				"笔趣阁1":   "https://www.biquge5200.cc/95_95192/",
-				"顶点小说":   "http://www.booktxt.net/book/goto/id/5414",
+				"顶点小说":   "https://www.ddxstxt8.com/5_5414/",
 				"书迷楼":    "https://www.shumil.co/limingzhijian/",
 				"新八一中文网": "https://www.81new.net/44/44290/",
 				"完本神站":   "https://www.wanbentxt.com/2817/",
@@ -53,7 +53,7 @@ func GenBookInfoSite(s site.SiteA) func(t *testing.T) {
 			Author: "远瞳",
 			URL: map[string]string{
 				"起点中文网":  "https://book.qidian.com/info/3242304",
-				"顶点小说":   "http://www.booktxt.net/book/goto/id/10",
+				"顶点小说":   "https://www.ddxstxt8.com/0_10/",
 				"笔趣阁1":   "https://www.biquge5200.cc/0_799/",
 				"书迷楼":    "https://www.shumil.co/yichangshengwujianwenlu/",
 				"完本神站":   "https://www.wanbentxt.com/643/",
