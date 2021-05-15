@@ -271,7 +271,7 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 			case "chromedp":
 				content, err = site.ChromedpChapter(BookURL[P])
 			default:
-				jobch <- fmt.Errorf("爬取方式错误: %d", driver)
+				jobch <- fmt.Errorf("爬取方式错误: %s", driver)
 				break A
 			}
 			if err != nil {
