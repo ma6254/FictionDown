@@ -28,7 +28,8 @@ var (
 	filename    = ""
 	bookurl     = ""
 	driver      = ""
-	maxErrCount = 0
+	threadNum   int
+	maxErrCount int
 	chapter     *store.Store
 )
 

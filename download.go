@@ -20,9 +20,8 @@ import (
 )
 
 var (
-	tSleep    time.Duration
-	errSleep  time.Duration
-	threadNum int
+	tSleep   time.Duration
+	errSleep time.Duration
 )
 
 var download = cli.Command{
