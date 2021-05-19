@@ -25,10 +25,12 @@ var (
 )
 
 var (
-	filename = ""
-	bookurl  = ""
-	driver   = ""
-	chapter  *store.Store
+	filename    = ""
+	bookurl     = ""
+	driver      = ""
+	threadNum   int
+	maxErrCount int
+	chapter     *store.Store
 )
 
 var welcome = `
@@ -70,6 +72,12 @@ var app = &cli.App{
 			Usage:       "线程数",
 			Value:       10,
 			Destination: &threadNum,
+		},
+		cli.IntFlag{
+			Name:        "maxcount,c",
+			Usage:       "最大重试次数,失败次数过多将跳过次章节",
+			Value:       5,
+			Destination: &maxErrCount,
 		},
 	},
 	Before: func(ctx *cli.Context) error {
@@ -208,7 +216,7 @@ func Job(syncStore *SyncStore, jobch chan error) {
 		}
 
 	A:
-		for i:=0;i<3;i++ {
+		for i := 0; i < maxErrCount; i++ {
 			switch driver {
 			case "chromedp":
 				content, err = site.ChromedpChapter(BookURL)
@@ -235,10 +243,7 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 	}(jobch)
 
 	for {
-		var (
-			errCount    = 0
-			MaxErrCount = 5
-		)
+		errCount := 0
 		vi, ci, BookURL, RawURL, Example, err := syncStore.GetTJob()
 		if err != nil {
 			if err != io.EOF {
@@ -266,7 +271,7 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 			case "chromedp":
 				content, err = site.ChromedpChapter(BookURL[P])
 			default:
-				jobch <- fmt.Errorf("爬取方式错误: %d", driver)
+				jobch <- fmt.Errorf("爬取方式错误: %s", driver)
 				break A
 			}
 			if err != nil {
@@ -276,7 +281,7 @@ func TJob(syncStore *SyncStore, jobch chan error) {
 					BookURL[P],
 					err,
 				)
-				if errCount < MaxErrCount {
+				if errCount < maxErrCount {
 					time.Sleep(errSleep)
 					continue A
 				} else {
