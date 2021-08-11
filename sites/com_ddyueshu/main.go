@@ -1,4 +1,4 @@
-package booktxt_net
+package com_ddyueshu
 
 import (
 	"net/http"
@@ -10,12 +10,19 @@ import (
 func Site() site.SiteA {
 	return site.SiteA{
 		Name:     "顶点小说",
-		HomePage: "https://www.ddxstxt8.com/",
-		Tags:     func() []string { return []string{"盗版", "一般书源", "PTCMS"} },
+		HomePage: "https://www.ddyueshu.com/",
+		Tags: func() []string {
+			return []string{
+				"盗版",
+				"一般书源",
+				"PTCMS",
+				"顶点小说",
+			}
+		},
 		Match: []string{
-			`https://www\.ddxstxt8\.com/\d+_\d+/*`,
-			`https://www\.ddxstxt8\.com/\d+_\d+/\d+\.html/*`,
-			`http://www\.ddxstxt8\.com/book/goto/id/\d+`,
+			`https://www\.ddyueshu\.com/\d+_\d+/*`,
+			`https://www\.ddyueshu\.com/\d+_\d+/\d+\.html/*`,
+			`http://www\.ddyueshu\.com/book/goto/id/\d+`,
 		},
 		BookInfo: site.Type1BookInfo(
 			`//div[@id="info"]/h1`,
@@ -32,7 +39,7 @@ func Site() site.SiteA {
 				}
 				value := baseurl.Query()
 				value.Add("ie", "utf-8")
-				value.Add("siteid", "booktxt.net")
+				value.Add("siteid", "ddyueshu.com")
 				value.Add("q", s)
 				baseurl.RawQuery = value.Encode()
 

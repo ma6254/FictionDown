@@ -5,13 +5,14 @@ import (
 	"runtime"
 
 	"github.com/ma6254/FictionDown/site"
-	"github.com/ma6254/FictionDown/sites/biquge5200_cc"
-	"github.com/ma6254/FictionDown/sites/booktxt_net"
-	"github.com/ma6254/FictionDown/sites/com_38kanshu"
-	"github.com/ma6254/FictionDown/sites/new81"
-	"github.com/ma6254/FictionDown/sites/qidian"
-	"github.com/ma6254/FictionDown/sites/shumil_co"
-	"github.com/ma6254/FictionDown/sites/wanbentxt"
+	"github.com/ma6254/FictionDown/sites/cc_b520"
+	"github.com/ma6254/FictionDown/sites/co_shumil"
+	"github.com/ma6254/FictionDown/sites/com_ddyueshu"
+	"github.com/ma6254/FictionDown/sites/com_mijiashe"
+	"github.com/ma6254/FictionDown/sites/com_qidian"
+	"github.com/ma6254/FictionDown/sites/la_qb5"
+	"github.com/ma6254/FictionDown/sites/net_81new"
+	"github.com/ma6254/FictionDown/sites/org_wanben"
 )
 
 type siteFunc func() site.SiteA
@@ -23,11 +24,12 @@ func addSiteFunc(fn siteFunc) {
 }
 
 func InitSites() {
-	addSiteFunc(qidian.Site)
-	addSiteFunc(wanbentxt.Site)
-	addSiteFunc(shumil_co.Site)
-	addSiteFunc(new81.Site)
-	addSiteFunc(booktxt_net.Site)
-	addSiteFunc(biquge5200_cc.Site)
-	addSiteFunc(com_38kanshu.Site)
+	addSiteFunc(cc_b520.Site)
+	addSiteFunc(co_shumil.Site)
+	addSiteFunc(com_ddyueshu.Site)
+	addSiteFunc(com_mijiashe.Site)
+	addSiteFunc(com_qidian.Site)
+	addSiteFunc(la_qb5.Site)
+	addSiteFunc(net_81new.Site)
+	addSiteFunc(org_wanben.Site)
 }

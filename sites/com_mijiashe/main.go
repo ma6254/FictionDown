@@ -1,4 +1,4 @@
-package com_38kanshu
+package com_mijiashe
 
 import (
 	"log"
@@ -15,11 +15,11 @@ import (
 func Site() site.SiteA {
 	return site.SiteA{
 		Name:     "38看书",
-		HomePage: "https://www.38kanshu.com/",
+		HomePage: "https://www.mijiashe.com/",
 		Tags:     func() []string { return []string{"盗版", "优质书源"} },
 		Match: []string{
-			`https://www\.38kanshu\.com/\d+/`,
-			`https://www\.38kanshu\.com/\d+/\d+\.html`,
+			`https://www\.mijiashe\.com/\d+/`,
+			`https://www\.mijiashe\.com/\d+/\d+\.html`,
 		},
 		BookInfo: site.Type1BookInfo(
 			`//*[@class="bookPhr"]/h2`,

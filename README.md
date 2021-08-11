@@ -41,13 +41,14 @@ FictionDown 是一个命令行界面的小说爬取工具
 
 | 站点名称     | 网址              | 是否正版 | 是否分卷 | 支持站内搜索 | 代码文件                       |
 | ------------ | ----------------- | -------- | -------- | ------------ | ------------------------------ |
-| 起点中文网   | www.qidian.com    | ✅       | ✅       | ✅           | sites\qidian\main.go           |
-| 笔趣阁       | www.biquge5200.cc | ❌       | ❌       | ✅           | sites\biquge5200_cc\main.go    |
-| 顶点小说     | www.booktxt.net   | ❌       | ❌       | ✅           | sites\booktxt_net\main.go      |
-| 新八一中文网 | www.81new.com     | ❌       | ❌       | ✅           | sites\new81\main.go            |
-| 书迷楼       | www.shumil.co     | ❌       | ❌       | ✅           | sites\shumil_co\main.go        |
-| 完本神站     | www.wanbentxt.com | ❌       | ❌       | ✅           | site\wanbentxt_com.go          |
-| 38 看书      | www.38kanshu.com  | ❌       | ❌       | ⚠️           | sites\com_38kanshu\38kanshu.go |
+| 起点中文网   | www.qidian.com    | ✅       | ✅       | ✅           | sites\com_qidian\main.go           |
+| 笔趣阁       | www.b520.cc | ❌       | ❌       | ✅           | sites\cc_b520\main.go    |
+| 顶点小说     | www.ddyueshu.com   | ❌       | ❌       | ✅           | sites\com_ddyueshu\main.go      |
+| 全本小说网     | www.qb5.la   | ❌       | ❌       | ✅           | sites\la_qb5\main.go      |
+| 新八一中文网 | www.81new.net     | ❌       | ❌       | ✅           | sites\net_new81\main.go            |
+| 书迷楼       | www.shumil.co     | ❌       | ❌       | ✅           | sites\co_shumil\main.go        |
+| 完本神站     | www.wanben.org | ❌       | ❌       | ✅           | site\org_wanben\main.go          |
+| 38 看书      | www.mijiashe.com  | ❌       | ❌       | ⚠️           | sites\com_mijiashe\main.go |
 
 ## 使用注意
 

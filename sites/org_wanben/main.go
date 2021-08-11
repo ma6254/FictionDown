@@ -1,4 +1,4 @@
-package wanbentxt
+package org_wanben
 
 import (
 	"log"
@@ -14,11 +14,11 @@ import (
 func Site() site.SiteA {
 	return site.SiteA{
 		Name:     "完本神站",
-		HomePage: "https://www.xinwanben.com/",
+		HomePage: "https://www.wanben.org/",
 		Tags:     func() []string { return []string{"盗版", "优质书源"} },
 		Match: []string{
-			`https://www\.xinwanben\.com/\d+/`,
-			`https://www\.xinwanben\.com/\d+/\d+\.html`,
+			`https://www\.wanben\.org/\d+/`,
+			`https://www\.wanben\.org/\d+/\d+\.html`,
 		},
 		BookInfo: site.Type1BookInfo(
 			`//div[@class="detailTitle"]/h1/text()`,
