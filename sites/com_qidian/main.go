@@ -1,4 +1,4 @@
-package qidian
+package com_qidian
 
 import (
 	"encoding/json"

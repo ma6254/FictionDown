@@ -1,4 +1,4 @@
-package shumil_co
+package co_shumil
 
 import (
 	"net/http"

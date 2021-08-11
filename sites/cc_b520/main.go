@@ -1,4 +1,4 @@
-package biquge5200_cc
+package cc_b520
 
 import (
 	"fmt"
@@ -18,8 +18,8 @@ import (
 
 func Site() site.SiteA {
 	return site.SiteA{
-		Name:     "笔趣阁1",
-		HomePage: "https://www.biquge5200.cc/",
+		Name:     "笔趣阁",
+		HomePage: "http://www.b520.cc/",
 		Tags: func() []string {
 			return []string{
 				"盗版",
@@ -29,8 +29,8 @@ func Site() site.SiteA {
 			}
 		},
 		Match: []string{
-			`https://www\.biquge5200\.cc/\d+_\d+/*`,
-			`https://www\.biquge5200\.cc/\d+_\d+/\d+\.html/*`,
+			`http://www\.b520\.cc/\d+_\d+/*`,
+			`http://www\.b520\.cc/\d+_\d+/\d+\.html/*`,
 		},
 		BookInfo: func(body io.Reader) (s *store.Store, err error) {
 			doc, err := htmlquery.Parse(body)
@@ -112,7 +112,7 @@ func Site() site.SiteA {
 			return M, nil
 		},
 		Search: func(s string) (result []site.ChaperSearchResult, err error) {
-			baseurl, err := url.Parse("https://www.biquge5200.cc/modules/article/search.php")
+			baseurl, err := url.Parse("http://www.b520.cc/modules/article/search.php")
 			if err != nil {
 				return
 			}

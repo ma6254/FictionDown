@@ -1,4 +1,4 @@
-package new81
+package net_81new
 
 import (
 	"bytes"
