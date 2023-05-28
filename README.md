@@ -13,7 +13,7 @@ FictionDown 是一个命令行界面的小说爬取工具
 [![goproxy.cn](https://goproxy.cn/stats/github.com/ma6254/FictionDown/badges/download-count.svg)](https://goproxy.cn)
 
 [![godoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://pkg.go.dev/github.com/ma6254/FictionDown/)
-[![QQ 群](https://img.shields.io/badge/qq%E7%BE%A4-934873832-orange.svg)](https://jq.qq.com/?_wv=1027&k=5bN0SVA)
+[![QQ 群](https://img.shields.io/badge/QQ%E7%BE%A4-495477288-orange.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=DkzYlCZ9VSQEq6CqUtqGiqYBZh1V5CKK&authKey=btu30mBqaqx6GSVS3futp%2BhYitMfhtAltmp%2B84Kob9xS%2F6J5yQkd0dSeozzxbclT&noverify=0&group_code=495477288)
 
 [![Go](https://github.com/ma6254/FictionDown/workflows/Go/badge.svg)](https://github.com/ma6254/FictionDown/actions/runs/39839114)
 [![travis-ci](https://www.travis-ci.org/ma6254/FictionDown.svg?branch=master)](https://travis-ci.org/ma6254/FictionDown)
