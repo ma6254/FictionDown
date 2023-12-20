@@ -175,7 +175,7 @@ GLOBAL OPTIONS:
 包管理为 gomod
 
 ```bash
-go get github.com/ma6254/FictionDown
+go install github.com/ma6254/FictionDown@latest
 ```
 
 交叉编译这几个平台的可执行文件：`linux/arm` `linux/amd64` `darwin/amd64` `windows/amd64`
