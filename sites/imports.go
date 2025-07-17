@@ -8,6 +8,7 @@ import (
 	"github.com/ma6254/FictionDown/sites/cc_b520"
 	"github.com/ma6254/FictionDown/sites/co_shumil"
 	"github.com/ma6254/FictionDown/sites/com_ddyueshu"
+	"github.com/ma6254/FictionDown/sites/com_ddyucshu"
 	"github.com/ma6254/FictionDown/sites/com_mijiashe"
 	"github.com/ma6254/FictionDown/sites/com_qidian"
 	"github.com/ma6254/FictionDown/sites/la_qb5"
@@ -27,6 +28,7 @@ func InitSites() {
 	addSiteFunc(cc_b520.Site)
 	addSiteFunc(co_shumil.Site)
 	addSiteFunc(com_ddyueshu.Site)
+	addSiteFunc(com_ddyucshu.Site)
 	addSiteFunc(com_mijiashe.Site)
 	addSiteFunc(com_qidian.Site)
 	addSiteFunc(la_qb5.Site)
